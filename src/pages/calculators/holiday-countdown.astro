@@ -1,50 +1,22 @@
-```astro
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
-import { US_HOLIDAYS, stripTime } from "@/lib/date";
-
-
-const title = 'Holiday Countdown (US)';
-const description = 'See days until major US holidays.';
+const title = "Holiday Countdown (US)";
+const description = "See days until major US holidays.";
 ---
+
 <BaseLayout {title} {description} pathname="/calculators/holiday-countdown">
-<div class="card">
-<h1>{title}</h1>
-<p>Select a holiday to see the countdown.</p>
-<form id="h-form" on:submit|preventDefault={() => {}}>
-<label for="holiday">Holiday</label>
-<select id="holiday" name="holiday">
-{US_HOLIDAYS.map(h => <option value={h.key}>{h.name}</option>)}
-</select>
-<div style="margin-top:12px;"><button class="btn">Show Countdown</button></div>
-</form>
-<div id="result" style="margin-top:16px;"></div>
-<AdSlot id="hol-inline-1" />
-</div>
+  <div class="card">
+    <h1>{title}</h1>
+    <p>Select a holiday to see the countdown.</p>
+    <form id="h-form">
+      <label for="holiday">Holiday</label>
+      <select id="holiday" name="holiday"></select>
+      <div style="margin-top:12px;"><button class="btn" type="button" id="holiday-calc">Show Countdown</button></div>
+    </form>
+    <div id="holiday-result" style="margin-top:16px;"></div>
+    <AdSlot id="hol-inline-1" />
+  </div>
 
-
-<script>
-import { US_HOLIDAYS, stripTime } from "@/lib/date";
-
-
-const form = document.getElementById('h-form');
-const out = document.getElementById('result');
-
-
-function getHoliday(key){ return US_HOLIDAYS.find(h=>h.key===key); }
-
-
-form.addEventListener('submit', () => {
-const key = (document.getElementById('holiday')).value;
-const h = getHoliday(key);
-if (!h) { out.innerHTML = '<div class="card">Invalid holiday.</div>'; return; }
-const today = stripTime(new Date());
-let target = h.date(today.getFullYear());
-if (target < today) target = h.date(today.getFullYear() + 1);
-const diff = Math.round((target.getTime() - today.getTime()) / (1000*60*60*24));
-out.innerHTML = `<div class=\"card\"><h3>${h.name}</h3><p>${target.toDateString()} — <strong>${diff}</strong> day${diff===1?'':'s'} remaining.</p></div>`;
-});
-</script>
+  <script defer src="/js/holiday-countdown.js"></script>
 </BaseLayout>
-```
