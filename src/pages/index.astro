@@ -1,28 +1,31 @@
-```astro
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import AdSlot from "@/components/AdSlot.astro";
-import AffiliateBox from "@/components/AffiliateBox.astro";
 ---
+
 <BaseLayout title="Date & Holiday Calculators" description="Quick calculators: days from a date, birthday countdown, and U.S. holiday timers.">
-<div class="card">
-<h1>Date & Holiday Calculators</h1>
-<p>Use these quick tools for work, school, or planning. No account required.</p>
-<ul>
-<li><a href="/calculators/days-from-date">Days From (or Until) a Date</a></li>
-<li><a href="/calculators/days-until-birthday">Days Until Your Birthday</a></li>
-<li><a href="/calculators/holiday-countdown">Holiday Countdown (US)</a></li>
-</ul>
-<AdSlot id="home-inline-1" label="Inline Ad" />
-</div>
+  <section class="hero">
+    <h1>Date & Holiday Calculators</h1>
+    <p>Use these quick tools for work, school, or planning. No account required.</p>
+  </section>
 
+  <section class="grid">
+    <a class="card" href="/calculators/days-from-date">
+      <h3>Days From (or Until) a Date</h3>
+      <p>Find how many days are between any two dates—or from today.</p>
+      <span class="btn">Open</span>
+    </a>
 
-<hr class="sep" />
+    <a class="card" href="/calculators/days-until-birthday">
+      <h3>Days Until Your Birthday</h3>
+      <p>Countdown with leap-year handling for Feb 29 birthdays.</p>
+      <span class="btn">Open</span>
+    </a>
 
-
-<AffiliateBox title="Recommended Tools" items={[
-{ label: 'Amazon: Desk Calendars', href: 'https://www.amazon.com/?tag=YOUR_AMAZON_TAG', note: 'Affiliate link' },
-{ label: 'eBay: Wall Planners', href: 'https://ebay.us/YOUR_TAG', note: 'Affiliate link' }
-]} />
+    <a class="card" href="/calculators/holiday-countdown">
+      <h3>Holiday Countdown (US)</h3>
+      <p>See days remaining until major U.S. holidays.</p>
+      <span class="btn">Open</span>
+    </a>
+  </section>
 </BaseLayout>
-```
+
