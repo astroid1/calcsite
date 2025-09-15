@@ -54,15 +54,16 @@ const description = "Calculate days between today and a specific date, or betwee
       </div>
 
       <div style="margin-top:14px; display:flex; gap:10px;">
-        <button class="btn" type="button" id="calc">Calculate</button>
-        <button class="btn" type="button" id="clear">Clear</button>
+        <button class="btn" type="submit">Calculate</button>
+        <button class="btn" type="reset">Clear</button>
       </div>
       <p class="helper" style="margin-top:10px;">Tip: Use the calendar buttons or type a date manually.</p>
     </form>
   </section>
 
-  <section id="result" style="margin-top:16px;"></section>
+  <section id="result" aria-live="polite" style="margin-top:16px;"></section>
 
   <AdSlot id="dfd-inline-1" />
+  <script defer src="/js/date-utils.js"></script>
   <script defer src="/js/days-from-date.js"></script>
 </BaseLayout>
