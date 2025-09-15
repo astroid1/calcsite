@@ -1,0 +1,49 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Age Calculator";
+const description = "Enter a birthdate and instantly get age in years, months, and days.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/age-calculator">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">Type your birthdate. We'll break down your age by years, months, and days.</p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="age-form">
+      <label for="birthdate">Birthdate</label>
+      <div class="date-input">
+        <input
+          id="birthdate"
+          name="birthdate"
+          type="text"
+          inputmode="numeric"
+          placeholder="YYYY-MM-DD or MM/DD/YYYY"
+          data-role="date-text"
+        />
+        <button class="date-trigger" type="button" aria-label="Open calendar for birthdate">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path
+              d="M7 2a1 1 0 0 1 1 1v1h8V3a1 1 0 1 1 2 0v1h1.5A2.5 2.5 0 0 1 22 6.5v13A2.5 2.5 0 0 1 19.5 22h-15A2.5 2.5 0 0 1 2 19.5v-13A2.5 2.5 0 0 1 4.5 4H6V3a1 1 0 0 1 1-1Zm0 4H4.5a.5.5 0 0 0-.5.5V8h16V6.5a.5.5 0 0 0-.5-.5H17v1a1 1 0 0 1-2 0V6H8v1a1 1 0 0 1-2 0V6Zm13 4H4v9.5a.5.5 0 0 0 .5.5h15a.5.5 0 0 0 .5-.5V10Z"
+            />
+          </svg>
+        </button>
+        <input type="date" class="date-picker" data-role="date-picker" aria-hidden="true" tabindex="-1" />
+      </div>
+
+      <div style="margin-top:14px; display:flex; gap:10px;">
+        <button class="btn" type="button" id="age-calc">Calculate Age</button>
+        <button class="btn" type="button" id="age-clear">Clear</button>
+      </div>
+      <p class="helper" style="margin-top:10px;">Tip: Use the calendar button or type a date manually.</p>
+    </form>
+  </section>
+
+  <section id="age-result" style="margin-top:16px;"></section>
+
+  <AdSlot id="age-inline-1" />
+  <script defer src="/js/age-calculator.js"></script>
+</BaseLayout>
