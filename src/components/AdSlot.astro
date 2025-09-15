@@ -1,0 +1,8 @@
+```astro
+---
+const { id = 'ad-slot-1', label = 'Ad placeholder (paste your AdSense code here later)' } = Astro.props;
+---
+<div class="ad" data-ad-slot={id}>
+{label}
+</div>
+```
