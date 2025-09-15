@@ -1,0 +1,59 @@
+```astro
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+import { parseDate, daysBetween, stripTime } from "@/lib/date";
+
+
+const title = 'Days From (or Until) a Date';
+const description = 'Calculate days between today and a specific date, or between two dates.';
+---
+<BaseLayout {title} {description} pathname="/calculators/days-from-date">
+<div class="card">
+<h1>{title}</h1>
+<p class="small">Enter a past or future date. Supports <code>YYYY-MM-DD</code> or <code>MM/DD/YYYY</code>.</p>
+
+
+<form id="dfd-form" on:submit|preventDefault={() => {}}>
+<label for="date">Date</label>
+<input id="date" name="date" type="text" placeholder="2026-01-01" />
+
+
+<label for="compare">Compare To (optional)</label>
+<input id="compare" name="compare" type="text" placeholder="leave empty to use today" />
+
+
+<div style="margin-top:12px;"><button class="btn" id="calc">Calculate</button></div>
+</form>
+
+
+<div id="result" style="margin-top:16px;"></div>
+
+
+<AdSlot id="dfd-inline-1" />
+</div>
+
+
+<script>
+import { parseDate, daysBetween, stripTime } from "@/lib/date";
+
+
+const form = document.getElementById('dfd-form');
+const out = document.getElementById('result');
+form.addEventListener('submit', () => {
+const date = parseDate((document.getElementById('date')).value.trim());
+const compInput = (document.getElementById('compare')).value.trim();
+const compare = compInput ? parseDate(compInput) : stripTime(new Date());
+
+
+if (!date || !compare) {
+out.innerHTML = '<div class="card">Please enter valid date(s).</div>';
+return;
+}
+const diff = daysBetween(compare, date);
+const verb = diff === 0 ? 'is today' : diff > 0 ? `is in <strong>${diff}</strong> day${diff===1?'':'s'}` : `was <strong>${Math.abs(diff)}</strong> day${diff===-1?'':'s'} ago`;
+out.innerHTML = `<div class="card"><h3>Result</h3><p>Your date ${verb} (compared to ${compare.toDateString()}).</p></div>`;
+});
+</script>
+</BaseLayout>
+```
