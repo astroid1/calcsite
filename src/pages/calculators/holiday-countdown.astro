@@ -2,21 +2,27 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
 const title = "Holiday Countdown (US)";
-const description = "See days until major US holidays.";
+const description = "See days until major U.S. holidays.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/holiday-countdown">
-  <div class="card">
+  <section class="hero">
     <h1>{title}</h1>
-    <p>Select a holiday to see the countdown.</p>
+    <p class="helper">Pick a holiday to see the exact date and days remaining.</p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
     <form id="h-form">
       <label for="holiday">Holiday</label>
       <select id="holiday" name="holiday"></select>
-      <div style="margin-top:12px;"><button class="btn" type="button" id="holiday-calc">Show Countdown</button></div>
+      <div style="margin-top:14px;">
+        <button class="btn" type="button" id="holiday-calc">Show Countdown</button>
+      </div>
     </form>
-    <div id="holiday-result" style="margin-top:16px;"></div>
-    <AdSlot id="hol-inline-1" />
-  </div>
+  </section>
 
+  <section id="holiday-result" style="margin-top:16px;"></section>
+
+  <AdSlot id="hol-inline-1" />
   <script defer src="/js/holiday-countdown.js"></script>
 </BaseLayout>
