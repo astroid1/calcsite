@@ -6,25 +6,29 @@ const description = "Calculate days between today and a specific date, or betwee
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/days-from-date">
-  <div class="card">
+  <section class="hero">
     <h1>{title}</h1>
-    <p class="small">Enter a past or future date. Supports <code>YYYY-MM-DD</code> or <code>MM/DD/YYYY</code>.</p>
+    <p class="helper">Enter a date, and optionally a comparison date. We’ll tell you how many days separate them.</p>
+  </section>
 
+  <section class="card" style="margin-top:18px;">
     <form id="dfd-form">
       <label for="date">Date</label>
-      <input id="date" name="date" type="text" placeholder="2026-01-01" />
+      <input id="date" name="date" type="text" inputmode="numeric" placeholder="YYYY-MM-DD or MM/DD/YYYY" />
 
       <label for="compare">Compare To (optional)</label>
-      <input id="compare" name="compare" type="text" placeholder="leave empty to use today" />
+      <input id="compare" name="compare" type="text" inputmode="numeric" placeholder="Leave empty to use today" />
 
-      <div style="margin-top:12px;"><button class="btn" type="button" id="calc">Calculate</button></div>
+      <div style="margin-top:14px; display:flex; gap:10px;">
+        <button class="btn" type="button" id="calc">Calculate</button>
+        <button class="btn" type="button" id="clear">Clear</button>
+      </div>
+      <p class="helper" style="margin-top:10px;">Tip: Click inside the inputs and use your device’s date picker if available.</p>
     </form>
+  </section>
 
-    <div id="result" style="margin-top:16px;"></div>
+  <section id="result" style="margin-top:16px;"></section>
 
-    <AdSlot id="dfd-inline-1" />
-  </div>
-
-  <!-- Browser-only script -->
+  <AdSlot id="dfd-inline-1" />
   <script defer src="/js/days-from-date.js"></script>
 </BaseLayout>
