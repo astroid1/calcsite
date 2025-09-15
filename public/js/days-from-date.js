@@ -13,6 +13,11 @@
     const d = new Date(y, m - 1, da);
     return d && d.getFullYear() === y && d.getMonth() === m - 1 && d.getDate() === da ? d : null;
   }
+  function formatISODate(d) {
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    const dd = String(d.getDate()).padStart(2, "0");
+    return d.getFullYear() + "-" + mm + "-" + dd;
+  }
   function daysBetween(a, b) {
     const MS = 86400000;
     return Math.round((stripTime(b) - stripTime(a)) / MS);
@@ -20,11 +25,49 @@
   function plural(n) { return Math.abs(n) === 1 ? "" : "s"; }
   function card(html) { return '<section class="card" style="margin-top:16px;">' + html + "</section>"; }
 
+  function setupCalendarPickers() {
+    const fields = document.querySelectorAll(".date-input");
+    fields.forEach((field) => {
+      const textInput = field.querySelector('[data-role="date-text"]');
+      const pickerInput = field.querySelector('[data-role="date-picker"]');
+      const trigger = field.querySelector(".date-trigger");
+      if (!textInput || !pickerInput || !trigger) return;
+
+      const syncPicker = () => {
+        const parsed = parseDate(textInput.value.trim());
+        pickerInput.value = parsed ? formatISODate(parsed) : "";
+      };
+
+      syncPicker();
+
+      trigger.addEventListener("click", () => {
+        syncPicker();
+        if (typeof pickerInput.showPicker === "function") {
+          pickerInput.showPicker();
+        } else {
+          pickerInput.focus();
+          pickerInput.click();
+        }
+      });
+
+      pickerInput.addEventListener("change", () => {
+        if (pickerInput.value) {
+          textInput.value = pickerInput.value;
+          textInput.dispatchEvent(new Event("input", { bubbles: true }));
+        }
+      });
+
+      textInput.addEventListener("input", syncPicker);
+    });
+  }
+
   const dateEl = document.getElementById("date");
   const compareEl = document.getElementById("compare");
   const calcBtn = document.getElementById("calc");
   const clearBtn = document.getElementById("clear");
   const out = document.getElementById("result");
+
+  setupCalendarPickers();
   if (!dateEl || !calcBtn || !out) return;
 
   calcBtn.addEventListener("click", () => {
@@ -44,6 +87,8 @@
 
   clearBtn && clearBtn.addEventListener("click", () => {
     dateEl.value = ""; compareEl.value = ""; out.innerHTML = "";
+    dateEl.dispatchEvent(new Event("input", { bubbles: true }));
+    compareEl.dispatchEvent(new Event("input", { bubbles: true }));
     dateEl.focus();
   });
 })();
