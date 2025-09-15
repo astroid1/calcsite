@@ -1,199 +1,137 @@
 (function () {
-  function stripTime(d) {
-    return new Date(d.getFullYear(), d.getMonth(), d.getDate());
-  }
-  function parseDate(input) {
-    if (!input) return null;
-    const iso = /^(\d{4})-(\d{2})-(\d{2})$/;
-    const us = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
-    let y, m, da;
-    if (iso.test(input)) {
-      const m1 = input.match(iso);
-      y = +m1[1];
-      m = +m1[2];
-      da = +m1[3];
-    } else if (us.test(input)) {
-      const m2 = input.match(us);
-      m = +m2[1];
-      da = +m2[2];
-      y = +m2[3];
-    } else return null;
-    const d = new Date(y, m - 1, da);
-    return d &&
-      d.getFullYear() === y &&
-      d.getMonth() === m - 1 &&
-      d.getDate() === da
-      ? d
+  if (typeof window === "undefined" || !window.CalcDate) return;
+
+  const {
+    MS_IN_DAY,
+    parseDate,
+    plural,
+    setupCalendarPickers,
+    stripTime,
+  } = window.CalcDate;
+
+  const form = document.getElementById("age-form");
+  const birthInput = document.getElementById("birthdate");
+  const output = document.getElementById("age-result");
+  if (!form || !birthInput || !output) return;
+
+  setupCalendarPickers(form);
+
+  const dateFormatter =
+    typeof Intl !== "undefined" && typeof Intl.DateTimeFormat === "function"
+      ? new Intl.DateTimeFormat(undefined, { dateStyle: "long" })
       : null;
-  }
-  function formatISODate(d) {
-    const mm = String(d.getMonth() + 1).padStart(2, "0");
-    const dd = String(d.getDate()).padStart(2, "0");
-    return d.getFullYear() + "-" + mm + "-" + dd;
-  }
-  function plural(n) {
-    return Math.abs(n) === 1 ? "" : "s";
-  }
-  function card(html) {
-    return (
-      '<section class="card" style="margin-top:16px;">' + html + "</section>"
-    );
-  }
-  function daysInMonth(year, month) {
-    return new Date(year, month + 1, 0).getDate();
-  }
-  function addMonthsClamped(date, count, anchorDay) {
-    const y = date.getFullYear();
-    const m = date.getMonth() + count;
-    const targetYear = y + Math.floor(m / 12);
-    const targetMonth = ((m % 12) + 12) % 12;
-    const day = anchorDay !== undefined ? anchorDay : date.getDate();
-    const dim = daysInMonth(targetYear, targetMonth);
-    return new Date(targetYear, targetMonth, Math.min(day, dim));
-  }
-  function diffParts(start, end) {
-    start = stripTime(start);
-    end = stripTime(end);
-    if (start > end) return null;
-    let years = end.getFullYear() - start.getFullYear();
-    let anniversary = addMonthsClamped(start, years * 12, start.getDate());
-    if (anniversary > end) {
+
+  const formatFullDate = (date) =>
+    dateFormatter ? dateFormatter.format(date) : date.toDateString();
+
+  const card = (html) => `<section class="card" style="margin-top:16px;">${html}</section>`;
+  const renderError = (message) => {
+    output.innerHTML = card(`<p>${message}</p>`);
+  };
+
+  const daysInMonth = (year, monthIndex) => new Date(year, monthIndex + 1, 0).getDate();
+
+  const addMonthsClamped = (date, count, anchorDay) => {
+    const anchor = anchorDay ?? date.getDate();
+    const monthOffset = date.getMonth() + count;
+    const year = date.getFullYear() + Math.floor(monthOffset / 12);
+    const monthIndex = ((monthOffset % 12) + 12) % 12;
+    const dim = daysInMonth(year, monthIndex);
+    return new Date(year, monthIndex, Math.min(anchor, dim));
+  };
+
+  const diffParts = (start, end) => {
+    const from = stripTime(start);
+    const to = stripTime(end);
+    if (from > to) return null;
+
+    let years = to.getFullYear() - from.getFullYear();
+    let cursor = addMonthsClamped(from, years * 12, from.getDate());
+    if (cursor > to) {
       years -= 1;
-      anniversary = addMonthsClamped(start, years * 12, start.getDate());
+      cursor = addMonthsClamped(from, years * 12, from.getDate());
     }
+
     let months = 0;
-    let cursor = anniversary;
     while (true) {
-      const next = addMonthsClamped(cursor, 1, start.getDate());
-      if (next > end) break;
+      const next = addMonthsClamped(cursor, 1, from.getDate());
+      if (next > to) break;
       cursor = next;
       months += 1;
     }
-    const days = Math.round((end - cursor) / 86400000);
+
+    const days = Math.round((to - cursor) / MS_IN_DAY);
     return { years, months, days };
-  }
-  function nextBirthday(birth, from) {
-    const anchorDay = birth.getDate();
-    let candidate = new Date(from.getFullYear(), birth.getMonth(), 1);
-    const dim = daysInMonth(candidate.getFullYear(), candidate.getMonth());
-    candidate.setDate(Math.min(anchorDay, dim));
-    if (candidate <= from) {
-      const year = from.getFullYear() + 1;
+  };
+
+  const nextBirthday = (birth, from) => {
+    const normalizedFrom = stripTime(from);
+    const anchor = birth.getDate();
+    const baseYear = normalizedFrom.getFullYear();
+    let candidate = new Date(baseYear, birth.getMonth(), anchor);
+
+    if (candidate.getMonth() !== birth.getMonth()) {
+      const dim = daysInMonth(baseYear, birth.getMonth());
+      candidate = new Date(baseYear, birth.getMonth(), dim);
+    }
+
+    if (candidate < normalizedFrom) {
+      const year = baseYear + 1;
       const dimNext = daysInMonth(year, birth.getMonth());
-      candidate = new Date(
-        year,
-        birth.getMonth(),
-        Math.min(anchorDay, dimNext),
-      );
+      candidate = new Date(year, birth.getMonth(), Math.min(anchor, dimNext));
     }
+
     return candidate;
-  }
-  function setupCalendarPickers() {
-    const fields = document.querySelectorAll(".date-input");
-    fields.forEach((field) => {
-      const textInput = field.querySelector('[data-role="date-text"]');
-      const pickerInput = field.querySelector('[data-role="date-picker"]');
-      const trigger = field.querySelector(".date-trigger");
-      if (!textInput || !pickerInput || !trigger) return;
+  };
 
-      const syncPicker = () => {
-        const parsed = parseDate(textInput.value.trim());
-        pickerInput.value = parsed ? formatISODate(parsed) : "";
-      };
-
-      syncPicker();
-
-      trigger.addEventListener("click", () => {
-        syncPicker();
-        if (typeof pickerInput.showPicker === "function") {
-          pickerInput.showPicker();
-        } else {
-          pickerInput.focus();
-          pickerInput.click();
-        }
-      });
-
-      pickerInput.addEventListener("change", () => {
-        if (pickerInput.value) {
-          textInput.value = pickerInput.value;
-          textInput.dispatchEvent(new Event("input", { bubbles: true }));
-        }
-      });
-
-      textInput.addEventListener("input", syncPicker);
-    });
-  }
-
-  const birthInput = document.getElementById("birthdate");
-  const calcBtn = document.getElementById("age-calc");
-  const clearBtn = document.getElementById("age-clear");
-  const out = document.getElementById("age-result");
-
-  setupCalendarPickers();
-  if (!birthInput || !calcBtn || !out) return;
-
-  function render() {
+  const render = () => {
     const birth = parseDate(birthInput.value.trim());
-    const today = stripTime(new Date());
     if (!birth) {
-      out.innerHTML = card("<p>Please enter a valid birthdate.</p>");
+      renderError("Please enter a valid birthdate.");
       return;
     }
+
+    const today = stripTime(new Date());
     if (birth > today) {
-      out.innerHTML = card("<p>Birthdate can't be in the future.</p>");
+      renderError("Birthdate can't be in the future.");
       return;
     }
+
     const parts = diffParts(birth, today);
     if (!parts) {
-      out.innerHTML = card("<p>Please enter a valid birthdate.</p>");
+      renderError("Please enter a valid birthdate.");
       return;
     }
-    const totalDays = Math.round((today - stripTime(birth)) / 86400000);
-    const next = nextBirthday(birth, today);
-    const untilNext = Math.round((stripTime(next) - today) / 86400000);
-    const html =
-      "<h3>Result</h3>" +
-      "<p>You are <strong>" +
-      parts.years +
-      "</strong> year" +
-      plural(parts.years) +
-      ", <strong>" +
-      parts.months +
-      "</strong> month" +
-      plural(parts.months) +
-      ", and <strong>" +
-      parts.days +
-      "</strong> day" +
-      plural(parts.days) +
-      " old.</p>" +
-      '<p class="helper">That is about ' +
-      totalDays.toLocaleString() +
-      " day" +
-      plural(totalDays) +
-      " alive.</p>" +
-      '<p class="helper">Next birthday: ' +
-      next.toDateString() +
-      " (in " +
-      untilNext +
-      " day" +
-      plural(untilNext) +
-      ").</p>";
-    out.innerHTML = card(html);
-  }
 
-  calcBtn.addEventListener("click", render);
-  birthInput.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      render();
-    }
+    const normalizedBirth = stripTime(birth);
+    const totalDays = Math.round((today - normalizedBirth) / MS_IN_DAY);
+    const next = stripTime(nextBirthday(birth, today));
+    const untilNext = Math.round((next - today) / MS_IN_DAY);
+
+    const countdown =
+      untilNext === 0
+        ? "Today is your birthday! 🎉"
+        : `Next birthday: ${formatFullDate(next)} (in ${untilNext.toLocaleString()} day${plural(untilNext)}).`;
+
+    const html =
+      `<h3>Result</h3>` +
+      `<p>As of ${formatFullDate(today)}, you are <strong>${parts.years}</strong> year${plural(parts.years)}, <strong>${parts.months}</strong> month${plural(parts.months)}, and <strong>${parts.days}</strong> day${plural(parts.days)} old.</p>` +
+      `<p class="helper">That's roughly ${totalDays.toLocaleString()} total day${plural(totalDays)}.</p>` +
+      `<p class="helper">${countdown}</p>`;
+
+    output.innerHTML = card(html);
+  };
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    render();
   });
 
-  clearBtn &&
-    clearBtn.addEventListener("click", () => {
-      birthInput.value = "";
-      out.innerHTML = "";
+  form.addEventListener("reset", () => {
+    window.requestAnimationFrame(() => {
+      output.innerHTML = "";
       birthInput.dispatchEvent(new Event("input", { bubbles: true }));
       birthInput.focus();
     });
+  });
 })();
