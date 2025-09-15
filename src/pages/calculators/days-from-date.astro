@@ -1,21 +1,23 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+const title = "Days From (or Until) a Date";
+const description = "Calculate days between today and a specific date, or between two dates.";
 ---
 
-<BaseLayout title="Days From (or Until) a Date" description="Calculate days between today and a specific date, or between two dates." pathname="/calculators/days-from-date">
+<BaseLayout {title} {description} pathname="/calculators/days-from-date">
   <div class="card">
-    <h1>Days From (or Until) a Date</h1>
+    <h1>{title}</h1>
     <p class="small">Enter a past or future date. Supports <code>YYYY-MM-DD</code> or <code>MM/DD/YYYY</code>.</p>
 
-    <form id="dfd-form" on:submit|preventDefault={() => {}}>
+    <form id="dfd-form">
       <label for="date">Date</label>
       <input id="date" name="date" type="text" placeholder="2026-01-01" />
 
       <label for="compare">Compare To (optional)</label>
       <input id="compare" name="compare" type="text" placeholder="leave empty to use today" />
 
-      <div style="margin-top:12px;"><button class="btn" id="calc">Calculate</button></div>
+      <div style="margin-top:12px;"><button class="btn" type="button" id="calc">Calculate</button></div>
     </form>
 
     <div id="result" style="margin-top:16px;"></div>
@@ -23,5 +25,7 @@ import AdSlot from "@/components/AdSlot.astro";
     <AdSlot id="dfd-inline-1" />
   </div>
 
+  <!-- We'll attach behavior from a public JS file so Astro never evaluates it at build time -->
   <script defer src="/js/days-from-date.js"></script>
 </BaseLayout>
+
