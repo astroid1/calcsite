@@ -1,0 +1,45 @@
+```astro
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+import { nextBirthday, stripTime } from "@/lib/date";
+
+
+const title = 'Days Until Your Birthday';
+const description = 'Countdown to your next birthday with leap-year handling.';
+---
+<BaseLayout {title} {description} pathname="/calculators/days-until-birthday">
+<div class="card">
+<h1>{title}</h1>
+<form id="bday-form" on:submit|preventDefault={() => {}}>
+<label for="month">Month</label>
+<select id="month" name="month">
+{Array.from({length:12}).map((_,i)=> <option value={i+1}>{new Date(0, i).toLocaleString('en', {month:'long'})}</option>)}
+</select>
+<label for="day">Day</label>
+<input id="day" name="day" type="number" min="1" max="31" placeholder="e.g., 21" />
+<div style="margin-top:12px;"><button class="btn">Calculate</button></div>
+</form>
+<div id="result" style="margin-top:16px;"></div>
+<AdSlot id="bday-inline-1" />
+</div>
+
+
+<script>
+import { nextBirthday, stripTime } from "@/lib/date";
+
+
+const form = document.getElementById('bday-form');
+const out = document.getElementById('result');
+form.addEventListener('submit', () => {
+const m = parseInt((document.getElementById('month')).value, 10);
+const d = parseInt((document.getElementById('day')).value, 10);
+if (!m || !d) { out.innerHTML = '<div class="card">Enter a valid month and day.</div>'; return; }
+const today = stripTime(new Date());
+const nb = nextBirthday(today, m, d);
+const diff = Math.round((nb.getTime() - today.getTime()) / (1000*60*60*24));
+out.innerHTML = `<div class="card"><h3>Result</h3><p>Your next birthday is <strong>${nb.toDateString()}</strong> — in <strong>${diff}</strong> day${diff===1?'':'s'}.</p></div>`;
+});
+</script>
+</BaseLayout>
+```
