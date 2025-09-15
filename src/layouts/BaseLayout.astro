@@ -1,0 +1,62 @@
+```astro
+import AdSlot from "@/components/AdSlot.astro";
+import "@/styles/global.css";
+
+
+const { title = 'Calculator Hub', description = 'Free date & holiday calculators', pathname = '/' } = Astro.props;
+const url = new URL(pathname, Astro.site ?? 'http://localhost:4321');
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width" />
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="icon" href="/favicon.svg" />
+<!-- AdSense: paste real script once approved
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=YOUR_CLIENT" crossorigin="anonymous"></script>
+-->
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content="website" />
+<meta property="og:url" content={url.toString()} />
+</head>
+<body>
+<header class="header">
+<div class="container nav">
+<a class="logo" href="/">CalcNest</a>
+<nav class="nav" aria-label="Main">
+<a href="/calculators/days-from-date">Days From Date</a>
+<a href="/calculators/days-until-birthday">Days Until Birthday</a>
+<a href="/calculators/holiday-countdown">Holiday Countdown</a>
+</nav>
+</div>
+</header>
+<main class="container grid">
+<article>
+<slot />
+</article>
+<aside class="aside">
+<AdSlot id="sidebar-1" label="Sidebar Ad" />
+<div style="height:16px"></div>
+<div class="card">
+<h3>About</h3>
+<p class="small">Fast, free calculators for dates, birthdays, and holidays. No signup.</p>
+</div>
+<div style="height:16px"></div>
+<div class="card">
+<h3>Disclosure</h3>
+<p class="small">This site uses affiliate links. We may earn a commission at no extra cost to you.</p>
+</div>
+</aside>
+</main>
+<footer class="footer">
+<div class="container">
+<p class="small">© {new Date().getFullYear()} CalcNest · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a></p>
+<AdSlot id="footer-1" label="Footer Ad" />
+</div>
+</footer>
+</body>
+</html>
+```
