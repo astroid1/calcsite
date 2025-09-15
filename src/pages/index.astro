@@ -1,0 +1,28 @@
+```astro
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+import AffiliateBox from "@/components/AffiliateBox.astro";
+---
+<BaseLayout title="Date & Holiday Calculators" description="Quick calculators: days from a date, birthday countdown, and U.S. holiday timers.">
+<div class="card">
+<h1>Date & Holiday Calculators</h1>
+<p>Use these quick tools for work, school, or planning. No account required.</p>
+<ul>
+<li><a href="/calculators/days-from-date">Days From (or Until) a Date</a></li>
+<li><a href="/calculators/days-until-birthday">Days Until Your Birthday</a></li>
+<li><a href="/calculators/holiday-countdown">Holiday Countdown (US)</a></li>
+</ul>
+<AdSlot id="home-inline-1" label="Inline Ad" />
+</div>
+
+
+<hr class="sep" />
+
+
+<AffiliateBox title="Recommended Tools" items={[
+{ label: 'Amazon: Desk Calendars', href: 'https://www.amazon.com/?tag=YOUR_AMAZON_TAG', note: 'Affiliate link' },
+{ label: 'eBay: Wall Planners', href: 'https://ebay.us/YOUR_TAG', note: 'Affiliate link' }
+]} />
+</BaseLayout>
+```
