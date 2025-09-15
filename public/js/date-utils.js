@@ -55,7 +55,8 @@
   }
 
   function setupCalendarPickers(root = document) {
-    const scope = root && typeof root.querySelectorAll === "function" ? root : document;
+    const scope =
+      root && typeof root.querySelectorAll === "function" ? root : document;
     const fields = scope.querySelectorAll(".date-input");
     fields.forEach((field) => {
       if (field.dataset.datePickerReady === "true") return;

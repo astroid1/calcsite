@@ -1,0 +1,53 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Tip Calculator";
+const description = "Split restaurant bills with tip suggestions and per-person totals.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/tip-calculator">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">Pick a tip percentage, enter the bill, and optionally split the total between friends. We'll show tip amounts instantly.</p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="tip-form">
+      <div class="form-grid columns-3">
+        <div>
+          <label for="bill-amount">Bill amount</label>
+          <input id="bill-amount" name="bill" type="number" min="0" step="0.01" placeholder="85.42" required />
+        </div>
+        <div>
+          <label for="tip-percent">Tip percentage</label>
+          <select id="tip-percent" name="percent">
+            <option value="15">15%</option>
+            <option value="18">18%</option>
+            <option value="20" selected>20%</option>
+            <option value="22">22%</option>
+            <option value="custom">Custom</option>
+          </select>
+        </div>
+        <div id="custom-tip-wrapper" style="display:none;">
+          <label for="custom-tip">Custom tip (%)</label>
+          <input id="custom-tip" name="custom" type="number" min="0" step="0.1" placeholder="25" />
+        </div>
+        <div>
+          <label for="people-count">People splitting</label>
+          <input id="people-count" name="people" type="number" min="1" step="1" value="1" required />
+        </div>
+      </div>
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="submit">Calculate tip</button>
+        <button class="btn" type="reset">Reset</button>
+      </div>
+      <p class="helper" style="margin-top:10px;">Need a quick split? Set people to more than one and we'll show per-person totals.</p>
+    </form>
+  </section>
+
+  <section id="tip-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="tip-inline-1" />
+  <script defer src="/js/tip-calculator.js"></script>
+</BaseLayout>

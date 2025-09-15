@@ -1,0 +1,77 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Mortgage Calculator";
+const description = "Plan a home purchase with affordability guidance and an amortization schedule.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/mortgage-calculator">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">Estimate your monthly mortgage payment, check how much home you can afford, and review a year-by-year payoff schedule.</p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="mortgage-form">
+      <h2 style="margin:0 0 12px; font-size:20px;">Loan basics</h2>
+      <div class="form-grid">
+        <div>
+          <label for="home-price">Home price</label>
+          <input id="home-price" name="price" type="number" min="0" step="1000" placeholder="400000" required />
+        </div>
+        <div>
+          <label for="down-payment">Down payment (%)</label>
+          <input id="down-payment" name="down" type="number" min="0" max="100" step="0.1" value="20" required />
+        </div>
+        <div>
+          <label for="mortgage-rate">Interest rate (%)</label>
+          <input id="mortgage-rate" name="rate" type="number" min="0" step="0.01" value="6.25" required />
+        </div>
+        <div>
+          <label for="mortgage-term">Loan term (years)</label>
+          <input id="mortgage-term" name="term" type="number" min="5" step="5" value="30" required />
+        </div>
+      </div>
+
+      <h2 style="margin:22px 0 12px; font-size:20px;">Monthly cost extras</h2>
+      <div class="form-grid">
+        <div>
+          <label for="property-tax">Property tax rate (% of home value)</label>
+          <input id="property-tax" name="tax" type="number" min="0" step="0.01" value="1.1" />
+        </div>
+        <div>
+          <label for="insurance">Home insurance (per year)</label>
+          <input id="insurance" name="insurance" type="number" min="0" step="50" placeholder="1200" />
+        </div>
+        <div>
+          <label for="hoa">HOA dues (per month)</label>
+          <input id="hoa" name="hoa" type="number" min="0" step="10" placeholder="0" />
+        </div>
+      </div>
+
+      <h2 style="margin:22px 0 12px; font-size:20px;">Affordability check (optional)</h2>
+      <div class="form-grid">
+        <div>
+          <label for="household-income">Household income (per year)</label>
+          <input id="household-income" name="income" type="number" min="0" step="1000" placeholder="95000" />
+        </div>
+        <div>
+          <label for="monthly-debt">Monthly debt payments</label>
+          <input id="monthly-debt" name="debts" type="number" min="0" step="10" placeholder="450" />
+        </div>
+      </div>
+
+      <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="submit">Run mortgage math</button>
+        <button class="btn" type="reset">Reset</button>
+      </div>
+      <p class="helper" style="margin-top:10px;">Affordability uses a 36% debt-to-income guideline. Property taxes and insurance are estimates—adjust with your local data.</p>
+    </form>
+  </section>
+
+  <section id="mortgage-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="mortgage-inline-1" />
+  <script defer src="/js/mortgage-calculator.js"></script>
+</BaseLayout>

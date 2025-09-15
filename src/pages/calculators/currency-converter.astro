@@ -1,0 +1,43 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Currency Converter";
+const description = "Convert between world currencies with live exchange rates.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/currency-converter">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">Pick two currencies and enter an amount. We'll fetch the latest rates (with an offline fallback) and show the converted value instantly.</p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="currency-form">
+      <label for="currency-amount">Amount</label>
+      <input id="currency-amount" name="amount" type="number" min="0" step="0.01" value="1" />
+
+      <div class="form-grid single" style="margin-top:12px;">
+        <div>
+          <label for="currency-from">From</label>
+          <select id="currency-from" name="from"></select>
+        </div>
+        <div>
+          <label for="currency-to">To</label>
+          <select id="currency-to" name="to"></select>
+        </div>
+      </div>
+
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+        <button class="btn" type="submit">Convert</button>
+        <button class="btn" type="button" id="currency-swap">Swap</button>
+        <span class="helper" id="currency-status">Loading exchange rates…</span>
+      </div>
+    </form>
+  </section>
+
+  <section id="currency-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="currency-inline-1" />
+  <script defer src="/js/currency-converter.js"></script>
+</BaseLayout>
