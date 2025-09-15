@@ -1,15 +1,11 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
-import { parseDate, daysBetween, stripTime } from "@/lib/date";
-
-const title = "Days From (or Until) a Date";
-const description = "Calculate days between today and a specific date, or between two dates.";
 ---
 
-<BaseLayout {title} {description} pathname="/calculators/days-from-date">
+<BaseLayout title="Days From (or Until) a Date" description="Calculate days between today and a specific date, or between two dates." pathname="/calculators/days-from-date">
   <div class="card">
-    <h1>{title}</h1>
+    <h1>Days From (or Until) a Date</h1>
     <p class="small">Enter a past or future date. Supports <code>YYYY-MM-DD</code> or <code>MM/DD/YYYY</code>.</p>
 
     <form id="dfd-form" on:submit|preventDefault={() => {}}>
@@ -27,45 +23,5 @@ const description = "Calculate days between today and a specific date, or betwee
     <AdSlot id="dfd-inline-1" />
   </div>
 
-  <script>
-    import { parseDate, daysBetween, stripTime } from "@/lib/date";
-
-    const form = document.getElementById("dfd-form");
-    const out = document.getElementById("result");
-
-    function plural(n){ return n === 1 || n === -1 ? "" : "s"; }
-
-    form.addEventListener("submit", () => {
-      const dateVal = (document.getElementById("date")).value.trim();
-      const compVal = (document.getElementById("compare")).value.trim();
-
-      const date = parseDate(dateVal);
-      const compare = compVal ? parseDate(compVal) : stripTime(new Date());
-
-      if (!date || !compare) {
-        out.innerHTML = '<div class="card">Please enter valid date(s).</div>';
-        return;
-      }
-
-      const diff = daysBetween(compare, date);
-      let verb;
-      if (diff === 0) {
-        verb = "is today";
-      } else if (diff > 0) {
-        verb = "is in <strong>" + diff + "</strong> day" + plural(diff);
-      } else {
-        verb = "was <strong>" + Math.abs(diff) + "</strong> day" + plural(diff) + " ago";
-      }
-
-      const html =
-        '<div class="card"><h3>Result</h3><p>Your date ' +
-        verb +
-        " (compared to " +
-        compare.toDateString() +
-        ").</p></div>";
-
-      out.innerHTML = html;
-    });
-  </script>
+  <script defer src="/js/days-from-date.js"></script>
 </BaseLayout>
-
