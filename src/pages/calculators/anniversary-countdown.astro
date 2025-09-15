@@ -1,0 +1,47 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+const title = "Anniversary Countdown";
+const description = "Input a special date and see upcoming anniversary milestones.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/anniversary-countdown">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">Enter a meaningful date to preview the next anniversaries and days remaining.</p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="anniversary-form">
+      <label for="anniversary-date">Special Date</label>
+      <div class="date-input">
+        <input
+          id="anniversary-date"
+          name="anniversary-date"
+          type="text"
+          inputmode="numeric"
+          placeholder="YYYY-MM-DD or MM/DD/YYYY"
+          data-role="date-text"
+        />
+        <button class="date-trigger" type="button" aria-label="Open calendar for special date">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path
+              d="M7 2a1 1 0 0 1 1 1v1h8V3a1 1 0 1 1 2 0v1h1.5A2.5 2.5 0 0 1 22 6.5v13A2.5 2.5 0 0 1 19.5 22h-15A2.5 2.5 0 0 1 2 19.5v-13A2.5 2.5 0 0 1 4.5 4H6V3a1 1 0 0 1 1-1Zm0 4H4.5a.5.5 0 0 0-.5.5V8h16V6.5a.5.5 0 0 0-.5-.5H17v1a1 1 0 0 1-2 0V6H8v1a1 1 0 0 1-2 0V6Zm13 4H4v9.5a.5.5 0 0 0 .5.5h15a.5.5 0 0 0 .5-.5V10Z"
+            />
+          </svg>
+        </button>
+        <input type="date" class="date-picker" data-role="date-picker" aria-hidden="true" tabindex="-1" />
+      </div>
+      <p class="helper" style="margin-top:10px;">Use any format above or the calendar button to fill the date.</p>
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="button" id="anniversary-calc">Show Anniversaries</button>
+        <button class="btn" type="button" id="anniversary-clear">Clear</button>
+      </div>
+    </form>
+  </section>
+
+  <section id="anniversary-result" style="margin-top:16px;"></section>
+
+  <AdSlot id="anniversary-inline-1" />
+  <script defer src="/js/anniversary-countdown.js"></script>
+</BaseLayout>
