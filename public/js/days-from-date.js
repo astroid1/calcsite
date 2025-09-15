@@ -1,13 +1,8 @@
 (function () {
   if (typeof window === "undefined" || !window.CalcDate) return;
 
-  const {
-    MS_IN_DAY,
-    parseDate,
-    plural,
-    setupCalendarPickers,
-    stripTime,
-  } = window.CalcDate;
+  const { MS_IN_DAY, parseDate, plural, setupCalendarPickers, stripTime } =
+    window.CalcDate;
 
   const form = document.getElementById("dfd-form");
   const dateInput = document.getElementById("date");
@@ -25,7 +20,8 @@
   const formatFullDate = (date) =>
     dateFormatter ? dateFormatter.format(date) : date.toDateString();
 
-  const card = (html) => `<section class="card" style="margin-top:16px;">${html}</section>`;
+  const card = (html) =>
+    `<section class="card" style="margin-top:16px;">${html}</section>`;
 
   const daysBetween = (start, end) => {
     return Math.round((stripTime(end) - stripTime(start)) / MS_IN_DAY);
@@ -35,7 +31,9 @@
     const targetRaw = dateInput.value.trim();
     const compareRaw = compareInput.value.trim();
     const target = parseDate(targetRaw);
-    const comparison = compareRaw ? parseDate(compareRaw) : stripTime(new Date());
+    const comparison = compareRaw
+      ? parseDate(compareRaw)
+      : stripTime(new Date());
 
     if (!target || !comparison) {
       output.innerHTML = card("<p>Please enter valid date(s).</p>");

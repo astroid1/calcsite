@@ -1,0 +1,43 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Inflation Calculator";
+const description = "Compare purchasing power across years using U.S. CPI data.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/inflation-calculator">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">Find out how prices have changed over time. Enter an amount and pick two years to see the equivalent value after inflation.</p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="inflation-form">
+      <div class="form-grid">
+        <div>
+          <label for="inflation-amount">Amount</label>
+          <input id="inflation-amount" name="amount" type="number" min="0" step="1" value="100" required />
+        </div>
+        <div>
+          <label for="inflation-start">Start year</label>
+          <select id="inflation-start" name="start"></select>
+        </div>
+        <div>
+          <label for="inflation-end">End year</label>
+          <select id="inflation-end" name="end"></select>
+        </div>
+      </div>
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="submit">Adjust for inflation</button>
+        <button class="btn" type="reset">Reset</button>
+      </div>
+      <p class="helper" style="margin-top:10px;">Data based on the U.S. Consumer Price Index (CPI-U). The latest year updates each January.</p>
+    </form>
+  </section>
+
+  <section id="inflation-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="inflation-inline-1" />
+  <script defer src="/js/inflation-calculator.js"></script>
+</BaseLayout>

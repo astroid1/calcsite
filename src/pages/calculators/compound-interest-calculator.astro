@@ -1,0 +1,60 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Compound Interest Calculator";
+const description = "Project how investments grow with compound interest and monthly contributions.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/compound-interest-calculator">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">See how your starting balance and recurring deposits compound over time. Adjust the compounding frequency to match your account.</p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="compound-form">
+      <div class="form-grid">
+        <div>
+          <label for="starting-balance">Starting balance</label>
+          <input id="starting-balance" name="principal" type="number" min="0" step="100" placeholder="5000" required />
+        </div>
+        <div>
+          <label for="monthly-contribution">Monthly contribution</label>
+          <input id="monthly-contribution" name="contribution" type="number" min="0" step="50" placeholder="300" />
+        </div>
+        <div>
+          <label for="annual-rate">Annual return (%)</label>
+          <input id="annual-rate" name="rate" type="number" min="0" step="0.1" value="7" required />
+        </div>
+        <div>
+          <label for="years">Years invested</label>
+          <input id="years" name="years" type="number" min="1" step="1" value="20" required />
+        </div>
+        <div>
+          <label for="compounding">Compounding frequency</label>
+          <select id="compounding" name="frequency">
+            <option value="annually">Annually</option>
+            <option value="quarterly">Quarterly</option>
+            <option value="monthly" selected>Monthly</option>
+            <option value="daily">Daily</option>
+          </select>
+        </div>
+        <div>
+          <label for="annual-increase">Annual contribution increase (%)</label>
+          <input id="annual-increase" name="raise" type="number" min="0" step="0.1" value="0" />
+        </div>
+      </div>
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="submit">Calculate growth</button>
+        <button class="btn" type="reset">Reset</button>
+      </div>
+      <p class="helper" style="margin-top:10px;">Assumes deposits occur at the end of each month. Contributions can optionally step up each year.</p>
+    </form>
+  </section>
+
+  <section id="compound-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="compound-inline-1" />
+  <script defer src="/js/compound-interest.js"></script>
+</BaseLayout>

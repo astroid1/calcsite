@@ -1,13 +1,8 @@
 (function () {
   if (typeof window === "undefined" || !window.CalcDate) return;
 
-  const {
-    MS_IN_DAY,
-    parseDate,
-    plural,
-    setupCalendarPickers,
-    stripTime,
-  } = window.CalcDate;
+  const { MS_IN_DAY, parseDate, plural, setupCalendarPickers, stripTime } =
+    window.CalcDate;
 
   const form = document.getElementById("age-form");
   const birthInput = document.getElementById("birthdate");
@@ -24,12 +19,14 @@
   const formatFullDate = (date) =>
     dateFormatter ? dateFormatter.format(date) : date.toDateString();
 
-  const card = (html) => `<section class="card" style="margin-top:16px;">${html}</section>`;
+  const card = (html) =>
+    `<section class="card" style="margin-top:16px;">${html}</section>`;
   const renderError = (message) => {
     output.innerHTML = card(`<p>${message}</p>`);
   };
 
-  const daysInMonth = (year, monthIndex) => new Date(year, monthIndex + 1, 0).getDate();
+  const daysInMonth = (year, monthIndex) =>
+    new Date(year, monthIndex + 1, 0).getDate();
 
   const addMonthsClamped = (date, count, anchorDay) => {
     const anchor = anchorDay ?? date.getDate();

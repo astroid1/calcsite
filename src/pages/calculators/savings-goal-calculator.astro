@@ -1,0 +1,47 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Savings Goal Calculator";
+const description = "Figure out the monthly contributions needed to hit a future target.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/savings-goal-calculator">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">Set a target amount and timeline. We'll tell you how much to save each month, factoring in optional investment growth.</p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="savings-form">
+      <div class="form-grid">
+        <div>
+          <label for="goal-amount">Goal amount</label>
+          <input id="goal-amount" name="goal" type="number" min="0" step="100" placeholder="25000" required />
+        </div>
+        <div>
+          <label for="current-savings">Current savings</label>
+          <input id="current-savings" name="current" type="number" min="0" step="100" value="0" />
+        </div>
+        <div>
+          <label for="goal-years">Timeframe (years)</label>
+          <input id="goal-years" name="years" type="number" min="0.5" step="0.5" value="5" required />
+        </div>
+        <div>
+          <label for="expected-return">Expected annual return (%)</label>
+          <input id="expected-return" name="rate" type="number" min="0" step="0.1" value="4" />
+        </div>
+      </div>
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="submit">Calculate monthly savings</button>
+        <button class="btn" type="reset">Reset</button>
+      </div>
+      <p class="helper" style="margin-top:10px;">Return is optional—set it to 0% for a cash-only plan. We assume monthly deposits at the end of each month.</p>
+    </form>
+  </section>
+
+  <section id="savings-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="savings-inline-1" />
+  <script defer src="/js/savings-goal.js"></script>
+</BaseLayout>
