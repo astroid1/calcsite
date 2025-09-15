@@ -96,6 +96,35 @@ input, select {
   width: 100%; padding: 10px 12px; border-radius: 10px;
   border: 1px solid var(--border); background:#0d1325; color: var(--text);
 }
+.date-input { position: relative; }
+.date-input input[data-role="date-text"] { padding-right: 44px; }
+.date-trigger {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--muted);
+  padding: 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: color .15s ease, background .15s ease;
+}
+.date-trigger:hover,
+.date-trigger:focus-visible {
+  color: var(--text);
+  background: rgba(78, 140, 255, 0.12);
+  outline: none;
+}
+.date-trigger svg { width: 18px; height: 18px; display: block; fill: currentColor; }
+.date-picker {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+}
 .helper { font-size: 13px; color: var(--muted); }
 
 /* Ad placeholder (keep but subtle) */
