@@ -1,0 +1,17 @@
+```astro
+---
+const { title = 'Recommended', items = [] } = Astro.props;
+/* items: Array<{label: string; href: string; note?: string}> */
+---
+<div class="card">
+<h3>{title}</h3>
+<ul>
+{items.map((it) => (
+<li style="margin:10px 0;">
+<a href={it.href} rel="sponsored noopener" target="_blank">{it.label}</a>
+{it.note && <div class="small">{it.note}</div>}
+</li>
+))}
+</ul>
+</div>
+```
