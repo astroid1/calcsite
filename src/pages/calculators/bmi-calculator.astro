@@ -1,0 +1,53 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "BMI Calculator";
+const description = "Check your body mass index and see a healthy weight range for your height.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/bmi-calculator">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      Enter your height and weight to get a quick BMI screening plus the healthy weight range for your frame.
+      BMI is a starting point—muscle mass and body composition matter too.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="bmi-form">
+      <div class="form-grid">
+        <div>
+          <label for="bmi-units">Units</label>
+          <select id="bmi-units" name="units">
+            <option value="metric">Metric (kg, cm)</option>
+            <option value="imperial">Imperial (lb, in)</option>
+          </select>
+        </div>
+        <div>
+          <label for="bmi-height">Height <span class="muted" id="bmi-height-unit">(cm)</span></label>
+          <input id="bmi-height" name="height" type="number" min="0" step="0.1" placeholder="170" required />
+        </div>
+        <div>
+          <label for="bmi-weight">Weight <span class="muted" id="bmi-weight-unit">(kg)</span></label>
+          <input id="bmi-weight" name="weight" type="number" min="0" step="0.1" placeholder="70" required />
+        </div>
+      </div>
+
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="submit">Calculate BMI</button>
+        <button class="btn" type="reset">Reset</button>
+      </div>
+      <p class="helper" style="margin-top:10px;">
+        Healthy weight guidelines are based on a BMI between 18.5 and 24.9 for adults.
+        Talk with your healthcare provider for personalized advice.
+      </p>
+    </form>
+  </section>
+
+  <section id="bmi-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="bmi-inline-1" />
+  <script defer src="/js/bmi-calculator.js"></script>
+</BaseLayout>

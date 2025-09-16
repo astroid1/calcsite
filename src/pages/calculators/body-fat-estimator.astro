@@ -1,0 +1,73 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Body Fat Percentage Estimator";
+const description =
+  "Approximate your body fat percentage and lean mass using the U.S. Navy tape-measure method.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/body-fat-estimator">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      Grab a flexible tape and measure the sites below. The U.S. Navy formula uses circumferences to estimate body fat
+      percentage and lean mass.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="body-fat-form">
+      <div class="form-grid">
+        <div>
+          <label for="body-fat-sex">Sex</label>
+          <select id="body-fat-sex" name="sex">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+        <div>
+          <label for="body-fat-units">Units</label>
+          <select id="body-fat-units" name="units">
+            <option value="metric">Metric (kg, cm)</option>
+            <option value="imperial">Imperial (lb, in)</option>
+          </select>
+        </div>
+        <div>
+          <label for="body-fat-weight">Weight <span class="muted" id="body-fat-weight-unit">(kg)</span></label>
+          <input id="body-fat-weight" name="weight" type="number" min="0" step="0.1" placeholder="75" required />
+        </div>
+        <div>
+          <label for="body-fat-height">Height <span class="muted" id="body-fat-height-unit">(cm)</span></label>
+          <input id="body-fat-height" name="height" type="number" min="0" step="0.1" placeholder="175" required />
+        </div>
+        <div>
+          <label for="body-fat-neck">Neck <span class="muted" id="body-fat-neck-unit">(cm)</span></label>
+          <input id="body-fat-neck" name="neck" type="number" min="0" step="0.1" placeholder="38" required />
+        </div>
+        <div>
+          <label for="body-fat-waist">Waist (navel) <span class="muted" id="body-fat-waist-unit">(cm)</span></label>
+          <input id="body-fat-waist" name="waist" type="number" min="0" step="0.1" placeholder="85" required />
+        </div>
+        <div id="body-fat-hip-group">
+          <label for="body-fat-hip">Hip <span class="muted" id="body-fat-hip-unit">(cm)</span></label>
+          <input id="body-fat-hip" name="hip" type="number" min="0" step="0.1" placeholder="95" />
+        </div>
+      </div>
+
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="submit">Estimate body fat</button>
+        <button class="btn" type="reset">Reset</button>
+      </div>
+      <p class="helper" style="margin-top:10px;">
+        Measure at the thickest points: neck just below the larynx, waist at the navel, hips around the widest glute
+        point. Keep the tape snug but not tight.
+      </p>
+    </form>
+  </section>
+
+  <section id="body-fat-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="body-fat-inline-1" />
+  <script defer src="/js/body-fat-estimator.js"></script>
+</BaseLayout>
