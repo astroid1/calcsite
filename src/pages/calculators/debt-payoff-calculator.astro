@@ -1,0 +1,51 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Debt Payoff Calculator";
+const description = "Compare the snowball vs. avalanche strategy with payoff timelines and interest totals.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/debt-payoff-calculator">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      List each debt's balance, APR, and minimum payment to see how long it takes to become debt-free. Compare the debt snowball
+      (smallest balance first) and avalanche (highest interest rate first) side by side.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="debt-form">
+      <p class="helper" style="margin-top:0;">
+        Include credit cards, personal loans, and student loans. We'll apply your extra payment to whichever debt is targeted by
+        the chosen strategy after covering all minimums.
+      </p>
+
+      <div id="debt-rows" style="display:flex; flex-direction:column; gap:16px; margin-top:12px;"></div>
+
+      <button id="add-debt" class="btn" type="button" style="margin-top:6px; width:fit-content;">Add another debt</button>
+
+      <div class="form-grid" style="margin-top:18px;">
+        <div>
+          <label for="debt-extra">Extra monthly payment toward debt</label>
+          <input id="debt-extra" name="extra" type="number" min="0" step="10" placeholder="250" />
+        </div>
+        <div>
+          <label for="debt-start">Starting month (optional)</label>
+          <input id="debt-start" name="start" type="month" />
+        </div>
+      </div>
+
+      <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="submit">Compare snowball & avalanche</button>
+        <button class="btn" type="reset">Reset</button>
+      </div>
+    </form>
+  </section>
+
+  <section id="debt-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="debt-inline-1" />
+  <script defer src="/js/debt-payoff-calculator.js"></script>
+</BaseLayout>

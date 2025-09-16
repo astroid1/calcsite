@@ -56,11 +56,46 @@ export const calculatorCategories: CalculatorCategory[] = [
     label: "Money & Planning",
     calculators: [
       {
+        href: "/calculators/paycheck-tax-calculator",
+        name: "Paycheck Tax Calculator",
+        navLabel: "Paycheck",
+        description:
+          "Estimate take-home pay by state with federal, payroll, and state taxes.",
+      },
+      {
+        href: "/calculators/overtime-pay-calculator",
+        name: "Overtime Pay Calculator",
+        navLabel: "Overtime",
+        description:
+          "See total pay when overtime and double-time hours stack onto your shift.",
+      },
+      {
+        href: "/calculators/freelancer-hourly-rate-calculator",
+        name: "Freelancer Hourly Rate",
+        navLabel: "Freelance",
+        description:
+          "Back into a sustainable freelance rate using income goals and billable hours.",
+      },
+      {
+        href: "/calculators/salary-to-hourly",
+        name: "Salary ↔ Hourly",
+        navLabel: "Salary",
+        description:
+          "Convert yearly pay to hourly wages (and vice versa) with your schedule.",
+      },
+      {
         href: "/calculators/loan-calculator",
         name: "Loan Calculator",
         navLabel: "Loan",
         description:
           "Estimate payments and see principal versus interest by year.",
+      },
+      {
+        href: "/calculators/car-loan-affordability-calculator",
+        name: "Car Loan Affordability",
+        navLabel: "Car Budget",
+        description:
+          "Find the maximum vehicle price your income can comfortably support.",
       },
       {
         href: "/calculators/mortgage-calculator",
@@ -70,11 +105,39 @@ export const calculatorCategories: CalculatorCategory[] = [
           "Check affordability, monthly costs, and an amortization schedule.",
       },
       {
+        href: "/calculators/debt-payoff-calculator",
+        name: "Debt Payoff Calculator",
+        navLabel: "Debt",
+        description:
+          "Compare snowball and avalanche payoff timelines across all your debts.",
+      },
+      {
+        href: "/calculators/credit-card-interest-calculator",
+        name: "Credit Card Interest",
+        navLabel: "Card Interest",
+        description:
+          "Project interest charges while carrying a balance and test extra payments.",
+      },
+      {
         href: "/calculators/compound-interest-calculator",
         name: "Compound Interest",
         navLabel: "Invest",
         description:
           "Model investment growth with recurring deposits and raises.",
+      },
+      {
+        href: "/calculators/savings-goal-calculator",
+        name: "Savings Goal",
+        navLabel: "Savings",
+        description:
+          "See the monthly deposit needed to reach a target with growth.",
+      },
+      {
+        href: "/calculators/savings-vs-investing-comparison",
+        name: "Savings vs Investing",
+        navLabel: "Save vs Invest",
+        description:
+          "Compare bank interest against market returns using the same contributions.",
       },
       {
         href: "/calculators/currency-converter",
@@ -91,25 +154,11 @@ export const calculatorCategories: CalculatorCategory[] = [
           "Compare the buying power of money across different years.",
       },
       {
-        href: "/calculators/salary-to-hourly",
-        name: "Salary ↔ Hourly",
-        navLabel: "Salary",
-        description:
-          "Convert yearly pay to hourly wages (and vice versa) with your schedule.",
-      },
-      {
         href: "/calculators/tip-calculator",
         name: "Tip Splitter",
         navLabel: "Tip",
         description:
           "Quickly find tip amounts and per-person totals for the table.",
-      },
-      {
-        href: "/calculators/savings-goal-calculator",
-        name: "Savings Goal",
-        navLabel: "Savings",
-        description:
-          "See the monthly deposit needed to reach a target with growth.",
       },
     ],
   },

@@ -1,0 +1,76 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Car Loan Affordability Calculator";
+const description = "Estimate a comfortable vehicle price using income, existing debt, and loan terms.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/car-loan-affordability-calculator">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      Plug in your household income, other monthly debt, and loan assumptions to see the largest car payment that keeps your
+      debt-to-income ratio on target. We'll convert that into an estimated car price based on your down payment.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="car-form">
+      <div class="form-grid">
+        <div>
+          <label for="car-income">Gross annual income</label>
+          <input id="car-income" name="income" type="number" min="0" step="500" placeholder="90000" required />
+        </div>
+        <div>
+          <label for="car-debts">Current monthly debt payments (student loans, credit cards, etc.)</label>
+          <input id="car-debts" name="debts" type="number" min="0" step="10" placeholder="600" />
+        </div>
+        <div>
+          <label for="car-term">Loan term</label>
+          <select id="car-term" name="term" required>
+            <option value="36">36 months</option>
+            <option value="48">48 months</option>
+            <option value="60" selected>60 months</option>
+            <option value="72">72 months</option>
+            <option value="84">84 months</option>
+          </select>
+        </div>
+        <div>
+          <label for="car-rate">Loan APR (%)</label>
+          <input id="car-rate" name="rate" type="number" min="0" step="0.01" placeholder="6.5" />
+        </div>
+        <div>
+          <label for="car-down">Cash down payment</label>
+          <input id="car-down" name="down" type="number" min="0" step="100" placeholder="8000" />
+        </div>
+        <div>
+          <label for="car-trade">Trade-in value (after loan payoff)</label>
+          <input id="car-trade" name="trade" type="number" min="0" step="100" placeholder="0" />
+        </div>
+        <div>
+          <label for="car-dti">Target share of monthly income for the car (%)</label>
+          <input id="car-dti" name="share" type="number" min="1" max="50" step="1" value="15" />
+        </div>
+        <div>
+          <label for="car-tax">Sales tax rate (%)</label>
+          <input id="car-tax" name="tax" type="number" min="0" step="0.1" placeholder="6.5" />
+        </div>
+      </div>
+
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="submit">Estimate car budget</button>
+        <button class="btn" type="reset">Reset</button>
+      </div>
+      <p class="helper" style="margin-top:10px;">
+        Financial planners often suggest keeping the car payment below 15% of gross income. Adjust the target percentage or add
+        more to the down payment to see how it changes the affordable sticker price.
+      </p>
+    </form>
+  </section>
+
+  <section id="car-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="car-inline-1" />
+  <script defer src="/js/car-loan-affordability-calculator.js"></script>
+</BaseLayout>
