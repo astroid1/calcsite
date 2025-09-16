@@ -77,13 +77,105 @@ a:hover {
 }
 .nav {
   display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
+  justify-content: flex-end;
 }
-.nav a {
+.nav-dropdown {
+  position: relative;
+}
+.nav-trigger {
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--panel-2);
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
+}
+.nav-trigger::-webkit-details-marker {
+  display: none;
+}
+.nav-trigger::after {
+  content: "▾";
+  font-size: 12px;
+  transform: rotate(0deg);
+  transition: transform 0.2s ease;
+}
+.nav-dropdown[open] > .nav-trigger::after {
+  transform: rotate(-180deg);
+}
+.nav-dropdown[open] > .nav-trigger {
+  border-color: var(--brand);
+  background: color-mix(in oklab, var(--panel-2) 85%, black 10%);
+}
+.nav-trigger:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+.nav-menu {
+  position: absolute;
+  inset-inline-end: 0;
+  margin-top: 12px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  width: min(92vw, 520px);
+  display: grid;
+  gap: 16px;
+  z-index: 20;
+}
+@media (min-width: 640px) {
+  .nav-menu {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 639px) {
+  .nav-menu {
+    inset-inline-end: auto;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+.nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.nav-group-title {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--muted);
 }
-.nav a:hover {
+.nav-group ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.nav-group a {
+  color: var(--text);
+  font-weight: 500;
+  padding: 6px 8px;
+  border-radius: 8px;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+.nav-group a:hover,
+.nav-group a:focus-visible {
+  background: #1d2745;
   color: var(--text);
 }
 

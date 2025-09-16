@@ -7,6 +7,43 @@ const {
   pathname = "/",
 } = Astro.props;
 const url = new URL(pathname, Astro.site ?? "http://localhost:4321");
+
+const menuCategories = [
+  {
+    label: "Date & Events",
+    items: [
+      { label: "Days From Date", href: "/calculators/days-from-date" },
+      { label: "Age Calculator", href: "/calculators/age-calculator" },
+      { label: "Birthday Countdown", href: "/calculators/days-until-birthday" },
+      {
+        label: "Anniversary Countdown",
+        href: "/calculators/anniversary-countdown",
+      },
+      { label: "Holiday Countdown", href: "/calculators/holiday-countdown" },
+    ],
+  },
+  {
+    label: "Loans & Interest",
+    items: [
+      { label: "Loan Calculator", href: "/calculators/loan-calculator" },
+      { label: "Mortgage Calculator", href: "/calculators/mortgage-calculator" },
+      {
+        label: "Compound Interest",
+        href: "/calculators/compound-interest-calculator",
+      },
+      { label: "Inflation Calculator", href: "/calculators/inflation-calculator" },
+    ],
+  },
+  {
+    label: "Money & Budgeting",
+    items: [
+      { label: "Currency Converter", href: "/calculators/currency-converter" },
+      { label: "Salary to Hourly", href: "/calculators/salary-to-hourly" },
+      { label: "Tip Calculator", href: "/calculators/tip-calculator" },
+      { label: "Savings Goal", href: "/calculators/savings-goal-calculator" },
+    ],
+  },
+];
 ---
 
 <!DOCTYPE html>
@@ -29,19 +66,23 @@ const url = new URL(pathname, Astro.site ?? "http://localhost:4321");
       <div class="container header-inner">
         <a class="brand" href="/">CalcNest</a>
         <nav class="nav" aria-label="Main">
-          <a href="/calculators/days-from-date">Days From Date</a>
-          <a href="/calculators/age-calculator">Age</a>
-          <a href="/calculators/days-until-birthday">Birthday</a>
-          <a href="/calculators/anniversary-countdown">Anniversary</a>
-          <a href="/calculators/holiday-countdown">Holidays</a>
-          <a href="/calculators/loan-calculator">Loan</a>
-          <a href="/calculators/mortgage-calculator">Mortgage</a>
-          <a href="/calculators/compound-interest-calculator">Invest</a>
-          <a href="/calculators/currency-converter">Currency</a>
-          <a href="/calculators/inflation-calculator">Inflation</a>
-          <a href="/calculators/salary-to-hourly">Salary</a>
-          <a href="/calculators/tip-calculator">Tip</a>
-          <a href="/calculators/savings-goal-calculator">Savings</a>
+          <details class="nav-dropdown">
+            <summary class="nav-trigger" aria-haspopup="true">Calculators</summary>
+            <div class="nav-menu">
+              {menuCategories.map((category) => (
+                <section class="nav-group">
+                  <p class="nav-group-title">{category.label}</p>
+                  <ul>
+                    {category.items.map((item) => (
+                      <li>
+                        <a href={item.href}>{item.label}</a>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              ))}
+            </div>
+          </details>
         </nav>
       </div>
     </header>
