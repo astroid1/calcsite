@@ -168,4 +168,43 @@ export const calculatorCategories: CalculatorCategory[] = [
       },
     ],
   },
+  {
+    id: "health",
+    label: "Health & Fitness",
+    calculators: [
+      {
+        href: "/calculators/bmi-calculator",
+        name: "BMI Calculator",
+        navLabel: "BMI",
+        description: "Check your body mass index and see a healthy weight range for your height.",
+      },
+      {
+        href: "/calculators/bmr-calorie-calculator",
+        name: "BMR & Calorie Needs",
+        navLabel: "Calories",
+        description:
+          "Estimate daily calories for maintenance, weight loss, or muscle gain using the Mifflin-St Jeor equation.",
+      },
+      {
+        href: "/calculators/body-fat-estimator",
+        name: "Body Fat % Estimator",
+        navLabel: "Body Fat",
+        description:
+          "Approximate body fat percentage and lean mass from tape measurements using the U.S. Navy method.",
+      },
+      {
+        href: "/calculators/water-intake-calculator",
+        name: "Water Intake Guide",
+        navLabel: "Hydration",
+        description: "Find a daily water target based on body weight, activity, and climate.",
+      },
+      {
+        href: "/calculators/macros-calculator",
+        name: "Macros Calculator",
+        navLabel: "Macros",
+        description:
+          "Split your calorie goal into daily protein, carb, and fat targets for different training goals.",
+      },
+    ],
+  },
 ];

@@ -1,0 +1,82 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Macros Calculator";
+const description =
+  "Convert a calorie target into daily protein, carbohydrate, and fat goals tailored to your training focus.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/macros-calculator">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      Choose a macro split to see how many grams of protein, carbs, and fats you should aim for each day.
+      Use it alongside the BMR calculator to dial in your nutrition.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="macros-form">
+      <div class="form-grid">
+        <div>
+          <label for="macros-units">Weight units</label>
+          <select id="macros-units" name="units">
+            <option value="metric">Metric (kg)</option>
+            <option value="imperial">Imperial (lb)</option>
+          </select>
+        </div>
+        <div>
+          <label for="macros-weight">Body weight <span class="muted" id="macros-weight-unit">(kg)</span></label>
+          <input id="macros-weight" name="weight" type="number" min="0" step="0.1" placeholder="75" required />
+        </div>
+        <div>
+          <label for="macros-calories">Daily calories</label>
+          <input id="macros-calories" name="calories" type="number" min="800" step="10" placeholder="2200" required />
+        </div>
+        <div>
+          <label for="macro-goal">Macro split</label>
+          <select id="macro-goal" name="goal">
+            <option value="balanced" data-protein="0.3" data-carbs="0.4" data-fat="0.3">Balanced (30/40/30)</option>
+            <option value="fat-loss" data-protein="0.35" data-carbs="0.35" data-fat="0.3">Fat loss focus (35/35/30)</option>
+            <option value="muscle" data-protein="0.3" data-carbs="0.5" data-fat="0.2">Muscle gain focus (30/50/20)</option>
+            <option value="low-carb" data-protein="0.3" data-carbs="0.25" data-fat="0.45">Lower carb (30/25/45)</option>
+            <option value="custom">Custom percentages</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="custom-macro-fields" style="display:none; margin-top:12px;">
+        <div class="form-grid columns-3">
+          <div>
+            <label for="macro-protein">Protein %</label>
+            <input id="macro-protein" name="protein" type="number" min="0" max="100" step="1" placeholder="30" />
+          </div>
+          <div>
+            <label for="macro-carbs">Carbs %</label>
+            <input id="macro-carbs" name="carbs" type="number" min="0" max="100" step="1" placeholder="40" />
+          </div>
+          <div>
+            <label for="macro-fat">Fat %</label>
+            <input id="macro-fat" name="fat" type="number" min="0" max="100" step="1" placeholder="30" />
+          </div>
+        </div>
+        <p class="helper" style="margin-top:8px;">Make sure the custom percentages add up to 100%.</p>
+      </div>
+
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="submit">Break down macros</button>
+        <button class="btn" type="reset">Reset</button>
+      </div>
+      <p class="helper" style="margin-top:10px;">
+        Protein and carbs each contain 4 calories per gram. Fat contains 9 calories per gram. Adjust your split as your
+        goals evolve.
+      </p>
+    </form>
+  </section>
+
+  <section id="macros-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="macros-inline-1" />
+  <script defer src="/js/macros-calculator.js"></script>
+</BaseLayout>

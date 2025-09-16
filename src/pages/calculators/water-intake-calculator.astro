@@ -1,0 +1,70 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Daily Water Intake Calculator";
+const description = "Estimate how much water to drink each day based on weight, exercise, and climate.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/water-intake-calculator">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      Hydration needs change with body size and activity. Use this quick guide to translate your weight and daily
+      exercise into a reasonable water target.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="water-form">
+      <div class="form-grid columns-3">
+        <div>
+          <label for="water-units">Units</label>
+          <select id="water-units" name="units">
+            <option value="metric">Metric (kg)</option>
+            <option value="imperial">Imperial (lb)</option>
+          </select>
+        </div>
+        <div>
+          <label for="water-weight">Weight <span class="muted" id="water-weight-unit">(kg)</span></label>
+          <input id="water-weight" name="weight" type="number" min="0" step="0.1" placeholder="70" required />
+        </div>
+        <div>
+          <label for="water-activity">Active minutes</label>
+          <input
+            id="water-activity"
+            name="activity"
+            type="number"
+            min="0"
+            max="240"
+            step="5"
+            placeholder="30"
+            required
+          />
+        </div>
+        <div>
+          <label for="water-climate">Climate</label>
+          <select id="water-climate" name="climate">
+            <option value="temperate">Temperate / mostly indoors</option>
+            <option value="warm">Warm or humid</option>
+            <option value="hot">Hot climate or outdoor labor</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="submit">Calculate water target</button>
+        <button class="btn" type="reset">Reset</button>
+      </div>
+      <p class="helper" style="margin-top:10px;">
+        Baseline guidance is about 33 ml of water per kilogram of body weight. Add roughly 350 ml for every 30 minutes
+        of exercise, and more if you train in the heat.
+      </p>
+    </form>
+  </section>
+
+  <section id="water-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="water-inline-1" />
+  <script defer src="/js/water-intake.js"></script>
+</BaseLayout>
