@@ -1,0 +1,55 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "QR Code Generator";
+const description = "Turn any text or URL into a ready-to-download QR code image.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/qr-code-generator">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      Paste a link, phrase, or Wi-Fi password and we’ll render a crisp PNG QR code. Adjust the size and error correction
+      level before downloading.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="qr-form">
+      <label for="qr-input">Text or link</label>
+      <textarea id="qr-input" name="text" placeholder="https://example.com" rows="4"></textarea>
+
+      <div class="form-grid" style="margin-top:12px;">
+        <div>
+          <label for="qr-size">Image size (pixels)</label>
+          <input id="qr-size" name="size" type="number" min="120" max="600" value="240" required />
+        </div>
+        <div>
+          <label for="qr-ecc">Error correction</label>
+          <select id="qr-ecc" name="ecc">
+            <option value="L">L – 7%</option>
+            <option value="M" selected>M – 15%</option>
+            <option value="Q">Q – 25%</option>
+            <option value="H">H – 30%</option>
+          </select>
+        </div>
+        <div>
+          <label for="qr-margin">Quiet zone (modules)</label>
+          <input id="qr-margin" name="margin" type="number" min="0" max="20" value="2" />
+        </div>
+      </div>
+
+      <div style="margin-top:18px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+        <button class="btn" type="submit">Generate QR code</button>
+        <button class="btn" type="reset">Reset</button>
+        <span class="helper" id="qr-status"></span>
+      </div>
+    </form>
+  </section>
+
+  <section id="qr-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="qr-inline-1" />
+  <script defer src="/js/qr-code-generator.js"></script>
+</BaseLayout>

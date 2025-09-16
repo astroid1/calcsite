@@ -1,0 +1,37 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Text Case Converter";
+const description = "Switch text between uppercase, lowercase, and title case instantly.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/text-case-converter">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      Paste a sentence or paragraph and convert it to the casing you need. We keep your spacing and punctuation untouched so
+      you can drop the result right back into your document.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="case-form">
+      <label for="case-input">Your text</label>
+      <textarea id="case-input" name="text" placeholder="Paste or start typing here…" rows="8"></textarea>
+      <p class="helper">The original text stays in place—use the buttons to create a converted copy below.</p>
+
+      <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="submit" name="mode" value="upper">Uppercase</button>
+        <button class="btn" type="submit" name="mode" value="lower">Lowercase</button>
+        <button class="btn" type="submit" name="mode" value="title">Title Case</button>
+        <button class="btn" type="reset">Clear</button>
+      </div>
+    </form>
+  </section>
+
+  <section id="case-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="case-inline-1" />
+  <script defer src="/js/text-case-converter.js"></script>
+</BaseLayout>

@@ -207,4 +207,34 @@ export const calculatorCategories: CalculatorCategory[] = [
       },
     ],
   },
+  {
+    id: "tools",
+    label: "Everyday Tools",
+    calculators: [
+      {
+        href: "/calculators/password-generator",
+        name: "Password Generator",
+        navLabel: "Password",
+        description: "Build strong random passwords with custom character sets and length.",
+      },
+      {
+        href: "/calculators/text-case-converter",
+        name: "Text Case Converter",
+        navLabel: "Text Case",
+        description: "Flip text to upper, lower, or title case without losing your formatting.",
+      },
+      {
+        href: "/calculators/hex-rgb-color-converter",
+        name: "Hex ↔ RGB Color Converter",
+        navLabel: "Color",
+        description: "Translate design colors between hexadecimal and RGB with a live swatch preview.",
+      },
+      {
+        href: "/calculators/qr-code-generator",
+        name: "QR Code Generator",
+        navLabel: "QR Code",
+        description: "Turn any text or link into a downloadable QR code with adjustable size.",
+      },
+    ],
+  },
 ];
