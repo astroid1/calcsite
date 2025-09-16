@@ -1,0 +1,129 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Paycheck Tax Calculator";
+const description = "Estimate take-home pay by state with federal, payroll, and local tax assumptions.";
+
+const states = [
+  { code: "AL", name: "Alabama" },
+  { code: "AK", name: "Alaska" },
+  { code: "AZ", name: "Arizona" },
+  { code: "AR", name: "Arkansas" },
+  { code: "CA", name: "California" },
+  { code: "CO", name: "Colorado" },
+  { code: "CT", name: "Connecticut" },
+  { code: "DE", name: "Delaware" },
+  { code: "DC", name: "District of Columbia" },
+  { code: "FL", name: "Florida" },
+  { code: "GA", name: "Georgia" },
+  { code: "HI", name: "Hawaii" },
+  { code: "ID", name: "Idaho" },
+  { code: "IL", name: "Illinois" },
+  { code: "IN", name: "Indiana" },
+  { code: "IA", name: "Iowa" },
+  { code: "KS", name: "Kansas" },
+  { code: "KY", name: "Kentucky" },
+  { code: "LA", name: "Louisiana" },
+  { code: "ME", name: "Maine" },
+  { code: "MD", name: "Maryland" },
+  { code: "MA", name: "Massachusetts" },
+  { code: "MI", name: "Michigan" },
+  { code: "MN", name: "Minnesota" },
+  { code: "MS", name: "Mississippi" },
+  { code: "MO", name: "Missouri" },
+  { code: "MT", name: "Montana" },
+  { code: "NE", name: "Nebraska" },
+  { code: "NV", name: "Nevada" },
+  { code: "NH", name: "New Hampshire" },
+  { code: "NJ", name: "New Jersey" },
+  { code: "NM", name: "New Mexico" },
+  { code: "NY", name: "New York" },
+  { code: "NC", name: "North Carolina" },
+  { code: "ND", name: "North Dakota" },
+  { code: "OH", name: "Ohio" },
+  { code: "OK", name: "Oklahoma" },
+  { code: "OR", name: "Oregon" },
+  { code: "PA", name: "Pennsylvania" },
+  { code: "RI", name: "Rhode Island" },
+  { code: "SC", name: "South Carolina" },
+  { code: "SD", name: "South Dakota" },
+  { code: "TN", name: "Tennessee" },
+  { code: "TX", name: "Texas" },
+  { code: "UT", name: "Utah" },
+  { code: "VT", name: "Vermont" },
+  { code: "VA", name: "Virginia" },
+  { code: "WA", name: "Washington" },
+  { code: "WV", name: "West Virginia" },
+  { code: "WI", name: "Wisconsin" },
+  { code: "WY", name: "Wyoming" },
+];
+---
+
+<BaseLayout {title} {description} pathname="/calculators/paycheck-tax-calculator">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      See an approximate paycheck breakdown with federal brackets, FICA payroll taxes, and a flat state income tax rate.
+      Enter per-paycheck deductions to tailor the net pay estimate to your situation.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="paycheck-form">
+      <div class="form-grid">
+        <div>
+          <label for="paycheck-income">Annual gross pay</label>
+          <input id="paycheck-income" name="income" type="number" min="0" step="100" placeholder="75000" required />
+        </div>
+        <div>
+          <label for="paycheck-frequency">Pay frequency</label>
+          <select id="paycheck-frequency" name="frequency" required>
+            <option value="annual">Annually (1×)</option>
+            <option value="monthly">Monthly (12×)</option>
+            <option value="semi-monthly">Semi-monthly (24×)</option>
+            <option value="biweekly">Biweekly (26×)</option>
+            <option value="weekly">Weekly (52×)</option>
+          </select>
+        </div>
+        <div>
+          <label for="paycheck-filing">Filing status</label>
+          <select id="paycheck-filing" name="status" required>
+            <option value="single">Single</option>
+            <option value="married">Married filing jointly</option>
+          </select>
+        </div>
+        <div>
+          <label for="paycheck-state">State</label>
+          <select id="paycheck-state" name="state" required>
+            {states.map((state) => (
+              <option value={state.code}>{state.name}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label for="paycheck-pretax">Pre-tax deductions per paycheck (401k, HSA, etc.)</label>
+          <input id="paycheck-pretax" name="pretax" type="number" min="0" step="10" placeholder="250" />
+        </div>
+        <div>
+          <label for="paycheck-posttax">Post-tax deductions per paycheck</label>
+          <input id="paycheck-posttax" name="posttax" type="number" min="0" step="10" placeholder="75" />
+        </div>
+      </div>
+
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="submit">Estimate take-home</button>
+        <button class="btn" type="reset">Reset</button>
+      </div>
+      <p class="helper" style="margin-top:10px;">
+        Federal tax brackets and standard deductions use 2024 values. State tax uses an approximate flat rate by state for a
+        quick comparison and does not include local withholding.
+      </p>
+    </form>
+  </section>
+
+  <section id="paycheck-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="paycheck-inline-1" />
+  <script defer src="/js/paycheck-tax-calculator.js"></script>
+</BaseLayout>

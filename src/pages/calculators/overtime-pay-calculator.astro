@@ -1,0 +1,62 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Overtime Pay Calculator";
+const description = "Estimate total pay with overtime premiums, double time, and flat shift bonuses.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/overtime-pay-calculator">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      Enter your hourly rate and the hours worked at each pay level to see how much extra overtime adds to your paycheck. The
+      calculator handles common 1.5× overtime and optional 2× double time.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="overtime-form">
+      <div class="form-grid">
+        <div>
+          <label for="ot-rate">Base hourly rate</label>
+          <input id="ot-rate" name="rate" type="number" min="0" step="0.01" placeholder="22.5" required />
+        </div>
+        <div>
+          <label for="ot-regular-hours">Regular hours (paid at base rate)</label>
+          <input id="ot-regular-hours" name="regularHours" type="number" min="0" step="0.1" placeholder="40" required />
+        </div>
+        <div>
+          <label for="ot-overtime-hours">Overtime hours</label>
+          <input id="ot-overtime-hours" name="overtimeHours" type="number" min="0" step="0.1" placeholder="6" />
+        </div>
+        <div>
+          <label for="ot-multiplier">Overtime multiplier</label>
+          <input id="ot-multiplier" name="multiplier" type="number" min="1" step="0.1" value="1.5" />
+        </div>
+        <div>
+          <label for="ot-double-hours">Double-time hours (2×)</label>
+          <input id="ot-double-hours" name="doubleHours" type="number" min="0" step="0.1" placeholder="0" />
+        </div>
+        <div>
+          <label for="ot-bonus">Flat bonus or stipend</label>
+          <input id="ot-bonus" name="bonus" type="number" min="0" step="1" placeholder="0" />
+        </div>
+      </div>
+
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="submit">Calculate pay</button>
+        <button class="btn" type="reset">Reset</button>
+      </div>
+      <p class="helper" style="margin-top:10px;">
+        Overtime laws vary by state and union contract. This tool simply multiplies the hours you provide—double-check which
+        hours qualify for overtime on your timesheet.
+      </p>
+    </form>
+  </section>
+
+  <section id="overtime-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="overtime-inline-1" />
+  <script defer src="/js/overtime-pay-calculator.js"></script>
+</BaseLayout>

@@ -1,0 +1,62 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Credit Card Interest Calculator";
+const description = "Project the cost of revolving a credit card balance and see how extra payments shorten payoff time.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/credit-card-interest-calculator">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      Input a balance, APR, and the amount you pay each month to estimate interest charges. Add optional new spending or an
+      extra payment to compare how quickly the balance disappears.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="credit-form">
+      <div class="form-grid">
+        <div>
+          <label for="credit-balance">Current balance</label>
+          <input id="credit-balance" name="balance" type="number" min="0" step="10" placeholder="4500" required />
+        </div>
+        <div>
+          <label for="credit-rate">APR (%)</label>
+          <input id="credit-rate" name="rate" type="number" min="0" step="0.01" placeholder="19.99" required />
+        </div>
+        <div>
+          <label for="credit-payment">Monthly payment</label>
+          <input id="credit-payment" name="payment" type="number" min="0" step="1" placeholder="180" required />
+        </div>
+        <div>
+          <label for="credit-extra">Additional monthly payment (optional)</label>
+          <input id="credit-extra" name="extra" type="number" min="0" step="1" placeholder="75" />
+        </div>
+        <div>
+          <label for="credit-charges">New charges per month (optional)</label>
+          <input id="credit-charges" name="charges" type="number" min="0" step="1" placeholder="0" />
+        </div>
+        <div>
+          <label for="credit-min">Minimum payment floor</label>
+          <input id="credit-min" name="minimum" type="number" min="0" step="1" value="25" />
+        </div>
+      </div>
+
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="submit">Estimate interest</button>
+        <button class="btn" type="reset">Reset</button>
+      </div>
+      <p class="helper" style="margin-top:10px;">
+        Results assume interest accrues on the remaining balance each month after new charges are added and before payments are
+        applied. If your payment is less than the monthly interest, the balance will continue to grow.
+      </p>
+    </form>
+  </section>
+
+  <section id="credit-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="credit-inline-1" />
+  <script defer src="/js/credit-card-interest-calculator.js"></script>
+</BaseLayout>

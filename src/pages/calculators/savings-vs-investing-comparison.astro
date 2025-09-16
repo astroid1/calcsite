@@ -1,0 +1,62 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Savings vs Investing Comparison";
+const description = "Compare projected growth of cash kept in a bank account versus invested in the market.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/savings-vs-investing-comparison">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      Model side-by-side results for keeping money in a savings account versus investing it. Adjust the return assumptions,
+      monthly contributions, and time horizon to see how the gap changes.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="compare-form">
+      <div class="form-grid">
+        <div>
+          <label for="compare-start">Starting balance</label>
+          <input id="compare-start" name="start" type="number" min="0" step="100" placeholder="10000" required />
+        </div>
+        <div>
+          <label for="compare-monthly">Monthly contribution</label>
+          <input id="compare-monthly" name="monthly" type="number" min="0" step="10" placeholder="400" />
+        </div>
+        <div>
+          <label for="compare-years">Years to grow</label>
+          <input id="compare-years" name="years" type="number" min="1" step="1" placeholder="10" required />
+        </div>
+        <div>
+          <label for="compare-bank">Bank APY (%)</label>
+          <input id="compare-bank" name="bankRate" type="number" min="0" step="0.01" placeholder="3" />
+        </div>
+        <div>
+          <label for="compare-market">Expected investment return (%)</label>
+          <input id="compare-market" name="marketRate" type="number" step="0.1" placeholder="7" />
+        </div>
+        <div>
+          <label for="compare-fee">Investment fees (%)</label>
+          <input id="compare-fee" name="fees" type="number" min="0" step="0.01" placeholder="0.15" />
+        </div>
+      </div>
+
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="submit">Compare growth</button>
+        <button class="btn" type="reset">Reset</button>
+      </div>
+      <p class="helper" style="margin-top:10px;">
+        Returns are compounded monthly. Investment fees are treated as a reduction of the market return. Remember that actual
+        investing returns can be volatile and may not match a steady average.
+      </p>
+    </form>
+  </section>
+
+  <section id="compare-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="compare-inline-1" />
+  <script defer src="/js/savings-vs-investing-comparison.js"></script>
+</BaseLayout>
