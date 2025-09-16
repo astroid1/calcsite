@@ -19,16 +19,50 @@ const description = "Estimate nonstop flight duration and arrival time between m
     <form id="flight-form" autocomplete="off">
       <div class="form-grid columns-3">
         <div>
-          <label for="flight-from">Departure airport</label>
-          <select id="flight-from" name="from" required>
-            <option value="">Select airport</option>
-          </select>
+          <label for="flight-from-search">Departure airport</label>
+          <div class="airport-combobox">
+            <input
+              id="flight-from-search"
+              type="text"
+              inputmode="search"
+              autocomplete="off"
+              placeholder="Search airports"
+              role="combobox"
+              aria-autocomplete="list"
+              aria-expanded="false"
+              aria-controls="flight-from-results"
+              spellcheck="false"
+            />
+            <input id="flight-from" name="from" type="hidden" />
+            <div
+              id="flight-from-results"
+              class="airport-combobox-list"
+              role="listbox"
+            ></div>
+          </div>
         </div>
         <div>
-          <label for="flight-to">Arrival airport</label>
-          <select id="flight-to" name="to" required>
-            <option value="">Select airport</option>
-          </select>
+          <label for="flight-to-search">Arrival airport</label>
+          <div class="airport-combobox">
+            <input
+              id="flight-to-search"
+              type="text"
+              inputmode="search"
+              autocomplete="off"
+              placeholder="Search airports"
+              role="combobox"
+              aria-autocomplete="list"
+              aria-expanded="false"
+              aria-controls="flight-to-results"
+              spellcheck="false"
+            />
+            <input id="flight-to" name="to" type="hidden" />
+            <div
+              id="flight-to-results"
+              class="airport-combobox-list"
+              role="listbox"
+            ></div>
+          </div>
         </div>
         <div style="display:flex; align-items:flex-end;">
           <button class="btn" type="button" id="flight-swap" style="width:100%;">Swap airports</button>

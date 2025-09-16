@@ -171,12 +171,19 @@
 
   let airportMap = new Map();
   let airportsReady = false;
+  let airportList = [];
+
+  const MAX_RESULTS = 30;
 
   const form = document.getElementById("flight-form");
   if (!form) return;
 
   const fromSelect = document.getElementById("flight-from");
   const toSelect = document.getElementById("flight-to");
+  const fromSearchInput = document.getElementById("flight-from-search");
+  const toSearchInput = document.getElementById("flight-to-search");
+  const fromResultsList = document.getElementById("flight-from-results");
+  const toResultsList = document.getElementById("flight-to-results");
   const dateInput = document.getElementById("flight-date");
   const timeInput = document.getElementById("flight-time");
   const speedInput = document.getElementById("flight-speed");
@@ -185,14 +192,22 @@
   const resultEl = document.getElementById("flight-result");
   const notesEl = document.getElementById("flight-airport-notes");
 
+  const combos = [];
+
   if (statusEl) statusEl.textContent = "Loading airport directory…";
   if (notesEl) notesEl.textContent = "Loading airport directory…";
 
   function setLoadingState(isLoading) {
-    [fromSelect, toSelect, swapButton].forEach((element) => {
+    [fromSearchInput, toSearchInput, swapButton].forEach((element) => {
       if (!element) return;
       element.disabled = isLoading;
+      if (isLoading) {
+        element.setAttribute("aria-disabled", "true");
+      } else {
+        element.removeAttribute("aria-disabled");
+      }
     });
+    combos.forEach((combo) => combo.setLoadingState(isLoading));
   }
 
   function cleanPart(value) {
@@ -334,53 +349,353 @@
     return { list: fallbackAirports.slice(), source: "fallback" };
   }
 
-  function populateAirports(select, airportList) {
-    if (!select) return;
-    const previousValue = select.value;
-    select.innerHTML = "";
-
-    const placeholder = document.createElement("option");
-    placeholder.value = "";
-    placeholder.textContent = "Select airport";
-    select.appendChild(placeholder);
-
-    const sorted = airportList
-      .slice()
-      .sort((a, b) => {
-        const cityCompare = a.city.localeCompare(b.city, undefined, {
-          sensitivity: "base",
-        });
-        if (cityCompare !== 0) return cityCompare;
-        return a.name.localeCompare(b.name, undefined, { sensitivity: "base" });
-      });
-
-    sorted.forEach((airport) => {
-      const option = document.createElement("option");
-      option.value = airport.code;
-      const baseLabel = airport.city.includes(airport.name)
-        ? airport.city
-        : `${airport.city} – ${airport.name}`;
-      option.textContent = `${baseLabel} (${airport.code})`;
-      option.dataset.tz = airport.timeZone;
-      select.appendChild(option);
-    });
-
-    if (previousValue && airportMap.has(previousValue)) {
-      select.value = previousValue;
-    }
+  function formatAirportOptionLabel(airport) {
+    const baseLabel = airport.city.includes(airport.name)
+      ? airport.city
+      : `${airport.city} – ${airport.name}`;
+    return `${baseLabel} (${airport.code})`;
   }
 
-  function applyAirports(airportList, source) {
-    airportMap = new Map(airportList.map((airport) => [airport.code, airport]));
+  function searchAirports(query) {
+    if (!airportList.length) return [];
+
+    const trimmed = query.trim().toLowerCase();
+    if (!trimmed) {
+      return airportList.slice(0, MAX_RESULTS);
+    }
+
+    const tokens = trimmed.split(/\s+/).filter(Boolean);
+    const firstToken = tokens[0] || "";
+    const results = [];
+
+    for (const airport of airportList) {
+      const code = airport.code.toLowerCase();
+      const city = airport.city.toLowerCase();
+      const name = airport.name.toLowerCase();
+      const haystack = `${code} ${city} ${name}`;
+      if (!tokens.every((token) => haystack.includes(token))) continue;
+
+      let score = 1000;
+      if (code === trimmed) score = 0;
+      else if (code.startsWith(firstToken)) score = 5;
+      else if (city.startsWith(firstToken)) score = 10;
+      else if (name.startsWith(firstToken)) score = 15;
+      else if (code.includes(firstToken)) score = 20;
+      else if (city.includes(firstToken)) score = 25;
+      else if (name.includes(firstToken)) score = 30;
+
+      results.push({ airport, score });
+    }
+
+    results.sort((a, b) => {
+      if (a.score !== b.score) return a.score - b.score;
+      const cityCompare = a.airport.city.localeCompare(b.airport.city, undefined, {
+        sensitivity: "base",
+      });
+      if (cityCompare !== 0) return cityCompare;
+      const nameCompare = a.airport.name.localeCompare(b.airport.name, undefined, {
+        sensitivity: "base",
+      });
+      if (nameCompare !== 0) return nameCompare;
+      return a.airport.code.localeCompare(b.airport.code);
+    });
+
+    return results.slice(0, MAX_RESULTS).map((item) => item.airport);
+  }
+
+  function createAirportCombobox(kind, searchInput, hiddenInput, resultsContainer) {
+    if (!searchInput || !hiddenInput || !resultsContainer) return null;
+
+    let matches = [];
+    let activeIndex = -1;
+    let blurTimer = null;
+    const defaultPlaceholder = searchInput.getAttribute("placeholder") || "";
+
+    function closeList() {
+      matches = [];
+      activeIndex = -1;
+      resultsContainer.innerHTML = "";
+      resultsContainer.classList.remove("open");
+      searchInput.setAttribute("aria-expanded", "false");
+      searchInput.removeAttribute("aria-activedescendant");
+    }
+
+    function renderEmptyState() {
+      resultsContainer.innerHTML = "";
+      const empty = document.createElement("div");
+      empty.className = "airport-combobox-empty";
+      empty.textContent = "No airports found.";
+      resultsContainer.appendChild(empty);
+      resultsContainer.classList.add("open");
+      searchInput.setAttribute("aria-expanded", "true");
+      searchInput.removeAttribute("aria-activedescendant");
+    }
+
+    function updateActiveOption() {
+      const options = resultsContainer.querySelectorAll(".airport-combobox-option");
+      if (!options.length || activeIndex < 0) {
+        options.forEach((option) => {
+          option.classList.remove("is-active");
+          option.setAttribute("aria-selected", "false");
+        });
+        searchInput.removeAttribute("aria-activedescendant");
+        return;
+      }
+
+      options.forEach((option, index) => {
+        const isActive = index === activeIndex;
+        option.classList.toggle("is-active", isActive);
+        option.setAttribute("aria-selected", isActive ? "true" : "false");
+        if (isActive) {
+          searchInput.setAttribute("aria-activedescendant", option.id);
+          option.scrollIntoView({ block: "nearest" });
+        }
+      });
+    }
+
+    function renderList() {
+      resultsContainer.innerHTML = "";
+      const fragment = document.createDocumentFragment();
+
+      matches.forEach((airport, index) => {
+        const option = document.createElement("div");
+        option.className = "airport-combobox-option";
+        option.id = `flight-${kind}-option-${airport.code}`;
+        option.setAttribute("role", "option");
+        option.dataset.index = String(index);
+        option.dataset.code = airport.code;
+
+        const title = document.createElement("div");
+        title.className = "airport-combobox-title";
+        title.textContent = formatAirportOptionLabel(airport);
+        option.appendChild(title);
+
+        const meta = document.createElement("div");
+        meta.className = "airport-combobox-meta";
+        meta.textContent = airport.timeZone;
+        option.appendChild(meta);
+
+        fragment.appendChild(option);
+      });
+
+      resultsContainer.appendChild(fragment);
+      resultsContainer.classList.add("open");
+      resultsContainer.scrollTop = 0;
+      searchInput.setAttribute("aria-expanded", "true");
+      updateActiveOption();
+    }
+
+    function refreshMatches({ highlightFirst = true } = {}) {
+      if (!airportsReady) {
+        closeList();
+        return;
+      }
+
+      matches = searchAirports(searchInput.value);
+
+      if (matches.length === 0) {
+        if (searchInput.value.trim()) {
+          activeIndex = -1;
+          renderEmptyState();
+        } else {
+          closeList();
+        }
+        return;
+      }
+
+      activeIndex = highlightFirst ? 0 : -1;
+      renderList();
+    }
+
+    function clearSelection({ silent = false, preserveText = false } = {}) {
+      const hadValue = !!hiddenInput.value;
+      hiddenInput.value = "";
+      searchInput.removeAttribute("data-selected-code");
+      if (!preserveText) {
+        searchInput.value = "";
+      }
+      if (hadValue && !silent) {
+        updateNotes();
+        resetResult();
+      }
+    }
+
+    function selectAirport(airport, { silent = false } = {}) {
+      if (!airport) return;
+      hiddenInput.value = airport.code;
+      searchInput.value = formatAirportOptionLabel(airport);
+      searchInput.setAttribute("data-selected-code", airport.code);
+      closeList();
+      if (!silent) {
+        updateNotes();
+        resetResult();
+      }
+    }
+
+    function setValueFromCode(code, options = {}) {
+      if (code && airportMap.has(code)) {
+        selectAirport(airportMap.get(code), options);
+      } else {
+        clearSelection({ ...options, preserveText: false });
+      }
+    }
+
+    function syncFromHidden() {
+      const code = hiddenInput.value;
+      if (code && airportMap.has(code)) {
+        const airport = airportMap.get(code);
+        searchInput.value = formatAirportOptionLabel(airport);
+        searchInput.setAttribute("data-selected-code", code);
+      } else {
+        hiddenInput.value = "";
+        searchInput.removeAttribute("data-selected-code");
+        if (document.activeElement !== searchInput) {
+          searchInput.value = "";
+        }
+      }
+    }
+
+    function commitDirectMatch({ silent = false } = {}) {
+      const directCode = searchInput.value.trim().toUpperCase();
+      if (directCode && airportMap.has(directCode)) {
+        selectAirport(airportMap.get(directCode), { silent });
+        return true;
+      }
+      return false;
+    }
+
+    searchInput.addEventListener("focus", () => {
+      if (blurTimer) {
+        window.clearTimeout(blurTimer);
+        blurTimer = null;
+      }
+      if (!airportsReady) return;
+      refreshMatches({ highlightFirst: false });
+    });
+
+    searchInput.addEventListener("input", () => {
+      const hadValue = !!hiddenInput.value;
+      if (hadValue) {
+        clearSelection({ silent: false, preserveText: true });
+      }
+      refreshMatches();
+    });
+
+    searchInput.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        if (!resultsContainer.classList.contains("open")) {
+          refreshMatches();
+        } else if (matches.length) {
+          activeIndex = activeIndex < matches.length - 1 ? activeIndex + 1 : 0;
+          updateActiveOption();
+        }
+        return;
+      }
+
+      if (event.key === "ArrowUp") {
+        event.preventDefault();
+        if (!resultsContainer.classList.contains("open")) {
+          refreshMatches();
+        } else if (matches.length) {
+          activeIndex = activeIndex > 0 ? activeIndex - 1 : matches.length - 1;
+          updateActiveOption();
+        }
+        return;
+      }
+
+      if (event.key === "Enter") {
+        if (resultsContainer.classList.contains("open") && matches.length) {
+          event.preventDefault();
+          const index = activeIndex >= 0 ? activeIndex : 0;
+          selectAirport(matches[index]);
+        } else if (commitDirectMatch()) {
+          event.preventDefault();
+        }
+        return;
+      }
+
+      if (event.key === "Tab") {
+        if (resultsContainer.classList.contains("open") && matches.length && activeIndex >= 0) {
+          selectAirport(matches[activeIndex]);
+        } else {
+          commitDirectMatch();
+        }
+        closeList();
+        return;
+      }
+
+      if (event.key === "Escape") {
+        closeList();
+        return;
+      }
+    });
+
+    searchInput.addEventListener("blur", () => {
+      blurTimer = window.setTimeout(() => {
+        closeList();
+        if (!hiddenInput.value) {
+          searchInput.value = "";
+        }
+      }, 120);
+    });
+
+    resultsContainer.addEventListener("mousedown", (event) => {
+      event.preventDefault();
+    });
+
+    resultsContainer.addEventListener("click", (event) => {
+      const option = event.target.closest(".airport-combobox-option");
+      if (!option) return;
+      const index = Number(option.dataset.index || "-1");
+      if (Number.isNaN(index) || !matches[index]) return;
+      selectAirport(matches[index]);
+    });
+
+    return {
+      search: searchInput,
+      setLoadingState(isLoading) {
+        if (isLoading) {
+          searchInput.setAttribute("placeholder", "Loading airports…");
+          closeList();
+        } else {
+          searchInput.setAttribute("placeholder", defaultPlaceholder);
+        }
+      },
+      closeList,
+      setValueFromCode,
+      clearSelection,
+      syncFromHidden,
+      refreshMatches,
+    };
+  }
+
+  const fromCombo = createAirportCombobox(
+    "from",
+    fromSearchInput,
+    fromSelect,
+    fromResultsList
+  );
+  const toCombo = createAirportCombobox("to", toSearchInput, toSelect, toResultsList);
+  if (fromCombo) combos.push(fromCombo);
+  if (toCombo) combos.push(toCombo);
+
+  function applyAirports(list, source) {
+    airportList = list.slice();
+    airportMap = new Map(list.map((airport) => [airport.code, airport]));
     airportsReady = true;
 
-    populateAirports(fromSelect, airportList);
-    populateAirports(toSelect, airportList);
+    combos.forEach((combo) => {
+      combo.syncFromHidden();
+      if (document.activeElement === combo.search) {
+        combo.refreshMatches({ highlightFirst: false });
+      }
+    });
 
     const summary =
       source === "fallback"
         ? "Loaded a core set of major airports. Pick airports to begin."
-        : `Loaded ${airportList.length.toLocaleString()} airports. Pick airports to begin.`;
+        : `Loaded ${list.length.toLocaleString()} airports. Pick airports to begin.`;
 
     resetResult(summary);
     updateNotes();
@@ -568,25 +883,29 @@
 
   if (swapButton) {
     swapButton.addEventListener("click", () => {
-      const fromValue = fromSelect.value;
-      fromSelect.value = toSelect.value;
-      toSelect.value = fromValue;
+      const fromValue = fromSelect?.value || "";
+      const toValue = toSelect?.value || "";
+      if (fromCombo) {
+        fromCombo.setValueFromCode(toValue, { silent: true });
+      } else if (fromSelect) {
+        fromSelect.value = toValue;
+      }
+      if (toCombo) {
+        toCombo.setValueFromCode(fromValue, { silent: true });
+      } else if (toSelect) {
+        toSelect.value = fromValue;
+      }
       updateNotes();
       resetResult();
     });
   }
 
-  fromSelect?.addEventListener("change", () => {
-    updateNotes();
-    resetResult();
-  });
-  toSelect?.addEventListener("change", () => {
-    updateNotes();
-    resetResult();
-  });
-
   form.addEventListener("reset", () => {
     window.requestAnimationFrame(() => {
+      combos.forEach((combo) => {
+        combo.closeList();
+        combo.syncFromHidden();
+      });
       resetResult();
       updateNotes();
     });

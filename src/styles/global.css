@@ -323,6 +323,62 @@ select {
   background: #0d1325;
   color: var(--text);
 }
+
+.airport-combobox {
+  position: relative;
+}
+
+.airport-combobox-list {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  max-height: 260px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--panel-2);
+  box-shadow: var(--shadow);
+  display: none;
+  z-index: 30;
+  padding: 6px 0;
+}
+
+.airport-combobox-list.open {
+  display: block;
+}
+
+.airport-combobox-option {
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.airport-combobox-option + .airport-combobox-option {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.airport-combobox-option.is-active,
+.airport-combobox-option:hover {
+  background: rgba(78, 140, 255, 0.18);
+}
+
+.airport-combobox-title {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.airport-combobox-meta {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.airport-combobox-empty {
+  padding: 10px 12px;
+  color: var(--muted);
+}
 textarea {
   width: 100%;
   min-height: 120px;
