@@ -81,6 +81,29 @@
     source: "offline",
   };
 
+  function formatLocalUpdateTime(utcString) {
+    if (!utcString) return "recently";
+    const parsedDate = new Date(utcString);
+    if (Number.isNaN(parsedDate.getTime())) {
+      return utcString;
+    }
+
+    try {
+      const formatter = new Intl.DateTimeFormat(undefined, {
+        dateStyle: "medium",
+        timeStyle: "short",
+        timeZoneName: "short",
+      });
+      return formatter.format(parsedDate);
+    } catch (error) {
+      const fallbackFormatter = new Intl.DateTimeFormat(undefined, {
+        dateStyle: "medium",
+        timeStyle: "short",
+      });
+      return fallbackFormatter.format(parsedDate);
+    }
+  }
+
   function populateSelects() {
     const options = currencies
       .map(
@@ -152,7 +175,9 @@
       }
       rateState.base = data.base_code || "USD";
       rateState.rates = { ...data.rates, [rateState.base]: 1 };
-      rateState.updated = `updated ${data.time_last_update_utc || "recently"}`;
+      rateState.updated = `updated ${formatLocalUpdateTime(
+        data.time_last_update_utc,
+      )}`;
       rateState.source = "live";
       updateStatus(`Live rates ${rateState.updated}`);
     } catch (error) {
