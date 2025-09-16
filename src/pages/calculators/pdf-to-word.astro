@@ -1,0 +1,54 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "PDF to Word / Text Extractor";
+const description = "Pull plain text from a PDF and download it as a Word or TXT document.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/pdf-to-word">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      Upload a PDF to extract selectable text. We'll do a quick on-device parse—no files ever leave your browser—and let you copy
+      the text or download a simple Word document.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="pdf-form">
+      <label for="pdf-file">Choose a PDF</label>
+      <input id="pdf-file" name="file" type="file" accept="application/pdf" />
+      <p class="helper" style="margin-top:10px;" id="pdf-status">
+        Select a reasonably small text-based PDF (forms and scanned images may not extract cleanly).
+      </p>
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="button" id="pdf-download-word" disabled>Download as Word</button>
+        <button class="btn" type="button" id="pdf-download-text" disabled>Download TXT</button>
+        <button class="btn" type="button" id="pdf-copy" disabled>Copy text</button>
+        <button class="btn" type="reset">Clear</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="card" style="margin-top:16px;">
+    <h2 style="margin-top:0;">Extracted text</h2>
+    <textarea
+      id="pdf-output"
+      rows="12"
+      placeholder="The extracted text will appear here once parsing completes."
+      spellcheck="false"
+    ></textarea>
+    <p class="helper" style="margin-top:10px;">
+      Simple PDFs with embedded text work best. Image-based scans may need OCR before text can be captured.
+    </p>
+    <div class="helper" style="margin-top:12px; display:flex; gap:12px; flex-wrap:wrap;">
+      <span>Characters: <strong id="pdf-char-count">0</strong></span>
+      <span>Words: <strong id="pdf-word-count">0</strong></span>
+      <span>Lines: <strong id="pdf-line-count">0</strong></span>
+    </div>
+  </section>
+
+  <AdSlot id="pdf-inline-1" />
+  <script defer src="/js/pdf-to-word.js"></script>
+</BaseLayout>

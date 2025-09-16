@@ -1,0 +1,80 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Flight Time Calculator";
+const description = "Estimate nonstop flight duration and arrival time between major airports with time zone awareness.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/flight-time-calculator">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      Choose departure and arrival airports, set your local departure time, and we'll estimate the nonstop flight duration,
+      arrival time, and time zone difference.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="flight-form" autocomplete="off">
+      <div class="form-grid columns-3">
+        <div>
+          <label for="flight-from">Departure airport</label>
+          <select id="flight-from" name="from" required>
+            <option value="">Select airport</option>
+          </select>
+        </div>
+        <div>
+          <label for="flight-to">Arrival airport</label>
+          <select id="flight-to" name="to" required>
+            <option value="">Select airport</option>
+          </select>
+        </div>
+        <div style="display:flex; align-items:flex-end;">
+          <button class="btn" type="button" id="flight-swap" style="width:100%;">Swap airports</button>
+        </div>
+      </div>
+
+      <div class="form-grid columns-3" style="margin-top:12px;">
+        <div>
+          <label for="flight-date">Departure date</label>
+          <input id="flight-date" name="date" type="date" required />
+        </div>
+        <div>
+          <label for="flight-time">Local departure time</label>
+          <input id="flight-time" name="time" type="time" step="60" required />
+        </div>
+        <div>
+          <label for="flight-speed">Cruise speed (km/h)</label>
+          <input
+            id="flight-speed"
+            name="speed"
+            type="number"
+            min="500"
+            max="1100"
+            step="10"
+            value="900"
+            required
+          />
+        </div>
+      </div>
+
+      <p class="helper" style="margin-top:12px;">
+        We estimate a direct route using great-circle distance and the cruise speed you enter. Adjust the speed up or down to
+        account for prevailing winds or layovers.
+      </p>
+
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+        <button class="btn" type="submit">Calculate flight</button>
+        <button class="btn" type="reset">Reset</button>
+        <span class="helper" id="flight-status">Pick airports to begin.</span>
+      </div>
+    </form>
+  </section>
+
+  <section id="flight-result" aria-live="polite" style="margin-top:16px;"></section>
+  <section id="flight-airport-notes" class="helper" style="margin-top:12px;"></section>
+
+  <AdSlot id="flight-inline-1" />
+  <script defer src="/js/flight-time-calculator.js"></script>
+</BaseLayout>

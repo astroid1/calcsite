@@ -1,0 +1,64 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Pet Age Converter";
+const description = "Translate dog and cat ages into human years (and back again).";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/pet-age-converter">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      Pick a species, choose the conversion direction, and enter an age. We'll apply veterinary growth guidelines to estimate
+      the equivalent age in the other species.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="pet-age-form">
+      <div class="form-grid columns-3">
+        <div>
+          <label for="pet-species">Species</label>
+          <select id="pet-species" name="species">
+            <option value="dog">Dog</option>
+            <option value="cat">Cat</option>
+          </select>
+        </div>
+        <div>
+          <label for="pet-direction">Conversion</label>
+          <select id="pet-direction" name="direction">
+            <option value="pet-to-human">Pet age → Human years</option>
+            <option value="human-to-pet">Human age → Pet years</option>
+          </select>
+        </div>
+        <div>
+          <label for="pet-age">Age</label>
+          <input id="pet-age" name="age" type="number" min="0" step="0.1" placeholder="5" required />
+        </div>
+      </div>
+      <p class="helper" style="margin-top:12px;">
+        Ages are approximate: young pets age quickly in the first two years, then level off. We use a medium-size dog model and
+        an indoor cat model for the conversion.
+      </p>
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="submit">Convert age</button>
+        <button class="btn" type="reset">Reset</button>
+      </div>
+    </form>
+  </section>
+
+  <section id="pet-age-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <section class="card" style="margin-top:18px;">
+    <h2 style="margin-top:0;">Quick reference</h2>
+    <div class="form-grid columns-2" id="pet-reference"></div>
+    <p class="helper" style="margin-top:12px;">
+      Keep in mind that breed size, health, and lifestyle can shift these estimates. Always consult your veterinarian for
+      individualized advice.
+    </p>
+  </section>
+
+  <AdSlot id="pet-inline-1" />
+  <script defer src="/js/pet-age-converter.js"></script>
+</BaseLayout>

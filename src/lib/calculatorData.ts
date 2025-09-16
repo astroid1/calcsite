@@ -49,6 +49,13 @@ export const calculatorCategories: CalculatorCategory[] = [
         navLabel: "Holidays",
         description: "See days remaining until major U.S. holidays.",
       },
+      {
+        href: "/calculators/flight-time-calculator",
+        name: "Flight Time Calculator",
+        navLabel: "Flight Time",
+        description:
+          "Estimate nonstop duration, arrival time, and time zone shifts between major airports.",
+      },
     ],
   },
   {
@@ -160,6 +167,13 @@ export const calculatorCategories: CalculatorCategory[] = [
         description:
           "Quickly find tip amounts and per-person totals for the table.",
       },
+      {
+        href: "/calculators/event-budget-calculator",
+        name: "Event Budget Planner",
+        navLabel: "Event Budget",
+        description:
+          "Forecast venue, catering, staffing, and contingency costs with per-guest totals for any event.",
+      },
     ],
   },
   {
@@ -214,6 +228,13 @@ export const calculatorCategories: CalculatorCategory[] = [
         navLabel: "Clothing",
         description:
           "Find approximate international equivalents for common men's and women's apparel sizes.",
+      },
+      {
+        href: "/calculators/pet-age-converter",
+        name: "Pet Age Converter",
+        navLabel: "Pet Age",
+        description:
+          "Translate cat and dog ages into human years (and back) with growth-stage context.",
       },
     ],
   },
@@ -283,6 +304,41 @@ export const calculatorCategories: CalculatorCategory[] = [
         name: "QR Code Generator",
         navLabel: "QR Code",
         description: "Turn any text or link into a downloadable QR code with adjustable size.",
+      },
+      {
+        href: "/calculators/typing-speed-test",
+        name: "Typing Speed Test",
+        navLabel: "Typing Test",
+        description:
+          "Measure words per minute, accuracy, and keystrokes with live stats during timed prompts.",
+      },
+      {
+        href: "/calculators/word-counter",
+        name: "Word & Character Counter",
+        navLabel: "Word Counter",
+        description:
+          "Track words, characters, sentences, and reading time while you draft or edit text.",
+      },
+      {
+        href: "/calculators/pdf-to-word",
+        name: "PDF to Word/Text Extractor",
+        navLabel: "PDF Extractor",
+        description:
+          "Extract plain text from PDFs in your browser and download it as a Word or TXT file.",
+      },
+      {
+        href: "/calculators/grade-calculator",
+        name: "Grade Goal Calculator",
+        navLabel: "Grade Goal",
+        description:
+          "See the GPA needed in remaining credits or the final exam score required to reach your target.",
+      },
+      {
+        href: "/calculators/meal-planner",
+        name: "Meal Planner & Portion Calculator",
+        navLabel: "Meal Planner",
+        description:
+          "Scale proteins, sides, desserts, and drinks for any gathering based on adults, kids, and leftovers.",
       },
     ],
   },

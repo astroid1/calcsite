@@ -1,0 +1,101 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Typing Speed Test";
+const description = "Measure your words per minute and accuracy with a timed typing challenge.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/typing-speed-test">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      Start the timer, type the prompt as quickly and accurately as you can, and review your words per minute, keystrokes, and
+      accuracy when the test ends.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="typing-settings">
+      <div class="form-grid columns-3">
+        <div>
+          <label for="typing-duration">Test length</label>
+          <select id="typing-duration" name="duration">
+            <option value="60">1 minute</option>
+            <option value="120">2 minutes</option>
+            <option value="180">3 minutes</option>
+          </select>
+        </div>
+        <div>
+          <label for="typing-mode">Prompt style</label>
+          <select id="typing-mode" name="mode">
+            <option value="paragraph">Paragraph</option>
+            <option value="quotes">Famous quotes</option>
+            <option value="numbers">Numbers & symbols</option>
+          </select>
+        </div>
+        <div style="display:flex; align-items:flex-end; gap:10px;">
+          <button class="btn" type="button" id="typing-start" style="flex:1;">Start test</button>
+          <button class="btn" type="button" id="typing-reset" style="flex:1;">Reset</button>
+        </div>
+      </div>
+
+      <p class="helper" id="typing-status" style="margin-top:12px;">Press “Start test” to load a prompt and begin the timer.</p>
+    </form>
+  </section>
+
+  <section class="card" style="margin-top:16px;">
+    <h2 style="margin-top:0;">Typing prompt</h2>
+    <p id="typing-prompt" class="helper" style="min-height:54px;">Prompt text will appear here.</p>
+    <textarea
+      id="typing-input"
+      rows="8"
+      placeholder="The prompt appears above. Click Start when you're ready."
+      disabled
+      spellcheck="false"
+      autocomplete="off"
+      autocorrect="off"
+      autocapitalize="off"
+    ></textarea>
+    <div class="helper" style="margin-top:8px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+      <span>Timer: <strong id="typing-timer">00:00</strong></span>
+      <span>Errors: <strong id="typing-errors">0</strong></span>
+    </div>
+  </section>
+
+  <section class="card" style="margin-top:16px;">
+    <h2 style="margin-top:0;">Live stats</h2>
+    <div class="form-grid columns-3" id="typing-live-stats">
+      <div>
+        <p class="helper">Words per minute</p>
+        <p class="stat" id="typing-wpm">0</p>
+      </div>
+      <div>
+        <p class="helper">Gross WPM</p>
+        <p class="stat" id="typing-gross">0</p>
+      </div>
+      <div>
+        <p class="helper">Accuracy</p>
+        <p class="stat" id="typing-accuracy">100%</p>
+      </div>
+      <div>
+        <p class="helper">Characters typed</p>
+        <p class="stat" id="typing-chars">0</p>
+      </div>
+      <div>
+        <p class="helper">Correct keystrokes</p>
+        <p class="stat" id="typing-correct">0</p>
+      </div>
+      <div>
+        <p class="helper">Mistyped characters</p>
+        <p class="stat" id="typing-missed">0</p>
+      </div>
+    </div>
+    <p class="helper" style="margin-top:12px;">
+      “Gross WPM” measures raw speed using five characters per word. “Words per minute” subtracts errors for a truer score.
+    </p>
+  </section>
+
+  <AdSlot id="typing-inline-1" />
+  <script defer src="/js/typing-speed-test.js"></script>
+</BaseLayout>

@@ -1,0 +1,94 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Grade Goal Calculator";
+const description = "See the GPA you need in upcoming credits or the final exam score required to hit your target.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/grade-calculator">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      Enter your current GPA, completed credits, and target GPA to learn the average you need in the remaining credits. There's
+      also a final exam planner to show the test score required for a specific course grade.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <h2 style="margin-top:0;">Target cumulative GPA</h2>
+    <form id="gpa-form" autocomplete="off">
+      <div class="form-grid columns-4">
+        <div>
+          <label for="gpa-current">Current GPA</label>
+          <input id="gpa-current" name="current" type="number" min="0" max="4" step="0.01" placeholder="3.2" required />
+        </div>
+        <div>
+          <label for="gpa-credits-complete">Credits completed</label>
+          <input
+            id="gpa-credits-complete"
+            name="completed"
+            type="number"
+            min="0"
+            step="0.5"
+            placeholder="45"
+            required
+          />
+        </div>
+        <div>
+          <label for="gpa-target">Target GPA</label>
+          <input id="gpa-target" name="target" type="number" min="0" max="4" step="0.01" placeholder="3.6" required />
+        </div>
+        <div>
+          <label for="gpa-upcoming">Credits remaining</label>
+          <input id="gpa-upcoming" name="upcoming" type="number" min="1" step="0.5" placeholder="15" required />
+        </div>
+      </div>
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+        <button class="btn" type="submit">Calculate goal GPA</button>
+        <button class="btn" type="reset">Reset</button>
+        <span class="helper" id="gpa-status">Fill in your current stats to begin.</span>
+      </div>
+    </form>
+  </section>
+
+  <section id="gpa-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <section class="card" style="margin-top:20px;">
+    <h2 style="margin-top:0;">Course final exam planner</h2>
+    <p class="helper">
+      Already tracking a single class? Enter your current average, the exam weight, and the final grade you want to see the
+      test score you need.
+    </p>
+    <form id="final-form" autocomplete="off">
+      <div class="form-grid columns-4">
+        <div>
+          <label for="final-current">Current course average (%)</label>
+          <input id="final-current" name="current" type="number" min="0" max="120" step="0.1" placeholder="87" required />
+        </div>
+        <div>
+          <label for="final-weight">Final exam weight (%)</label>
+          <input id="final-weight" name="weight" type="number" min="1" max="100" step="0.1" placeholder="30" required />
+        </div>
+        <div>
+          <label for="final-target">Target course grade (%)</label>
+          <input id="final-target" name="target" type="number" min="0" max="120" step="0.1" placeholder="90" required />
+        </div>
+        <div>
+          <label for="final-floor">Minimum exam score you can accept (%)</label>
+          <input id="final-floor" name="floor" type="number" min="0" max="120" step="0.1" placeholder="70" />
+        </div>
+      </div>
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+        <button class="btn" type="submit">Calculate required exam score</button>
+        <button class="btn" type="reset">Reset</button>
+        <span class="helper" id="final-status">Enter course details to see the required score.</span>
+      </div>
+    </form>
+  </section>
+
+  <section id="final-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="grade-inline-1" />
+  <script defer src="/js/grade-calculator.js"></script>
+</BaseLayout>
