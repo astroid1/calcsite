@@ -1,9 +1,38 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Overtime Pay Calculator";
 const description = "Estimate total pay with overtime premiums, double time, and flat shift bonuses.";
+const instructions = [
+  {
+    label: "Base hourly rate",
+    description: "Enter your standard hourly wage.",
+  },
+  {
+    label: "Regular hours",
+    description: "Input the hours paid at the base rate this pay period.",
+  },
+  {
+    label: "Overtime hours",
+    description: "Enter hours paid at the overtime multiplier (commonly any time over 40 hours).",
+  },
+  {
+    label: "Overtime multiplier",
+    description: "Adjust the premium rate if your overtime is not 1.5×.",
+  },
+  {
+    label: "Double-time hours",
+    description: "Include any hours paid at 2× the base rate.",
+  },
+  {
+    label: "Flat bonus or stipend",
+    description: "Add any extra flat pay tied to the shift.",
+  },
+];
+const instructionsFooter =
+  "Choose Calculate pay to total your base, overtime, and double-time earnings plus bonuses. Reset clears the form.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/overtime-pay-calculator">
@@ -14,6 +43,8 @@ const description = "Estimate total pay with overtime premiums, double time, and
       calculator handles common 1.5× overtime and optional 2× double time.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="overtime-form">

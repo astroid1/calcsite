@@ -1,9 +1,34 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Meal Planner & Portion Calculator";
 const description = "Scale recipes and grocery lists for any gathering based on adult and kid headcount.";
+const instructions = [
+  {
+    label: "Adults",
+    description: "Enter how many adults you're feeding.",
+  },
+  {
+    label: "Children",
+    description: "Enter the number of kids (they count as 0.6 of an adult portion).",
+  },
+  {
+    label: "Meal style",
+    description: "Pick light, standard, or hearty service to adjust portion sizes.",
+  },
+  {
+    label: "Leftover buffer (%)",
+    description: "Add a cushion for second helpings or meal prep. We'll increase quantities by this percentage.",
+  },
+  {
+    label: "Include courses",
+    description: "Check the dishes you plan to serve—protein, starch, vegetables, salad, dessert, and drinks—to include them in the totals.",
+  },
+];
+const instructionsFooter =
+  "Press Calculate portions to get suggested quantities for each course and a shopping list. Reset returns to the default headcount.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/meal-planner">
@@ -14,6 +39,8 @@ const description = "Scale recipes and grocery lists for any gathering based on 
       vegetables, dessert, and drinks—plus the total shopping list with leftovers included.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="meal-form" autocomplete="off">

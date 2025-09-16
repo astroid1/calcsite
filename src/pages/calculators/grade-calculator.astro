@@ -1,9 +1,46 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Grade Goal Calculator";
 const description = "See the GPA you need in upcoming credits or the final exam score required to hit your target.";
+const instructions = [
+  {
+    label: "Current GPA",
+    description: "Enter your cumulative GPA as of now.",
+  },
+  {
+    label: "Credits completed",
+    description: "Provide the number of credits already finished so we can weight your existing GPA.",
+  },
+  {
+    label: "Target GPA",
+    description: "Type the cumulative GPA you hope to reach.",
+  },
+  {
+    label: "Credits remaining",
+    description: "Enter how many additional credits you'll take. The tool solves for the average GPA needed in them.",
+  },
+  {
+    label: "Current course average (%)",
+    description: "If planning for a single class, enter your present grade before the final exam.",
+  },
+  {
+    label: "Final exam weight (%)",
+    description: "Enter what percent of the course grade the final exam counts for.",
+  },
+  {
+    label: "Target course grade (%)",
+    description: "State the final course average you want.",
+  },
+  {
+    label: "Minimum exam score you can accept (%)",
+    description: "Optional. Add the lowest exam score you are comfortable with to see whether it's enough.",
+  },
+];
+const instructionsFooter =
+  "Use Calculate goal GPA to find the average needed in remaining credits, and Calculate required exam score to plan for a single course. Reset clears each section.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/grade-calculator">
@@ -14,6 +51,8 @@ const description = "See the GPA you need in upcoming credits or the final exam 
       also a final exam planner to show the test score required for a specific course grade.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <h2 style="margin-top:0;">Target cumulative GPA</h2>

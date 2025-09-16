@@ -1,10 +1,35 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Macros Calculator";
 const description =
   "Convert a calorie target into daily protein, carbohydrate, and fat goals tailored to your training focus.";
+const instructions = [
+  {
+    label: "Weight units",
+    description: "Choose whether you'll enter weight in kilograms or pounds.",
+  },
+  {
+    label: "Body weight",
+    description: "Enter your current body weight using the selected units. It's used for high-protein splits.",
+  },
+  {
+    label: "Daily calories",
+    description: "Enter the calorie target you want to hit each day.",
+  },
+  {
+    label: "Macro split",
+    description: "Pick a preset distribution or choose Custom to enter your own percentages.",
+  },
+  {
+    label: "Custom percentages",
+    description: "If you select Custom, fill in the protein, carb, and fat percentages so they add up to 100%.",
+  },
+];
+const instructionsFooter =
+  "Click Break down macros to convert your calorie goal into grams of protein, carbs, and fats. Reset clears all values.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/macros-calculator">
@@ -15,6 +40,8 @@ const description =
       Use it alongside the BMR calculator to dial in your nutrition.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="macros-form">

@@ -1,8 +1,16 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 const title = "Holiday Countdown (US)";
 const description = "See days until major U.S. holidays.";
+const instructions = [
+  {
+    label: "Holiday",
+    description: "Choose the holiday you want to track from the dropdown list.",
+  },
+];
+const instructionsFooter = "Press Show Countdown to display the date and remaining days.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/holiday-countdown">
@@ -10,6 +18,8 @@ const description = "See days until major U.S. holidays.";
     <h1>{title}</h1>
     <p class="helper">Pick a holiday to see the exact date and days remaining.</p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="h-form">

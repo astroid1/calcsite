@@ -1,9 +1,21 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Hex ↔ RGB Color Converter";
 const description = "Convert brand colors between hexadecimal and RGB values with a live preview.";
+const instructions = [
+  {
+    label: "Hex color",
+    description: "Type a color in #RGB or #RRGGBB format. We'll normalize it and show the RGB values.",
+  },
+  {
+    label: "RGB color",
+    description: "Enter three numbers between 0 and 255 separated by commas or spaces to convert back to hex.",
+  },
+];
+const instructionsFooter = "Submit the form to sync both color formats and preview the swatch. Reset clears both fields.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/hex-rgb-color-converter">
@@ -14,6 +26,8 @@ const description = "Convert brand colors between hexadecimal and RGB values wit
       other format while previewing the swatch.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="color-form">

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Paycheck Tax Calculator";
 const description = "Estimate take-home pay by state with federal, payroll, and local tax assumptions.";
@@ -58,6 +59,34 @@ const states = [
   { code: "WI", name: "Wisconsin" },
   { code: "WY", name: "Wyoming" },
 ];
+const instructions = [
+  {
+    label: "Annual gross pay",
+    description: "Enter your salary or total wages before taxes.",
+  },
+  {
+    label: "Pay frequency",
+    description: "Choose how often you get paid so the calculator divides your annual income correctly.",
+  },
+  {
+    label: "Filing status",
+    description: "Select your federal filing status for the correct standard deduction and brackets.",
+  },
+  {
+    label: "State",
+    description: "Pick where you work or pay state income tax to apply the appropriate tax rate.",
+  },
+  {
+    label: "Pre-tax deductions per paycheck",
+    description: "Optional. Enter amounts withheld before taxes (401k, HSA, commuter benefits).",
+  },
+  {
+    label: "Post-tax deductions per paycheck",
+    description: "Optional. Add insurance premiums or other after-tax deductions taken from each paycheck.",
+  },
+];
+const instructionsFooter =
+  "Press Estimate take-home to calculate federal, payroll, and state withholdings along with net pay. Reset clears the fields.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/paycheck-tax-calculator">
@@ -68,6 +97,8 @@ const states = [
       Enter per-paycheck deductions to tailor the net pay estimate to your situation.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="paycheck-form">

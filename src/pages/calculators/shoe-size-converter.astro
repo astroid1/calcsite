@@ -1,9 +1,26 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Shoe Size Converter";
 const description = "Match men's and women's shoe sizes across US, UK, and EU charts.";
+const instructions = [
+  {
+    label: "Sizing chart",
+    description: "Select women's or men's sizing to load the appropriate chart.",
+  },
+  {
+    label: "I know my size in",
+    description: "Choose the sizing system you already have—US, UK, or EU.",
+  },
+  {
+    label: "Size",
+    description: "Pick your known size. We'll display the matching sizes in the other systems.",
+  },
+];
+const instructionsFooter =
+  "Press Convert to see the equivalents and Reset to start over.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/shoe-size-converter">
@@ -14,6 +31,8 @@ const description = "Match men's and women's shoe sizes across US, UK, and EU ch
       regions.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="shoe-form">

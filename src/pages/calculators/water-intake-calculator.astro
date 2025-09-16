@@ -1,9 +1,30 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Daily Water Intake Calculator";
 const description = "Estimate how much water to drink each day based on weight, exercise, and climate.";
+const instructions = [
+  {
+    label: "Units",
+    description: "Choose whether you'll enter weight in kilograms or pounds.",
+  },
+  {
+    label: "Weight",
+    description: "Enter your body weight using the selected units.",
+  },
+  {
+    label: "Active minutes",
+    description: "Add how many minutes of exercise you typically do per day.",
+  },
+  {
+    label: "Climate",
+    description: "Pick the environment you spend most of your day in so we can adjust for heat and humidity.",
+  },
+];
+const instructionsFooter =
+  "Click Calculate water target to get your suggested daily intake in liters, ounces, and cups. Reset clears the form.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/water-intake-calculator">
@@ -14,6 +35,8 @@ const description = "Estimate how much water to drink each day based on weight, 
       exercise into a reasonable water target.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="water-form">

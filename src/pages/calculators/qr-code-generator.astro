@@ -1,9 +1,30 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "QR Code Generator";
 const description = "Turn any text or URL into a ready-to-download QR code image.";
+const instructions = [
+  {
+    label: "Text or link",
+    description: "Paste the content you want encoded—URLs, contact info, Wi-Fi credentials, or plain text.",
+  },
+  {
+    label: "Image size (pixels)",
+    description: "Set the width and height of the output PNG.",
+  },
+  {
+    label: "Error correction",
+    description: "Choose how much redundancy the QR code should include (higher percentages resist damage but add density).",
+  },
+  {
+    label: "Quiet zone",
+    description: "Adjust the blank border around the QR code measured in modules.",
+  },
+];
+const instructionsFooter =
+  "Select Generate QR code to render the image, then download or copy it from the preview. Reset clears all fields.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/qr-code-generator">
@@ -14,6 +35,8 @@ const description = "Turn any text or URL into a ready-to-download QR code image
       level before downloading.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="qr-form">

@@ -1,0 +1,18 @@
+---
+const { heading = "How to use this tool", items = [], footer } = Astro.props;
+---
+
+{items.length > 0 && (
+  <section class="card info-card instructions-card" aria-label="Input instructions">
+    <h2>{heading}</h2>
+    <ul class="instructions-list">
+      {items.map((item) => (
+        <li>
+          <span class="instructions-term">{item.label}</span>
+          <span class="instructions-detail">{item.description}</span>
+        </li>
+      ))}
+    </ul>
+    {footer && <p class="helper">{footer}</p>}
+  </section>
+)}

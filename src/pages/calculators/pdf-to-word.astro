@@ -1,9 +1,18 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "PDF to Word / Text Extractor";
 const description = "Pull plain text from a PDF and download it as a Word or TXT document.";
+const instructions = [
+  {
+    label: "Choose a PDF",
+    description: "Upload a PDF from your device. Text-based files extract best; scanned images may return limited text.",
+  },
+];
+const instructionsFooter =
+  "After processing, use Download as Word, Download TXT, or Copy text to export the results. Clear resets the form.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/pdf-to-word">
@@ -14,6 +23,8 @@ const description = "Pull plain text from a PDF and download it as a Word or TXT
       the text or download a simple Word document.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="pdf-form">

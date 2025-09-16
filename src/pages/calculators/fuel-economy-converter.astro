@@ -1,9 +1,21 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Fuel Economy Converter";
 const description = "Translate MPG to liters per 100 km (and back) for easy vehicle comparisons.";
+const instructions = [
+  {
+    label: "Conversion direction",
+    description: "Choose whether you are converting an MPG rating to liters per 100 km or the other way around.",
+  },
+  {
+    label: "Value",
+    description: "Enter the fuel economy number you already know. Use decimals for precise ratings.",
+  },
+];
+const instructionsFooter = "Select Convert to see the converted efficiency. Reset clears the selection and value.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/fuel-economy-converter">
@@ -14,6 +26,8 @@ const description = "Translate MPG to liters per 100 km (and back) for easy vehi
       235.21458 factor.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="fuel-form">

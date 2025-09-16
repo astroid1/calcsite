@@ -1,9 +1,46 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Car Loan Affordability Calculator";
 const description = "Estimate a comfortable vehicle price using income, existing debt, and loan terms.";
+const instructions = [
+  {
+    label: "Gross annual income",
+    description: "Enter your household income before taxes. The calculator uses it to determine an affordable payment.",
+  },
+  {
+    label: "Current monthly debt payments",
+    description: "List the total of other required monthly debts—student loans, credit cards, etc.—to protect your debt-to-income ratio.",
+  },
+  {
+    label: "Loan term",
+    description: "Pick how many months you plan to finance the vehicle. Longer terms lower the payment but cost more in interest.",
+  },
+  {
+    label: "Loan APR (%)",
+    description: "Enter the expected annual percentage rate from your lender. Leave the default if you're estimating.",
+  },
+  {
+    label: "Cash down payment",
+    description: "Add the cash you can put down at purchase. It reduces the amount you need to finance.",
+  },
+  {
+    label: "Trade-in value",
+    description: "If you're trading in a vehicle, enter the equity you'll apply after paying off any existing loan.",
+  },
+  {
+    label: "Target share of monthly income",
+    description: "Set the percentage of gross income you want to allocate toward the new car payment.",
+  },
+  {
+    label: "Sales tax rate",
+    description: "Enter your local auto sales tax percentage so the estimated vehicle price includes taxes.",
+  },
+];
+const instructionsFooter =
+  "Click Estimate car budget to see the recommended payment, maximum loan amount, and target vehicle price. Reset clears the form.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/car-loan-affordability-calculator">
@@ -14,6 +51,8 @@ const description = "Estimate a comfortable vehicle price using income, existing
       debt-to-income ratio on target. We'll convert that into an estimated car price based on your down payment.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="car-form">

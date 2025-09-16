@@ -1,9 +1,30 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Salary ↔ Hourly Converter";
 const description = "Quickly convert annual pay to hourly wages (and back again).";
+const instructions = [
+  {
+    label: "Annual salary",
+    description: "Enter your yearly pay if you want to convert it to an hourly rate.",
+  },
+  {
+    label: "Hourly rate",
+    description: "Enter your hourly wage if you want to convert it to an annual salary.",
+  },
+  {
+    label: "Hours per week",
+    description: "Provide the number of paid hours you work each week.",
+  },
+  {
+    label: "Paid weeks per year",
+    description: "Enter how many weeks you are paid in a year (exclude unpaid time off).",
+  },
+];
+const instructionsFooter =
+  "Use the Annual → Hourly or Hourly → Annual buttons to run the conversion based on the fields you've filled. Reset clears the form.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/salary-to-hourly">
@@ -11,6 +32,8 @@ const description = "Quickly convert annual pay to hourly wages (and back again)
     <h1>{title}</h1>
     <p class="helper">Enter either your yearly salary or hourly wage along with your typical schedule to see the equivalent pay.</p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="salary-form">

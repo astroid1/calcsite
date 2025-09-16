@@ -1,9 +1,30 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Tip Calculator";
 const description = "Split restaurant bills with tip suggestions and per-person totals.";
+const instructions = [
+  {
+    label: "Bill amount",
+    description: "Enter the pre-tip total from the check.",
+  },
+  {
+    label: "Tip percentage",
+    description: "Choose a suggested tip or pick Custom to enter your own percentage.",
+  },
+  {
+    label: "Custom tip (%)",
+    description: "Appears when Custom is selected. Enter the tip percentage you want to apply.",
+  },
+  {
+    label: "People splitting",
+    description: "Enter how many people are splitting the bill to see per-person totals.",
+  },
+];
+const instructionsFooter =
+  "Press Calculate tip to see the tip amount, total bill, and per-person share. Reset clears the form.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/tip-calculator">
@@ -11,6 +32,8 @@ const description = "Split restaurant bills with tip suggestions and per-person 
     <h1>{title}</h1>
     <p class="helper">Pick a tip percentage, enter the bill, and optionally split the total between friends. We'll show tip amounts instantly.</p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="tip-form">

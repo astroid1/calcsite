@@ -1,9 +1,21 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Speed Converter";
 const description = "Quickly swap between miles per hour and kilometers per hour.";
+const instructions = [
+  {
+    label: "Conversion direction",
+    description: "Select whether you are converting mph to km/h or km/h to mph.",
+  },
+  {
+    label: "Value",
+    description: "Enter the speed you want to convert. Use decimals for more precision.",
+  },
+];
+const instructionsFooter = "Press Convert to get the equivalent speed. Reset clears the form.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/speed-converter">
@@ -13,6 +25,8 @@ const description = "Quickly swap between miles per hour and kilometers per hour
       Road trip abroad? Convert mph and km/h instantly using the exact 1 mile = 1.609344 kilometers conversion factor.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="speed-form">

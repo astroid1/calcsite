@@ -1,9 +1,30 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Savings Goal Calculator";
 const description = "Figure out the monthly contributions needed to hit a future target.";
+const instructions = [
+  {
+    label: "Goal amount",
+    description: "Enter how much money you want to accumulate.",
+  },
+  {
+    label: "Current savings",
+    description: "Add what you already have saved toward this goal (optional).",
+  },
+  {
+    label: "Timeframe (years)",
+    description: "Provide how many years you have to reach the goal. Use decimals for partial years.",
+  },
+  {
+    label: "Expected annual return (%)",
+    description: "Optional. Enter an estimated annual rate of return if funds are invested. Use 0% for a no-interest plan.",
+  },
+];
+const instructionsFooter =
+  "Select Calculate monthly savings to see the deposit amount needed each month plus totals saved and interest earned. Reset clears the fields.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/savings-goal-calculator">
@@ -11,6 +32,8 @@ const description = "Figure out the monthly contributions needed to hit a future
     <h1>{title}</h1>
     <p class="helper">Set a target amount and timeline. We'll tell you how much to save each month, factoring in optional investment growth.</p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="savings-form">

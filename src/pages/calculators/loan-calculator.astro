@@ -1,9 +1,30 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Loan Calculator";
 const description = "Estimate monthly loan payments with a full principal and interest breakdown.";
+const instructions = [
+  {
+    label: "Loan amount",
+    description: "Enter the total you plan to borrow.",
+  },
+  {
+    label: "Annual interest rate (%)",
+    description: "Provide the loan's APR as a percentage.",
+  },
+  {
+    label: "Loan term (years)",
+    description: "Enter the repayment period in years.",
+  },
+  {
+    label: "Extra monthly payment",
+    description: "Optional. Add any additional amount you expect to pay each month on top of the scheduled payment.",
+  },
+];
+const instructionsFooter =
+  "Select Calculate payment to see the monthly amount, total interest, and payoff schedule. Reset clears the form.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/loan-calculator">
@@ -11,6 +32,8 @@ const description = "Estimate monthly loan payments with a full principal and in
     <h1>{title}</h1>
     <p class="helper">Plug in a loan amount, interest rate, and term to see your monthly payment plus how much goes toward principal versus interest.</p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="loan-form">

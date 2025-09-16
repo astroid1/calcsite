@@ -1,9 +1,35 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Flight Time Calculator";
 const description = "Estimate nonstop flight duration and arrival time between major airports with time zone awareness.";
+const instructions = [
+  {
+    label: "Departure airport",
+    description:
+      "Start typing a city or airport code, then choose the correct airport from the suggestions. This sets the origin time zone.",
+  },
+  {
+    label: "Arrival airport",
+    description: "Search for and select your destination airport. Use Swap to flip the two if needed.",
+  },
+  {
+    label: "Departure date",
+    description: "Pick the calendar date you leave.",
+  },
+  {
+    label: "Local departure time",
+    description: "Enter the local time your flight takes off at the origin airport.",
+  },
+  {
+    label: "Cruise speed (km/h)",
+    description: "Adjust the assumed cruising speed. Increase or decrease it to account for aircraft type or winds.",
+  },
+];
+const instructionsFooter =
+  "Choose Calculate flight to estimate duration, arrival time, and time difference. Reset clears your selections.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/flight-time-calculator">
@@ -14,6 +40,8 @@ const description = "Estimate nonstop flight duration and arrival time between m
       arrival time, and time zone difference.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="flight-form" autocomplete="off">
