@@ -1,7 +1,7 @@
 (function () {
   if (typeof window === "undefined") return;
 
-  const airports = [
+  const fallbackAirports = [
     {
       code: "ATL",
       name: "Hartsfield–Jackson Atlanta International",
@@ -164,7 +164,13 @@
     },
   ];
 
-  const airportMap = new Map(airports.map((airport) => [airport.code, airport]));
+  const AIRPORT_DATA_SOURCES = [
+    "/data/international-airports.json",
+    "https://raw.githubusercontent.com/mwgg/Airports/master/airports.json",
+  ];
+
+  let airportMap = new Map();
+  let airportsReady = false;
 
   const form = document.getElementById("flight-form");
   if (!form) return;
@@ -179,18 +185,222 @@
   const resultEl = document.getElementById("flight-result");
   const notesEl = document.getElementById("flight-airport-notes");
 
-  function populateAirports(select) {
-    if (!select) return;
-    airports
-      .slice()
-      .sort((a, b) => a.city.localeCompare(b.city))
-      .forEach((airport) => {
-        const option = document.createElement("option");
-        option.value = airport.code;
-        option.textContent = `${airport.city} (${airport.code})`;
-        option.dataset.tz = airport.timeZone;
-        select.appendChild(option);
+  if (statusEl) statusEl.textContent = "Loading airport directory…";
+  if (notesEl) notesEl.textContent = "Loading airport directory…";
+
+  function setLoadingState(isLoading) {
+    [fromSelect, toSelect, swapButton].forEach((element) => {
+      if (!element) return;
+      element.disabled = isLoading;
+    });
+  }
+
+  function cleanPart(value) {
+    return typeof value === "string" ? value.trim() : "";
+  }
+
+  function joinLocationParts(parts) {
+    return parts
+      .map((part) => cleanPart(part))
+      .filter(Boolean)
+      .join(", ");
+  }
+
+  function normalizeAirportRecord(record) {
+    if (!record || typeof record !== "object") return null;
+
+    const codeCandidate =
+      record.iata ||
+      record.iata_code ||
+      record.IATA ||
+      record.code ||
+      record.Code ||
+      "";
+    const code = cleanPart(codeCandidate).toUpperCase();
+    if (!code || code.length !== 3) return null;
+
+    const latCandidate =
+      record.lat ??
+      record.latitude ??
+      record.latitude_deg ??
+      record.Latitude ??
+      record.lat_deg ??
+      null;
+    const lonCandidate =
+      record.lon ??
+      record.longitude ??
+      record.longitude_deg ??
+      record.Longitude ??
+      record.lon_deg ??
+      null;
+    const lat =
+      latCandidate == null || latCandidate === ""
+        ? Number.NaN
+        : Number(latCandidate);
+    const lon =
+      lonCandidate == null || lonCandidate === ""
+        ? Number.NaN
+        : Number(lonCandidate);
+    if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
+
+    const timeZoneCandidate =
+      record.tz ||
+      record.timezone ||
+      record.time_zone ||
+      record.tz_database_time_zone ||
+      record.Timezone ||
+      record.TZ ||
+      "";
+    const timeZone = cleanPart(timeZoneCandidate);
+    if (!timeZone) return null;
+
+    const name =
+      cleanPart(record.name) ||
+      cleanPart(record.airport) ||
+      cleanPart(record.airport_name) ||
+      code;
+
+    const city = joinLocationParts([
+      record.city,
+      record.municipality,
+      record.region_city,
+    ]);
+    const country = joinLocationParts([
+      record.country,
+      record.country_name,
+      record.Country,
+      record.iso_country,
+      record.country_code,
+    ]);
+
+    const location = joinLocationParts([city || null, country || null]) || name;
+
+    return {
+      code,
+      name,
+      city: location,
+      timeZone,
+      lat,
+      lon,
+    };
+  }
+
+  function normalizeAirportData(raw) {
+    const seen = new Map();
+    const list = [];
+
+    const addRecord = (value) => {
+      const airport = normalizeAirportRecord(value);
+      if (!airport) return;
+      if (seen.has(airport.code)) return;
+      seen.set(airport.code, true);
+      list.push(airport);
+    };
+
+    if (Array.isArray(raw)) {
+      raw.forEach(addRecord);
+    } else if (raw && typeof raw === "object") {
+      Object.values(raw).forEach(addRecord);
+    }
+
+    return list.sort((a, b) => {
+      const cityCompare = a.city.localeCompare(b.city, undefined, {
+        sensitivity: "base",
       });
+      if (cityCompare !== 0) return cityCompare;
+      const nameCompare = a.name.localeCompare(b.name, undefined, {
+        sensitivity: "base",
+      });
+      if (nameCompare !== 0) return nameCompare;
+      return a.code.localeCompare(b.code);
+    });
+  }
+
+  async function loadAirportData() {
+    for (const url of AIRPORT_DATA_SOURCES) {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) continue;
+        const data = await response.json();
+        const normalized = normalizeAirportData(data);
+        if (normalized.length) {
+          return { list: normalized, source: url };
+        }
+      } catch (error) {
+        console.warn("Unable to load airport data", url, error);
+      }
+    }
+
+    return { list: fallbackAirports.slice(), source: "fallback" };
+  }
+
+  function populateAirports(select, airportList) {
+    if (!select) return;
+    const previousValue = select.value;
+    select.innerHTML = "";
+
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = "Select airport";
+    select.appendChild(placeholder);
+
+    const sorted = airportList
+      .slice()
+      .sort((a, b) => {
+        const cityCompare = a.city.localeCompare(b.city, undefined, {
+          sensitivity: "base",
+        });
+        if (cityCompare !== 0) return cityCompare;
+        return a.name.localeCompare(b.name, undefined, { sensitivity: "base" });
+      });
+
+    sorted.forEach((airport) => {
+      const option = document.createElement("option");
+      option.value = airport.code;
+      const baseLabel = airport.city.includes(airport.name)
+        ? airport.city
+        : `${airport.city} – ${airport.name}`;
+      option.textContent = `${baseLabel} (${airport.code})`;
+      option.dataset.tz = airport.timeZone;
+      select.appendChild(option);
+    });
+
+    if (previousValue && airportMap.has(previousValue)) {
+      select.value = previousValue;
+    }
+  }
+
+  function applyAirports(airportList, source) {
+    airportMap = new Map(airportList.map((airport) => [airport.code, airport]));
+    airportsReady = true;
+
+    populateAirports(fromSelect, airportList);
+    populateAirports(toSelect, airportList);
+
+    const summary =
+      source === "fallback"
+        ? "Loaded a core set of major airports. Pick airports to begin."
+        : `Loaded ${airportList.length.toLocaleString()} airports. Pick airports to begin.`;
+
+    resetResult(summary);
+    updateNotes();
+  }
+
+  async function initializeAirports() {
+    setLoadingState(true);
+    airportsReady = false;
+    if (statusEl) statusEl.textContent = "Loading airport directory…";
+    if (notesEl) notesEl.textContent = "Loading airport directory…";
+
+    try {
+      const { list, source } = await loadAirportData();
+      applyAirports(list, source);
+    } catch (error) {
+      console.error("Falling back to built-in airport list", error);
+      applyAirports(fallbackAirports.slice(), "fallback");
+    } finally {
+      setLoadingState(false);
+    }
   }
 
   function toRadians(value) {
@@ -305,33 +515,43 @@
     return { hour, minute };
   }
 
+  function formatAirportSummary(airport, referenceDate) {
+    const offset = formatOffsetLabel(getOffset(referenceDate, airport.timeZone));
+    const baseLabel = airport.city.includes(airport.name)
+      ? `${airport.city} (${airport.code})`
+      : `${airport.name} (${airport.code}) • ${airport.city}`;
+    return `${baseLabel} • ${offset}`;
+  }
+
   function updateNotes() {
     if (!notesEl) return;
-    const from = airportMap.get(fromSelect.value || "");
-    const to = airportMap.get(toSelect.value || "");
+    if (!airportsReady) {
+      notesEl.textContent = "Loading airport directory…";
+      return;
+    }
+    const from = airportMap.get(fromSelect?.value || "");
+    const to = airportMap.get(toSelect?.value || "");
     const today = new Date();
     const parts = [];
-    if (from) {
-      const offset = formatOffsetLabel(getOffset(today, from.timeZone));
-      parts.push(`${from.city} (${from.code}) • ${offset}`);
-    }
-    if (to) {
-      const offset = formatOffsetLabel(getOffset(today, to.timeZone));
-      parts.push(`${to.city} (${to.code}) • ${offset}`);
-    }
+    if (from) parts.push(formatAirportSummary(from, today));
+    if (to) parts.push(formatAirportSummary(to, today));
     notesEl.textContent = parts.length
       ? parts.join(" · ")
       : "We'll highlight the local time zone offsets as you choose airports.";
   }
 
-  function resetResult() {
+  function resetResult(message) {
     if (resultEl) resultEl.innerHTML = "";
-    if (statusEl) statusEl.textContent = "Pick airports to begin.";
+    if (statusEl) {
+      statusEl.textContent =
+        message ||
+        (airportsReady
+          ? "Pick airports to begin."
+          : "Loading airport directory…");
+    }
   }
 
-  populateAirports(fromSelect);
-  populateAirports(toSelect);
-  updateNotes();
+  initializeAirports();
 
   if (dateInput) {
     const today = new Date();
@@ -367,8 +587,7 @@
 
   form.addEventListener("reset", () => {
     window.requestAnimationFrame(() => {
-      if (statusEl) statusEl.textContent = "Pick airports to begin.";
-      if (resultEl) resultEl.innerHTML = "";
+      resetResult();
       updateNotes();
     });
   });
@@ -376,6 +595,11 @@
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     if (!statusEl || !resultEl) return;
+
+    if (!airportsReady) {
+      statusEl.textContent = "Please wait for the airport directory to finish loading.";
+      return;
+    }
 
     const fromAirport = airportMap.get(fromSelect.value || "");
     const toAirport = airportMap.get(toSelect.value || "");
