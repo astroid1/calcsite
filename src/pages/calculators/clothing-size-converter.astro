@@ -1,0 +1,58 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Clothing Size Converter";
+const description = "Find approximate international equivalents for men's and women's clothing sizes.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/clothing-size-converter">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      Choose a gendered chart, select the sizing system you know, and we will display the closest matches for the other
+      regions. Use this as a starting point when shopping abroad.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="clothing-form">
+      <div class="form-grid columns-3">
+        <div>
+          <label for="clothing-profile">Sizing chart</label>
+          <select id="clothing-profile" name="profile">
+            <option value="women">Women's tops &amp; dresses</option>
+            <option value="men">Men's jackets &amp; shirts</option>
+          </select>
+        </div>
+        <div>
+          <label for="clothing-source">I know my size in</label>
+          <select id="clothing-source" name="source">
+            <option value="intl">International (XS-XXL)</option>
+            <option value="us">US</option>
+            <option value="uk">UK</option>
+            <option value="eu">EU</option>
+          </select>
+        </div>
+        <div>
+          <label for="clothing-size">Size</label>
+          <select id="clothing-size" name="size"></select>
+        </div>
+      </div>
+
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="submit">Convert</button>
+        <button class="btn" type="reset">Reset</button>
+      </div>
+      <p class="helper" style="margin-top:10px;">
+        Apparel sizing is notoriously inconsistent. Treat these conversions as approximations and check each retailer's
+        guide when possible.
+      </p>
+    </form>
+  </section>
+
+  <section id="clothing-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="clothing-inline-1" />
+  <script defer src="/js/clothing-size-converter.js"></script>
+</BaseLayout>

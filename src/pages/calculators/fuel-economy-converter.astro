@@ -1,0 +1,63 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Fuel Economy Converter";
+const description = "Translate MPG to liters per 100 km (and back) for easy vehicle comparisons.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/fuel-economy-converter">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      Automakers quote efficiency in different systems. Enter the rating you know and we will convert it using the standard
+      235.21458 factor.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="fuel-form">
+      <div class="form-grid columns-3">
+        <div>
+          <label>Conversion direction</label>
+          <div style="display:flex; flex-direction:column; gap:6px;">
+            <label style="display:flex; align-items:center; gap:8px;">
+              <input type="radio" name="fuel-direction" value="mpg-to-l" checked />
+              <span>MPG → L/100 km</span>
+            </label>
+            <label style="display:flex; align-items:center; gap:8px;">
+              <input type="radio" name="fuel-direction" value="l-to-mpg" />
+              <span>L/100 km → MPG</span>
+            </label>
+          </div>
+        </div>
+        <div>
+          <label for="fuel-value">Value</label>
+          <input
+            id="fuel-value"
+            name="value"
+            type="number"
+            min="0"
+            step="any"
+            inputmode="decimal"
+            placeholder="30"
+            required
+          />
+        </div>
+        <div>
+          <label class="helper" style="margin-top:36px;">Zero or negative inputs are not allowed.</label>
+        </div>
+      </div>
+
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="submit">Convert</button>
+        <button class="btn" type="reset">Reset</button>
+      </div>
+    </form>
+  </section>
+
+  <section id="fuel-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="fuel-inline-1" />
+  <script defer src="/js/fuel-economy.js"></script>
+</BaseLayout>

@@ -1,0 +1,56 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Shoe Size Converter";
+const description = "Match men's and women's shoe sizes across US, UK, and EU charts.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/shoe-size-converter">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      Choose men's or women's sizing, pick the system you know, and we'll show the equivalent sizes across the other
+      regions.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="shoe-form">
+      <div class="form-grid columns-3">
+        <div>
+          <label for="shoe-profile">Sizing chart</label>
+          <select id="shoe-profile" name="profile">
+            <option value="women">Women's</option>
+            <option value="men">Men's</option>
+          </select>
+        </div>
+        <div>
+          <label for="shoe-source">I know my size in</label>
+          <select id="shoe-source" name="source">
+            <option value="us">US</option>
+            <option value="uk">UK</option>
+            <option value="eu">EU</option>
+          </select>
+        </div>
+        <div>
+          <label for="shoe-size">Size</label>
+          <select id="shoe-size" name="size"></select>
+        </div>
+      </div>
+
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="submit">Convert</button>
+        <button class="btn" type="reset">Reset</button>
+      </div>
+      <p class="helper" style="margin-top:10px;">
+        Charts vary slightly between brands. These numbers follow the most common conversion tables for street shoes.
+      </p>
+    </form>
+  </section>
+
+  <section id="shoe-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="shoe-inline-1" />
+  <script defer src="/js/shoe-size-converter.js"></script>
+</BaseLayout>

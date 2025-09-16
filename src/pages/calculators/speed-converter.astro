@@ -1,0 +1,62 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Speed Converter";
+const description = "Quickly swap between miles per hour and kilometers per hour.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/speed-converter">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      Road trip abroad? Convert mph and km/h instantly using the exact 1 mile = 1.609344 kilometers conversion factor.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="speed-form">
+      <div class="form-grid columns-3">
+        <div>
+          <label>Conversion direction</label>
+          <div style="display:flex; flex-direction:column; gap:6px;">
+            <label style="display:flex; align-items:center; gap:8px;">
+              <input type="radio" name="speed-direction" value="mph-to-kmh" checked />
+              <span>mph → km/h</span>
+            </label>
+            <label style="display:flex; align-items:center; gap:8px;">
+              <input type="radio" name="speed-direction" value="kmh-to-mph" />
+              <span>km/h → mph</span>
+            </label>
+          </div>
+        </div>
+        <div>
+          <label for="speed-value">Value</label>
+          <input
+            id="speed-value"
+            name="value"
+            type="number"
+            min="0"
+            step="any"
+            inputmode="decimal"
+            placeholder="65"
+            required
+          />
+        </div>
+        <div>
+          <label class="helper" style="margin-top:36px;">Use decimals for cruise control precision.</label>
+        </div>
+      </div>
+
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="submit">Convert</button>
+        <button class="btn" type="reset">Reset</button>
+      </div>
+    </form>
+  </section>
+
+  <section id="speed-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="speed-inline-1" />
+  <script defer src="/js/speed-converter.js"></script>
+</BaseLayout>
