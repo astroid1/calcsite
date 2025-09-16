@@ -1,0 +1,59 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Time Zone Converter";
+const description = "Compare the same moment across world cities with automatic daylight-saving handling.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/time-zone-converter">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      Pick an origin city and date/time, then choose the destinations you care about. We'll show the matching local time in
+      each city and how far ahead or behind it is.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="time-form">
+      <div class="form-grid columns-3">
+        <div>
+          <label for="tz-datetime">Date &amp; time</label>
+          <input id="tz-datetime" name="datetime" type="datetime-local" required />
+          <p class="helper" style="margin-top:6px;">Enter the time in the origin city below.</p>
+        </div>
+        <div>
+          <label for="tz-from">Origin city</label>
+          <select id="tz-from" name="from"></select>
+        </div>
+        <div>
+          <label>Select cities to compare</label>
+          <div
+            id="tz-targets"
+            style="
+              display: grid;
+              gap: 6px;
+              grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+              padding: 8px;
+              border: 1px solid var(--border);
+              border-radius: 12px;
+              background: var(--panel-2);
+            "
+          ></div>
+          <p class="helper" style="margin-top:6px;">Choose as many cities as you like—we'll update instantly.</p>
+        </div>
+      </div>
+
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="submit">Compare times</button>
+        <button class="btn" type="reset">Reset</button>
+      </div>
+    </form>
+  </section>
+
+  <section id="time-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="time-inline-1" />
+  <script defer src="/js/time-zone-converter.js"></script>
+</BaseLayout>

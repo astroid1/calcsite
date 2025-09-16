@@ -1,0 +1,67 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Unit Converter";
+const description = "Convert between length, weight, temperature, and volume units with precise rounding.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/unit-converter">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      Pick a measurement type, choose units, and enter an amount. We handle length, weight, temperature, and volume using
+      exact conversion factors.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="unit-form">
+      <label for="unit-category">Measurement type</label>
+      <select id="unit-category" name="category">
+        <option value="length">Length</option>
+        <option value="weight">Weight</option>
+        <option value="temperature">Temperature</option>
+        <option value="volume">Volume</option>
+      </select>
+
+      <div class="form-grid columns-3" style="margin-top:12px;">
+        <div>
+          <label for="unit-amount">Amount</label>
+          <input
+            id="unit-amount"
+            name="amount"
+            type="number"
+            inputmode="decimal"
+            step="any"
+            placeholder="10"
+            value="1"
+            required
+          />
+        </div>
+        <div>
+          <label for="unit-from">From unit</label>
+          <select id="unit-from" name="from"></select>
+        </div>
+        <div>
+          <label for="unit-to">To unit</label>
+          <select id="unit-to" name="to"></select>
+        </div>
+      </div>
+
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="submit">Convert</button>
+        <button class="btn" type="reset">Reset</button>
+      </div>
+      <p class="helper" style="margin-top:10px;">
+        Results refresh automatically as you edit the amount or units. Temperature conversions use precise formulas rather
+        than rounding shortcuts.
+      </p>
+    </form>
+  </section>
+
+  <section id="unit-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="unit-inline-1" />
+  <script defer src="/js/unit-converter.js"></script>
+</BaseLayout>

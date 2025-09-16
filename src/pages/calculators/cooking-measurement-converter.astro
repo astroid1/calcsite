@@ -1,0 +1,58 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Cooking Measurement Converter";
+const description = "Swap between cups, grams, ounces, tablespoons, and more with a kitchen-friendly reference.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/cooking-measurement-converter">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      Convert between common baking and cooking measures. We assume water density (1 milliliter ≈ 1 gram) for quick
+      kitchen math.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="cooking-form">
+      <div class="form-grid columns-3">
+        <div>
+          <label for="cooking-amount">Amount</label>
+          <input
+            id="cooking-amount"
+            name="amount"
+            type="number"
+            step="any"
+            inputmode="decimal"
+            placeholder="2"
+            value="1"
+            required
+          />
+        </div>
+        <div>
+          <label for="cooking-from">From</label>
+          <select id="cooking-from" name="from"></select>
+        </div>
+        <div>
+          <label for="cooking-to">To</label>
+          <select id="cooking-to" name="to"></select>
+        </div>
+      </div>
+
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="submit">Convert</button>
+        <button class="btn" type="reset">Reset</button>
+      </div>
+      <p class="helper" style="margin-top:10px;">
+        Need a quick kitchen math table? Scroll down after converting to see the amount expressed in every supported unit.
+      </p>
+    </form>
+  </section>
+
+  <section id="cooking-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="cooking-inline-1" />
+  <script defer src="/js/cooking-converter.js"></script>
+</BaseLayout>

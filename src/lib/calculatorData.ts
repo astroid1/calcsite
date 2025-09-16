@@ -20,13 +20,15 @@ export const calculatorCategories: CalculatorCategory[] = [
         href: "/calculators/days-from-date",
         name: "Days From (or Until) a Date",
         navLabel: "Days From Date",
-        description: "Find how many days are between any two dates—or from today.",
+        description:
+          "Find how many days are between any two dates—or from today.",
       },
       {
         href: "/calculators/age-calculator",
         name: "Age Calculator",
         navLabel: "Age",
-        description: "Enter a birthdate to see your age in years, months, and days.",
+        description:
+          "Enter a birthdate to see your age in years, months, and days.",
       },
       {
         href: "/calculators/days-until-birthday",
@@ -38,7 +40,8 @@ export const calculatorCategories: CalculatorCategory[] = [
         href: "/calculators/anniversary-countdown",
         name: "Anniversary Countdown",
         navLabel: "Anniversary",
-        description: "Preview the next few anniversaries for any meaningful date.",
+        description:
+          "Preview the next few anniversaries for any meaningful date.",
       },
       {
         href: "/calculators/holiday-countdown",
@@ -56,49 +59,112 @@ export const calculatorCategories: CalculatorCategory[] = [
         href: "/calculators/loan-calculator",
         name: "Loan Calculator",
         navLabel: "Loan",
-        description: "Estimate payments and see principal versus interest by year.",
+        description:
+          "Estimate payments and see principal versus interest by year.",
       },
       {
         href: "/calculators/mortgage-calculator",
         name: "Mortgage Planner",
         navLabel: "Mortgage",
-        description: "Check affordability, monthly costs, and an amortization schedule.",
+        description:
+          "Check affordability, monthly costs, and an amortization schedule.",
       },
       {
         href: "/calculators/compound-interest-calculator",
         name: "Compound Interest",
         navLabel: "Invest",
-        description: "Model investment growth with recurring deposits and raises.",
+        description:
+          "Model investment growth with recurring deposits and raises.",
       },
       {
         href: "/calculators/currency-converter",
         name: "Currency Converter",
         navLabel: "Currency",
-        description: "Convert between 30+ currencies with live-rate fallback support.",
+        description:
+          "Convert between 30+ currencies with live-rate fallback support.",
       },
       {
         href: "/calculators/inflation-calculator",
         name: "Inflation Adjuster",
         navLabel: "Inflation",
-        description: "Compare the buying power of money across different years.",
+        description:
+          "Compare the buying power of money across different years.",
       },
       {
         href: "/calculators/salary-to-hourly",
         name: "Salary ↔ Hourly",
         navLabel: "Salary",
-        description: "Convert yearly pay to hourly wages (and vice versa) with your schedule.",
+        description:
+          "Convert yearly pay to hourly wages (and vice versa) with your schedule.",
       },
       {
         href: "/calculators/tip-calculator",
         name: "Tip Splitter",
         navLabel: "Tip",
-        description: "Quickly find tip amounts and per-person totals for the table.",
+        description:
+          "Quickly find tip amounts and per-person totals for the table.",
       },
       {
         href: "/calculators/savings-goal-calculator",
         name: "Savings Goal",
         navLabel: "Savings",
-        description: "See the monthly deposit needed to reach a target with growth.",
+        description:
+          "See the monthly deposit needed to reach a target with growth.",
+      },
+    ],
+  },
+  {
+    id: "conversions",
+    label: "Converters & Units",
+    calculators: [
+      {
+        href: "/calculators/unit-converter",
+        name: "Unit Converter",
+        navLabel: "Units",
+        description:
+          "Switch between length, weight, temperature, and volume measurements with precise factors.",
+      },
+      {
+        href: "/calculators/time-zone-converter",
+        name: "Time Zone Converter",
+        navLabel: "Time Zones",
+        description:
+          "Enter a city and instantly compare the time across world capitals—DST aware.",
+      },
+      {
+        href: "/calculators/cooking-measurement-converter",
+        name: "Cooking Measurement Converter",
+        navLabel: "Cooking",
+        description:
+          "Translate cups, grams, ounces, and spoons with a water-based kitchen reference.",
+      },
+      {
+        href: "/calculators/fuel-economy-converter",
+        name: "Fuel Economy Converter",
+        navLabel: "Fuel",
+        description:
+          "Swap between MPG and liters per 100 km when comparing vehicle efficiency.",
+      },
+      {
+        href: "/calculators/speed-converter",
+        name: "Speed Converter",
+        navLabel: "Speed",
+        description:
+          "Convert driving speeds between miles per hour and kilometers per hour.",
+      },
+      {
+        href: "/calculators/shoe-size-converter",
+        name: "Shoe Size Converter",
+        navLabel: "Shoes",
+        description:
+          "Match US, UK, and EU shoe sizes for men's and women's charts side by side.",
+      },
+      {
+        href: "/calculators/clothing-size-converter",
+        name: "Clothing Size Converter",
+        navLabel: "Clothing",
+        description:
+          "Find approximate international equivalents for common men's and women's apparel sizes.",
       },
     ],
   },
