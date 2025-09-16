@@ -1,0 +1,96 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Event Budget Calculator";
+const description = "Plan venue, catering, staffing, and contingency costs for weddings, parties, or corporate events.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/event-budget-calculator">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      Estimate total event spend by combining fixed venue costs with per-guest food, beverage, and miscellaneous expenses. Add
+      service fees and a contingency buffer to see a realistic total and per-guest target.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="event-budget-form" autocomplete="off">
+      <div class="form-grid columns-3">
+        <div>
+          <label for="event-name">Event name</label>
+          <input id="event-name" name="name" type="text" placeholder="Riverfront wedding" />
+        </div>
+        <div>
+          <label for="event-guests">Guest count</label>
+          <input id="event-guests" name="guests" type="number" min="1" step="1" placeholder="120" required />
+        </div>
+        <div>
+          <label for="event-hours">Event length (hours)</label>
+          <input id="event-hours" name="hours" type="number" min="1" max="24" step="0.5" placeholder="6" />
+        </div>
+      </div>
+
+      <div class="form-grid columns-3" style="margin-top:12px;">
+        <div>
+          <label for="event-venue">Venue & rentals (flat)</label>
+          <input id="event-venue" name="venue" type="number" min="0" step="50" placeholder="4500" />
+        </div>
+        <div>
+          <label for="event-decor">Decor & design (flat)</label>
+          <input id="event-decor" name="decor" type="number" min="0" step="50" placeholder="1500" />
+        </div>
+        <div>
+          <label for="event-entertainment">Entertainment (flat)</label>
+          <input id="event-entertainment" name="entertainment" type="number" min="0" step="50" placeholder="900" />
+        </div>
+      </div>
+
+      <div class="form-grid columns-3" style="margin-top:12px;">
+        <div>
+          <label for="event-food">Food per guest</label>
+          <input id="event-food" name="food" type="number" min="0" step="1" placeholder="65" />
+        </div>
+        <div>
+          <label for="event-drink">Beverage per guest</label>
+          <input id="event-drink" name="drink" type="number" min="0" step="1" placeholder="18" />
+        </div>
+        <div>
+          <label for="event-favors">Extras per guest</label>
+          <input id="event-favors" name="extras" type="number" min="0" step="1" placeholder="5" />
+        </div>
+      </div>
+
+      <div class="form-grid columns-3" style="margin-top:12px;">
+        <div>
+          <label for="event-staff">Staffing & labor (flat)</label>
+          <input id="event-staff" name="staff" type="number" min="0" step="50" placeholder="800" />
+        </div>
+        <div>
+          <label for="event-service">Service charge (%)</label>
+          <input id="event-service" name="service" type="number" min="0" max="30" step="0.5" value="18" />
+        </div>
+        <div>
+          <label for="event-contingency">Contingency buffer (%)</label>
+          <input id="event-contingency" name="contingency" type="number" min="0" max="50" step="1" value="10" />
+        </div>
+      </div>
+
+      <p class="helper" style="margin-top:12px;">
+        Food, beverage, and extras are calculated per guest. Venue, decor, entertainment, and staffing are treated as flat costs.
+      </p>
+
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+        <button class="btn" type="submit">Build budget</button>
+        <button class="btn" type="reset">Reset</button>
+        <span class="helper" id="event-status">Enter at least a guest count to see the budget.</span>
+      </div>
+    </form>
+  </section>
+
+  <section id="event-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="event-inline-1" />
+  <script defer src="/js/event-budget-calculator.js"></script>
+</BaseLayout>

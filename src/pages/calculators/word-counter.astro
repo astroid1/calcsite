@@ -1,0 +1,77 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Word & Character Counter";
+const description = "Count words, characters, sentences, and estimate reading time for any text.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/word-counter">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      Paste or type your writing to instantly see word count, character totals (with and without spaces), sentence count, and a
+      reading time estimate. Set a word target to track your progress.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="word-counter-form">
+      <label for="word-counter-input">Your text</label>
+      <textarea
+        id="word-counter-input"
+        rows="12"
+        placeholder="Paste an article, essay, or brainstorm here to track word count while you write."
+      ></textarea>
+
+      <div class="form-grid columns-3" style="margin-top:14px;">
+        <div>
+          <label for="word-target">Word target (optional)</label>
+          <input id="word-target" name="target" type="number" min="0" step="50" placeholder="1000" />
+        </div>
+        <div>
+          <label for="word-reading-speed">Reading speed (words/min)</label>
+          <input id="word-reading-speed" name="wpm" type="number" min="100" max="400" step="10" value="225" />
+        </div>
+        <div style="display:flex; align-items:flex-end; gap:8px;">
+          <button class="btn" type="button" id="word-copy" style="flex:1;">Copy text</button>
+          <button class="btn" type="reset" style="flex:1;">Clear</button>
+        </div>
+      </div>
+    </form>
+  </section>
+
+  <section class="card" style="margin-top:16px;">
+    <h2 style="margin-top:0;">Counts &amp; estimates</h2>
+    <div class="form-grid columns-3" id="word-counter-stats">
+      <div>
+        <p class="helper">Words</p>
+        <p class="stat" id="word-total">0</p>
+      </div>
+      <div>
+        <p class="helper">Characters (with spaces)</p>
+        <p class="stat" id="char-total">0</p>
+      </div>
+      <div>
+        <p class="helper">Characters (no spaces)</p>
+        <p class="stat" id="char-tight">0</p>
+      </div>
+      <div>
+        <p class="helper">Sentences</p>
+        <p class="stat" id="sentence-total">0</p>
+      </div>
+      <div>
+        <p class="helper">Paragraphs</p>
+        <p class="stat" id="paragraph-total">0</p>
+      </div>
+      <div>
+        <p class="helper">Estimated reading time</p>
+        <p class="stat" id="reading-time">0 min</p>
+      </div>
+    </div>
+    <div id="word-target-progress" class="helper" style="margin-top:12px;"></div>
+  </section>
+
+  <AdSlot id="word-counter-inline-1" />
+  <script defer src="/js/word-counter.js"></script>
+</BaseLayout>

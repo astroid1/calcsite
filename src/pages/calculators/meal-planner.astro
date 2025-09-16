@@ -1,0 +1,90 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Meal Planner & Portion Calculator";
+const description = "Scale recipes and grocery lists for any gathering based on adult and kid headcount.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/meal-planner">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      Enter how many people you're serving and pick a meal style. We'll estimate recommended portions for protein, sides,
+      vegetables, dessert, and drinks—plus the total shopping list with leftovers included.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="meal-form" autocomplete="off">
+      <div class="form-grid columns-4">
+        <div>
+          <label for="meal-adults">Adults</label>
+          <input id="meal-adults" name="adults" type="number" min="0" step="1" value="8" />
+        </div>
+        <div>
+          <label for="meal-kids">Children</label>
+          <input id="meal-kids" name="kids" type="number" min="0" step="1" value="4" />
+        </div>
+        <div>
+          <label for="meal-style">Meal style</label>
+          <select id="meal-style" name="style">
+            <option value="light">Light (brunch, tasting)</option>
+            <option value="standard" selected>Standard dinner</option>
+            <option value="hearty">Hearty (holiday feast)</option>
+          </select>
+        </div>
+        <div>
+          <label for="meal-leftovers">Leftover buffer (%)</label>
+          <input id="meal-leftovers" name="leftovers" type="number" min="0" max="50" step="1" value="10" />
+        </div>
+      </div>
+
+      <fieldset style="margin-top:14px;">
+        <legend>Include courses</legend>
+        <div class="form-grid columns-3">
+          <label class="checkbox">
+            <input type="checkbox" name="course" value="protein" checked />
+            <span>Main protein</span>
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" name="course" value="grains" checked />
+            <span>Starch / grains</span>
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" name="course" value="vegetables" checked />
+            <span>Cooked vegetables</span>
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" name="course" value="salad" checked />
+            <span>Salad</span>
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" name="course" value="dessert" checked />
+            <span>Dessert</span>
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" name="course" value="drinks" checked />
+            <span>Drinks</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <p class="helper" style="margin-top:12px;">
+        Kids count as 0.6 of an adult portion. Adjust the meal style to bump portions up or down and add a leftovers cushion if
+        you want second servings.
+      </p>
+
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+        <button class="btn" type="submit">Calculate portions</button>
+        <button class="btn" type="reset">Reset</button>
+        <span class="helper" id="meal-status">Enter your headcount to size the meal.</span>
+      </div>
+    </form>
+  </section>
+
+  <section id="meal-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="meal-inline-1" />
+  <script defer src="/js/meal-planner.js"></script>
+</BaseLayout>
