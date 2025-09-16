@@ -306,13 +306,6 @@ export const calculatorCategories: CalculatorCategory[] = [
         description: "Turn any text or link into a downloadable QR code with adjustable size.",
       },
       {
-        href: "/calculators/typing-speed-test",
-        name: "Typing Speed Test",
-        navLabel: "Typing Test",
-        description:
-          "Measure words per minute, accuracy, and keystrokes with live stats during timed prompts.",
-      },
-      {
         href: "/calculators/word-counter",
         name: "Word & Character Counter",
         navLabel: "Word Counter",
