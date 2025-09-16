@@ -1,9 +1,18 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Text Case Converter";
 const description = "Switch text between uppercase, lowercase, and title case instantly.";
+const instructions = [
+  {
+    label: "Your text",
+    description: "Paste or type the content you want to convert. We'll create a transformed copy while leaving your original text intact.",
+  },
+];
+const instructionsFooter =
+  "Use the Uppercase, Lowercase, or Title Case buttons to generate the result below. Clear resets the input area.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/text-case-converter">
@@ -14,6 +23,8 @@ const description = "Switch text between uppercase, lowercase, and title case in
       you can drop the result right back into your document.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="case-form">

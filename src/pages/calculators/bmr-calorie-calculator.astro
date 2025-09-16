@@ -1,10 +1,40 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "BMR & Calorie Needs Calculator";
 const description =
   "Estimate your basal metabolic rate and daily calorie targets using the Mifflin-St Jeor equation.";
+const instructions = [
+  {
+    label: "Sex",
+    description: "Choose the biological sex that matches the equation you want to use for estimating BMR.",
+  },
+  {
+    label: "Age",
+    description: "Enter your age in years. The Mifflin-St Jeor formula is validated for adults.",
+  },
+  {
+    label: "Units",
+    description: "Select Metric (cm, kg) or Imperial (in, lb). Height and weight placeholders adjust to match.",
+  },
+  {
+    label: "Height",
+    description: "Enter your height in the units you selected. Decimals let you capture partial centimeters or inches.",
+  },
+  {
+    label: "Weight",
+    description: "Enter your current body weight in the same measurement system. Include decimals if helpful.",
+  },
+  {
+    label: "Activity level",
+    description:
+      "Pick the option that best matches your weekly exercise. It sets the multiplier for maintenance calories.",
+  },
+];
+const instructionsFooter =
+  "Hit Estimate calories to see BMR plus maintenance, cut, and surplus targets. Reset clears everything so you can start fresh.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/bmr-calorie-calculator">
@@ -15,6 +45,8 @@ const description =
       The calculator uses the clinically trusted Mifflin-St Jeor formula for BMR.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="bmr-form">

@@ -1,9 +1,27 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "BMI Calculator";
 const description = "Check your body mass index and see a healthy weight range for your height.";
+const instructions = [
+  {
+    label: "Units",
+    description:
+      "Choose Metric for centimeters and kilograms or Imperial for inches and pounds. Height and weight labels update instantly.",
+  },
+  {
+    label: "Height",
+    description: "Enter your height using the units you selected. Decimals are welcome for half units.",
+  },
+  {
+    label: "Weight",
+    description: "Enter your current body weight in the matching units. Include decimals if needed for accuracy.",
+  },
+];
+const instructionsFooter =
+  "Press Calculate BMI to see your body mass index and the healthy weight range for that height. Reset clears the form.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/bmi-calculator">
@@ -14,6 +32,8 @@ const description = "Check your body mass index and see a healthy weight range f
       BMI is a starting point—muscle mass and body composition matter too.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="bmi-form">

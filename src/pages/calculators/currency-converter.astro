@@ -1,9 +1,26 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Currency Converter";
 const description = "Convert between world currencies with live exchange rates.";
+const instructions = [
+  {
+    label: "Amount",
+    description: "Enter how much money you have in the source currency.",
+  },
+  {
+    label: "From",
+    description: "Choose the currency you are converting from.",
+  },
+  {
+    label: "To",
+    description: "Select the currency you want to convert into.",
+  },
+];
+const instructionsFooter =
+  "Hit Convert to pull the current exchange rate and display the converted total. Use Swap to flip the currencies.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/currency-converter">
@@ -11,6 +28,8 @@ const description = "Convert between world currencies with live exchange rates."
     <h1>{title}</h1>
     <p class="helper">Pick two currencies and enter an amount. We'll fetch the latest rates (with an offline fallback) and show the converted value instantly.</p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="currency-form">

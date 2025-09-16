@@ -1,9 +1,30 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Unit Converter";
 const description = "Convert between length, weight, temperature, and volume units with precise rounding.";
+const instructions = [
+  {
+    label: "Measurement type",
+    description: "Choose the category—length, weight, temperature, or volume—to load matching units.",
+  },
+  {
+    label: "Amount",
+    description: "Enter the value you want to convert.",
+  },
+  {
+    label: "From unit",
+    description: "Select the unit you currently have.",
+  },
+  {
+    label: "To unit",
+    description: "Pick the unit you want to convert into.",
+  },
+];
+const instructionsFooter =
+  "Press Convert to run the calculation or adjust fields to update the result live. Reset returns to the defaults.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/unit-converter">
@@ -14,6 +35,8 @@ const description = "Convert between length, weight, temperature, and volume uni
       exact conversion factors.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="unit-form">

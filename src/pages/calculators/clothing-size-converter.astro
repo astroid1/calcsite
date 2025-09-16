@@ -1,9 +1,26 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Clothing Size Converter";
 const description = "Find approximate international equivalents for men's and women's clothing sizes.";
+const instructions = [
+  {
+    label: "Sizing chart",
+    description: "Choose whether you want women's or men's apparel conversions. It loads the matching size chart.",
+  },
+  {
+    label: "I know my size in",
+    description: "Select the sizing system you already have—International, US, UK, or EU.",
+  },
+  {
+    label: "Size",
+    description: "Pick your current size from the drop-down. The tool will show the best-matching sizes in the other systems.",
+  },
+];
+const instructionsFooter =
+  "Press Convert to see equivalent sizes across the remaining regions. Reset switches everything back to the defaults.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/clothing-size-converter">
@@ -14,6 +31,8 @@ const description = "Find approximate international equivalents for men's and wo
       regions. Use this as a starting point when shopping abroad.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="clothing-form">

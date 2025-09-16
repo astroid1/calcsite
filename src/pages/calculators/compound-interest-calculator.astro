@@ -1,9 +1,38 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Compound Interest Calculator";
 const description = "Project how investments grow with compound interest and monthly contributions.";
+const instructions = [
+  {
+    label: "Starting balance",
+    description: "Enter your current investment balance or initial deposit.",
+  },
+  {
+    label: "Monthly contribution",
+    description: "Add the amount you plan to contribute each month. Leave zero if you are not adding more money.",
+  },
+  {
+    label: "Annual return (%)",
+    description: "Enter your expected average yearly rate of return before fees.",
+  },
+  {
+    label: "Years invested",
+    description: "Set how long you will keep the money invested.",
+  },
+  {
+    label: "Compounding frequency",
+    description: "Choose how often interest is compounded—annually, quarterly, monthly, or daily.",
+  },
+  {
+    label: "Annual contribution increase (%)",
+    description: "If you plan to raise contributions each year, enter the yearly percentage bump. Leave at 0% to keep payments flat.",
+  },
+];
+const instructionsFooter =
+  "Click Calculate growth to forecast your ending balance, total contributions, and interest earned. Reset clears your inputs.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/compound-interest-calculator">
@@ -11,6 +40,8 @@ const description = "Project how investments grow with compound interest and mon
     <h1>{title}</h1>
     <p class="helper">See how your starting balance and recurring deposits compound over time. Adjust the compounding frequency to match your account.</p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="compound-form">

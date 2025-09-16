@@ -1,8 +1,18 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 const title = "Anniversary Countdown";
 const description = "Input a special date and see upcoming anniversary milestones.";
+const instructions = [
+  {
+    label: "Special Date",
+    description:
+      "Pick the original date you want to celebrate. Type it in manually or use the calendar button to select the exact day.",
+  },
+];
+const instructionsFooter =
+  "Choose Show Anniversaries to list future milestones and remaining days. Use Clear to remove the date and start again.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/anniversary-countdown">
@@ -10,6 +20,8 @@ const description = "Input a special date and see upcoming anniversary milestone
     <h1>{title}</h1>
     <p class="helper">Enter a meaningful date to preview the next anniversaries and days remaining.</p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="anniversary-form">

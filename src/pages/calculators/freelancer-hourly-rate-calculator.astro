@@ -1,9 +1,46 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Freelancer Hourly Rate Calculator";
 const description = "Back into a sustainable freelance rate using income goals, billable hours, and overhead.";
+const instructions = [
+  {
+    label: "Desired annual take-home pay",
+    description: "Enter the net income you want to pay yourself each year after covering business expenses.",
+  },
+  {
+    label: "Estimated annual business expenses",
+    description: "Add recurring costs like software, insurance, rent, and equipment.",
+  },
+  {
+    label: "Billable hours per week",
+    description: "Estimate how many hours you can actually invoice each week, not total working hours.",
+  },
+  {
+    label: "Unpaid weeks off each year",
+    description: "Account for holidays, vacations, or downtime when you will not bill clients.",
+  },
+  {
+    label: "Profit cushion (%)",
+    description: "Add a markup to cover admin time and unexpected scope. Increase it if you want more buffer.",
+  },
+  {
+    label: "Self-employment tax & benefits reserve (%)",
+    description: "Set aside a percentage of revenue for taxes, health insurance, and retirement savings.",
+  },
+  {
+    label: "Estimated project hours (optional)",
+    description: "If quoting a specific job, enter the total hours you expect the project to take.",
+  },
+  {
+    label: "Project expenses (optional)",
+    description: "Add pass-through costs for subcontractors, travel, or materials tied to that project.",
+  },
+];
+const instructionsFooter =
+  "Press Calculate rate to see your break-even hourly rate, suggested markup, and a project quote if provided. Reset clears everything.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/freelancer-hourly-rate-calculator">
@@ -14,6 +51,8 @@ const description = "Back into a sustainable freelance rate using income goals, 
       you can bill. Add a project scope to translate the rate into a suggested quote.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="freelance-form">

@@ -1,9 +1,26 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Word & Character Counter";
 const description = "Count words, characters, sentences, and estimate reading time for any text.";
+const instructions = [
+  {
+    label: "Your text",
+    description: "Paste or type the content you want to analyze.",
+  },
+  {
+    label: "Word target",
+    description: "Optional. Enter a goal word count to track progress toward it.",
+  },
+  {
+    label: "Reading speed (words/min)",
+    description: "Adjust the words-per-minute rate used to estimate reading time.",
+  },
+];
+const instructionsFooter =
+  "Statistics update live as you type. Use Copy text to grab your writing or Clear to start over.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/word-counter">
@@ -14,6 +31,8 @@ const description = "Count words, characters, sentences, and estimate reading ti
       reading time estimate. Set a word target to track your progress.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="word-counter-form">

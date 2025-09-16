@@ -1,8 +1,23 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 const title = "Days From (or Until) a Date";
 const description = "Calculate days between today and a specific date, or between two dates.";
+const instructions = [
+  {
+    label: "Date",
+    description:
+      "Enter the main date you care about. Type it in or use the calendar picker to choose an exact day.",
+  },
+  {
+    label: "Compare To",
+    description:
+      "Optional. Leave blank to compare against today, or pick another date to see the difference between two specific days.",
+  },
+];
+const instructionsFooter =
+  "Select Calculate to see how many days separate the dates and whether the event is in the past or future. Clear resets the form.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/days-from-date">
@@ -10,6 +25,8 @@ const description = "Calculate days between today and a specific date, or betwee
     <h1>{title}</h1>
     <p class="helper">Enter a date, and optionally a comparison date. We’ll tell you how many days separate them.</p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="dfd-form">

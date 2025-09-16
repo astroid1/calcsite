@@ -1,9 +1,19 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Age Calculator";
 const description = "Enter a birthdate and instantly get age in years, months, and days.";
+const instructions = [
+  {
+    label: "Birthdate",
+    description:
+      "Enter the date of birth you want to measure. Type it as YYYY-MM-DD or MM/DD/YYYY, or open the calendar picker to choose a date.",
+  },
+];
+const instructionsFooter =
+  "Select Calculate Age to break the result down into years, months, and days. Use Clear to wipe the form and start again.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/age-calculator">
@@ -11,6 +21,8 @@ const description = "Enter a birthdate and instantly get age in years, months, a
     <h1>{title}</h1>
     <p class="helper">Type your birthdate. We'll break down your age by years, months, and days.</p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="age-form">

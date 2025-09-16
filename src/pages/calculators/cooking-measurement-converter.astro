@@ -1,9 +1,26 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Cooking Measurement Converter";
 const description = "Swap between cups, grams, ounces, tablespoons, and more with a kitchen-friendly reference.";
+const instructions = [
+  {
+    label: "Amount",
+    description: "Enter the quantity you want to convert. Fractions and decimals both work.",
+  },
+  {
+    label: "From",
+    description: "Choose the unit you currently have—cups, grams, teaspoons, etc.",
+  },
+  {
+    label: "To",
+    description: "Select the unit you need the amount converted into.",
+  },
+];
+const instructionsFooter =
+  "Press Convert to see the exact conversion plus a handy table of all other units. Reset restores the defaults.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/cooking-measurement-converter">
@@ -14,6 +31,8 @@ const description = "Swap between cups, grams, ounces, tablespoons, and more wit
       kitchen math.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="cooking-form">

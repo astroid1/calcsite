@@ -1,9 +1,38 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Credit Card Interest Calculator";
 const description = "Project the cost of revolving a credit card balance and see how extra payments shorten payoff time.";
+const instructions = [
+  {
+    label: "Current balance",
+    description: "Enter the credit card balance you are carrying right now.",
+  },
+  {
+    label: "APR (%)",
+    description: "Input the card's annual percentage rate. You'll find it on your statement.",
+  },
+  {
+    label: "Monthly payment",
+    description: "Type the amount you plan to pay each month. Use at least the required minimum.",
+  },
+  {
+    label: "Additional monthly payment",
+    description: "Optionally add extra money you can commit on top of your planned payment.",
+  },
+  {
+    label: "New charges per month",
+    description: "If you expect to keep using the card, enter the average new spending added each month.",
+  },
+  {
+    label: "Minimum payment floor",
+    description: "Some cards have a fixed dollar minimum even when your percentage payment is smaller. Enter that amount here.",
+  },
+];
+const instructionsFooter =
+  "Press Estimate interest to view payoff time, total interest, and how extra payments change the schedule. Reset clears the inputs.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/credit-card-interest-calculator">
@@ -14,6 +43,8 @@ const description = "Project the cost of revolving a credit card balance and see
       extra payment to compare how quickly the balance disappears.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="credit-form">

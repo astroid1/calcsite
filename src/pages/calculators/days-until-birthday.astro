@@ -1,8 +1,21 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 const title = "Days Until Your Birthday";
 const description = "Countdown to your next birthday with leap-year handling.";
+const instructions = [
+  {
+    label: "Month",
+    description: "Select the month of your birthday.",
+  },
+  {
+    label: "Day",
+    description: "Enter the day of the month. We'll automatically account for shorter months and leap years.",
+  },
+];
+const instructionsFooter =
+  "Choose Calculate to see how many days remain until your next birthday. Clear resets the dropdown and number field.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/days-until-birthday">
@@ -10,6 +23,8 @@ const description = "Countdown to your next birthday with leap-year handling.";
     <h1>{title}</h1>
     <p class="helper">Pick your month and day. We’ll handle leap years automatically.</p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="bday-form">

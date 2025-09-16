@@ -1,9 +1,26 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Time Zone Converter";
 const description = "Compare the same moment across world cities with automatic daylight-saving handling.";
+const instructions = [
+  {
+    label: "Date & time",
+    description: "Enter the date and time in your origin city.",
+  },
+  {
+    label: "Origin city",
+    description: "Choose the city and time zone you are starting from.",
+  },
+  {
+    label: "Select cities to compare",
+    description: "Pick one or more destination cities to see their corresponding local times.",
+  },
+];
+const instructionsFooter =
+  "Click Compare times to list each city's local time and offset from the origin. Reset clears your selections.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/time-zone-converter">
@@ -14,6 +31,8 @@ const description = "Compare the same moment across world cities with automatic 
       each city and how far ahead or behind it is.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="time-form">

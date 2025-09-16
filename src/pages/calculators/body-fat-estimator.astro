@@ -1,10 +1,43 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Body Fat Percentage Estimator";
 const description =
   "Approximate your body fat percentage and lean mass using the U.S. Navy tape-measure method.";
+const instructions = [
+  {
+    label: "Sex",
+    description: "Choose male or female so the correct Navy equation is applied.",
+  },
+  {
+    label: "Units",
+    description: "Pick Metric (cm, kg) or Imperial (in, lb). Input prompts update to match your choice.",
+  },
+  {
+    label: "Weight",
+    description: "Enter your scale weight using the selected units.",
+  },
+  {
+    label: "Height",
+    description: "Measure your height and enter it in centimeters or inches.",
+  },
+  {
+    label: "Neck",
+    description: "Wrap the tape just below the Adam's apple and record the circumference.",
+  },
+  {
+    label: "Waist (navel)",
+    description: "Measure around your natural waistline at the level of the navel while standing relaxed.",
+  },
+  {
+    label: "Hip",
+    description: "Only needed for the female formula. Measure the widest point around the glutes; leave blank if you're using the male equation.",
+  },
+];
+const instructionsFooter =
+  "Click Estimate body fat to calculate percentage and lean mass from your measurements. Reset clears the form.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/body-fat-estimator">
@@ -15,6 +48,8 @@ const description =
       percentage and lean mass.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="body-fat-form">

@@ -1,9 +1,50 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Mortgage Calculator";
 const description = "Plan a home purchase with affordability guidance and an amortization schedule.";
+const instructions = [
+  {
+    label: "Home price",
+    description: "Enter the purchase price of the property.",
+  },
+  {
+    label: "Down payment (%)",
+    description: "Specify how much of the price you'll pay upfront as a percentage.",
+  },
+  {
+    label: "Interest rate (%)",
+    description: "Provide the mortgage interest rate (APR).",
+  },
+  {
+    label: "Loan term (years)",
+    description: "Enter the repayment period for the loan in years.",
+  },
+  {
+    label: "Property tax rate",
+    description: "Input your annual property tax rate as a percent of home value.",
+  },
+  {
+    label: "Home insurance",
+    description: "Estimate your yearly homeowners insurance premium.",
+  },
+  {
+    label: "HOA dues",
+    description: "Enter any monthly homeowners association fees, or leave zero if none.",
+  },
+  {
+    label: "Household income",
+    description: "Optional. Add your gross annual income to run an affordability check.",
+  },
+  {
+    label: "Monthly debt payments",
+    description: "Optional. Enter existing monthly debts (loans, credit cards) to refine the affordability guideline.",
+  },
+];
+const instructionsFooter =
+  "Hit Run mortgage math to calculate payments, total interest, and affordability metrics. Reset clears the form.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/mortgage-calculator">
@@ -11,6 +52,8 @@ const description = "Plan a home purchase with affordability guidance and an amo
     <h1>{title}</h1>
     <p class="helper">Estimate your monthly mortgage payment, check how much home you can afford, and review a year-by-year payoff schedule.</p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="mortgage-form">

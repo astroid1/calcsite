@@ -1,9 +1,42 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Event Budget Calculator";
 const description = "Plan venue, catering, staffing, and contingency costs for weddings, parties, or corporate events.";
+const instructions = [
+  {
+    label: "Event name",
+    description: "Optional label to identify the plan in your download or printout.",
+  },
+  {
+    label: "Guest count",
+    description: "Enter the number of attendees you expect. It drives all per-guest calculations.",
+  },
+  {
+    label: "Event length (hours)",
+    description: "Add the total hours the event runs to help estimate staffing and overtime needs.",
+  },
+  {
+    label: "Venue, decor, entertainment, staffing",
+    description: "Input fixed costs you pay regardless of guests—for space rental, design, performers, and labor.",
+  },
+  {
+    label: "Food, beverage, extras per guest",
+    description: "Enter per-person costs for catering, drinks, favors, or swag so the tool scales them by guest count.",
+  },
+  {
+    label: "Service charge (%)",
+    description: "If vendors add a service fee, enter the percentage so it's applied to the subtotal.",
+  },
+  {
+    label: "Contingency buffer (%)",
+    description: "Add a cushion for surprises. We'll tack this percentage onto the total budget.",
+  },
+];
+const instructionsFooter =
+  "Press Build budget to see the total cost, per-guest target, and a detailed breakdown. Reset clears all numbers.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/event-budget-calculator">
@@ -14,6 +47,8 @@ const description = "Plan venue, catering, staffing, and contingency costs for w
       service fees and a contingency buffer to see a realistic total and per-guest target.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="event-budget-form" autocomplete="off">

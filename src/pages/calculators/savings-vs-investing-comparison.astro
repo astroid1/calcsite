@@ -1,9 +1,38 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Savings vs Investing Comparison";
 const description = "Compare projected growth of cash kept in a bank account versus invested in the market.";
+const instructions = [
+  {
+    label: "Starting balance",
+    description: "Enter the amount of money you have today.",
+  },
+  {
+    label: "Monthly contribution",
+    description: "Add how much you plan to deposit each month (optional).",
+  },
+  {
+    label: "Years to grow",
+    description: "Set the time horizon for the comparison.",
+  },
+  {
+    label: "Bank APY (%)",
+    description: "Enter the annual percentage yield for a savings account or cash alternative.",
+  },
+  {
+    label: "Expected investment return (%)",
+    description: "Provide the average annual return you expect from investing.",
+  },
+  {
+    label: "Investment fees (%)",
+    description: "Enter yearly investment costs (expense ratios, advisory fees). We'll subtract them from returns.",
+  },
+];
+const instructionsFooter =
+  "Press Compare growth to chart both balances over time and see the difference in ending value. Reset clears the inputs.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/savings-vs-investing-comparison">
@@ -14,6 +43,8 @@ const description = "Compare projected growth of cash kept in a bank account ver
       monthly contributions, and time horizon to see how the gap changes.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="compare-form">

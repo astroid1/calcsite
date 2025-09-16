@@ -1,9 +1,27 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Debt Payoff Calculator";
 const description = "Compare the snowball vs. avalanche strategy with payoff timelines and interest totals.";
+const instructions = [
+  {
+    label: "Debt list",
+    description:
+      "For each balance, enter a name (optional), the current balance, APR, and minimum payment. Use Add another debt to include every loan or card you plan to pay off.",
+  },
+  {
+    label: "Extra monthly payment toward debt",
+    description: "If you can pay more than the required minimums, enter the extra cash available each month.",
+  },
+  {
+    label: "Starting month (optional)",
+    description: "Choose the month you expect to begin the payoff plan. Leave blank to start from the current month.",
+  },
+];
+const instructionsFooter =
+  "Select Compare snowball & avalanche to see payoff dates, total interest, and which strategy clears debts first. Reset clears all debts and settings.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/debt-payoff-calculator">
@@ -14,6 +32,8 @@ const description = "Compare the snowball vs. avalanche strategy with payoff tim
       (smallest balance first) and avalanche (highest interest rate first) side by side.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="debt-form">

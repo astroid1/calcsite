@@ -394,6 +394,47 @@ a:hover {
   color: var(--muted);
 }
 
+.card.info-card {
+  cursor: default;
+}
+
+.card.info-card:hover {
+  transform: none;
+  border-color: var(--border);
+  box-shadow: var(--shadow);
+}
+
+.instructions-card {
+  margin-top: 18px;
+}
+
+.instructions-card h2 {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.instructions-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.instructions-list li {
+  display: grid;
+  gap: 4px;
+}
+
+.instructions-term {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.instructions-detail {
+  color: var(--muted);
+}
+
 .btn {
   display: inline-flex;
   align-items: center;

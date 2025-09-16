@@ -1,9 +1,26 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AdSlot from "@/components/AdSlot.astro";
+import InstructionList from "@/components/InstructionList.astro";
 
 const title = "Pet Age Converter";
 const description = "Convert a dog's or cat's human-age lifespan into pet years with an optional birth-month helper.";
+const instructions = [
+  {
+    label: "Species",
+    description: "Choose dog or cat to apply the correct growth curve.",
+  },
+  {
+    label: "Human years lived",
+    description: "Enter the pet's age in human years. Decimals are OK for partial years.",
+  },
+  {
+    label: "Birth month & year",
+    description: "Optional. Select the birth month to auto-calculate human years based on today's date.",
+  },
+];
+const instructionsFooter =
+  "Press Convert to pet years to estimate the pet-equivalent age and view the reference chart. Reset clears the inputs.";
 ---
 
 <BaseLayout {title} {description} pathname="/calculators/pet-age-converter">
@@ -14,6 +31,8 @@ const description = "Convert a dog's or cat's human-age lifespan into pet years 
       we'll translate that into pet years using veterinary growth curves.
     </p>
   </section>
+
+  <InstructionList items={instructions} footer={instructionsFooter} />
 
   <section class="card" style="margin-top:18px;">
     <form id="pet-age-form">
