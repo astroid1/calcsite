@@ -1,0 +1,45 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AdSlot from "@/components/AdSlot.astro";
+
+const title = "Hex ↔ RGB Color Converter";
+const description = "Convert brand colors between hexadecimal and RGB values with a live preview.";
+---
+
+<BaseLayout {title} {description} pathname="/calculators/hex-rgb-color-converter">
+  <section class="hero">
+    <h1>{title}</h1>
+    <p class="helper">
+      Designers and developers can translate colors either direction—enter a hex value or RGB triplet and we’ll fill in the
+      other format while previewing the swatch.
+    </p>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <form id="color-form">
+      <div class="form-grid">
+        <div>
+          <label for="color-hex">Hex color</label>
+          <input id="color-hex" name="hex" type="text" placeholder="#4e8cff" autocapitalize="off" autocorrect="off" />
+          <p class="helper">Accepts #RGB or #RRGGBB.</p>
+        </div>
+        <div>
+          <label for="color-rgb">RGB color</label>
+          <input id="color-rgb" name="rgb" type="text" placeholder="78, 140, 255" autocapitalize="off" autocorrect="off" />
+          <p class="helper">Comma or space separated values (0 – 255).</p>
+        </div>
+      </div>
+
+      <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+        <button class="btn" type="submit">Convert</button>
+        <button class="btn" type="reset">Reset</button>
+        <span class="helper" id="color-status"></span>
+      </div>
+    </form>
+  </section>
+
+  <section id="color-result" aria-live="polite" style="margin-top:16px;"></section>
+
+  <AdSlot id="color-inline-1" />
+  <script defer src="/js/hex-rgb-color-converter.js"></script>
+</BaseLayout>
