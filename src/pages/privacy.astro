@@ -1,11 +1,152 @@
-```astro
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
-<BaseLayout title="Privacy Policy" description="How we handle data.">
-<div class="card">
-<h1>Privacy Policy</h1>
-<p>We use cookies and analytics to operate this site. Ads may be served by third parties. Affiliate links may earn a commission at no extra cost to you.</p>
-</div>
+
+<BaseLayout
+  title="Privacy Policy – Click Calculations"
+  description="Learn how Click Calculations collects, uses, and protects information about calculator usage, ads, and affiliate links."
+  pathname="/privacy"
+>
+  <section class="hero">
+    <h1>Privacy Policy</h1>
+    <p>
+      We built Click Calculations so you can run numbers without creating an account. This policy explains what limited
+      information is collected, why we collect it, and the choices you have over your data.
+    </p>
+    <p class="muted">Last updated: July 6, 2024</p>
+  </section>
+
+  <nav class="card info-card" aria-label="Privacy overview">
+    <h2>Quick summary</h2>
+    <ul>
+      <li>No calculator inputs are stored on our servers—everything happens in your browser.</li>
+      <li>We receive anonymous analytics and advertising data from trusted partners to keep the site running.</li>
+      <li>You can control cookies and personalised ads through your browser or the AdChoices program.</li>
+    </ul>
+  </nav>
+
+  <section id="information-we-collect" class="card info-card">
+    <h2>Information we collect</h2>
+    <p>
+      We aim to collect as little personal information as possible. The data we do receive falls into the following
+      categories:
+    </p>
+    <ul>
+      <li>
+        <strong>Usage information:</strong> Anonymous metrics such as page views, device type, approximate region, and
+        referral source help us understand which calculators are most useful.
+      </li>
+      <li>
+        <strong>Cookie data:</strong> Small text files may remember preferences (for example, a currency or location you
+        used in a calculator) so the interface opens faster next time.
+      </li>
+      <li>
+        <strong>Advertising data:</strong> Google AdSense may place its own cookies or use mobile identifiers to deliver
+        and measure ads. These identifiers are controlled by Google and never reveal your name or contact details to us.
+      </li>
+      <li>
+        <strong>Affiliate tracking:</strong> Some outbound links contain partner codes so we can receive credit for
+        referrals. Partners provide aggregate reports without personal identifiers.
+      </li>
+    </ul>
+  </section>
+
+  <section id="how-we-use-data" class="card info-card">
+    <h2>How we use information</h2>
+    <p>We use the limited information available to:</p>
+    <ul>
+      <li>Operate, maintain, and improve calculators and supporting infrastructure.</li>
+      <li>Measure the effectiveness of features so we can prioritise updates.</li>
+      <li>Display relevant ads, detect fraud, and comply with advertising policies.</li>
+      <li>Respond to questions you send us directly.</li>
+    </ul>
+    <p>
+      We do <strong>not</strong> sell, rent, or share personal information with third parties for their own marketing
+      purposes.
+    </p>
+  </section>
+
+  <section id="cookies" class="card info-card">
+    <h2>Cookies and similar technologies</h2>
+    <p>
+      Cookies and local storage help the site remember lightweight preferences such as the theme of a widget. You can
+      clear or block these through your browser settings, although some calculators may default to generic values as a
+      result.
+    </p>
+    <p>
+      For personalised advertising, Google may set cookies or use mobile identifiers. You can opt out of personalised ads
+      by visiting
+      <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer">Google Ad Settings</a> or the
+      <a href="https://youradchoices.com/control" target="_blank" rel="noopener noreferrer">AdChoices</a> programme.
+    </p>
+  </section>
+
+  <section id="data-retention" class="card info-card">
+    <h2>Data retention</h2>
+    <p>
+      Calculator inputs are calculated locally and are cleared when you refresh or close your browser tab. Analytics and
+      advertising partners retain aggregated logs for their standard retention periods (generally between 26 and 38
+      months) so they can report on trends and prevent abuse.
+    </p>
+  </section>
+
+  <section id="third-parties" class="card info-card">
+    <h2>Third-party services</h2>
+    <p>We rely on carefully selected partners to deliver parts of the experience:</p>
+    <ul>
+      <li>
+        <strong>Google AdSense:</strong> Provides advertising and related metrics. Review
+        <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer">Google's ad
+        policies</a> for details on how they use cookies and data.
+      </li>
+      <li>
+        <strong>Analytics services:</strong> We may use privacy-focused analytics tools that aggregate usage without
+        storing personally identifiable information.
+      </li>
+      <li>
+        <strong>Affiliate partners:</strong> Retailers or service providers may know you visited through our referral
+        link, but they do not share your contact information with us.
+      </li>
+    </ul>
+    <p>
+      These partners operate under their own privacy policies. We encourage you to review them if you have questions about
+      how your data is handled outside of Click Calculations.
+    </p>
+  </section>
+
+  <section id="your-rights" class="card info-card">
+    <h2>Your choices and rights</h2>
+    <p>You are in control of your information. You can:</p>
+    <ul>
+      <li>Disable cookies in your browser or use private browsing to limit persistent storage.</li>
+      <li>Opt out of personalised advertising through AdChoices or your device settings.</li>
+      <li>Request a copy of, or deletion of, any personal information you have shared with us directly.</li>
+      <li>Contact us with questions about how data is handled on this site.</li>
+    </ul>
+  </section>
+
+  <section id="children" class="card info-card">
+    <h2>Children's privacy</h2>
+    <p>
+      Click Calculations is not directed to children under 13, and we do not knowingly collect personal information from
+      them. If you believe a child has provided personal information, please contact us and we will remove it promptly.
+    </p>
+  </section>
+
+  <section id="policy-updates" class="card info-card">
+    <h2>Policy updates</h2>
+    <p>
+      We will update this page whenever material changes are made. The "Last updated" date at the top of the page
+      reflects the most recent revision. Significant changes may also be highlighted within the site.
+    </p>
+  </section>
+
+  <section id="contact" class="card info-card">
+    <h2>Contact us</h2>
+    <p>
+      If you have questions or requests related to this policy, email us at
+      <a href="mailto:privacy@clickcalculations.com">privacy@clickcalculations.com</a>. We aim to respond within a few
+      business days.
+    </p>
+  </section>
 </BaseLayout>
-```
