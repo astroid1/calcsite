@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { calculatorCategories } from "@/lib/calculatorData";
 ---
 
 <BaseLayout
@@ -11,92 +12,19 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
     <p>Plan timelines, budgets, and goals in one place. All tools run instantly in your browser—no sign-up required.</p>
   </section>
 
-  <section>
-    <h2 class="section-title">Time &amp; Countdown</h2>
-    <div class="grid">
-      <a class="card" href="/calculators/days-from-date">
-        <h3>Days From (or Until) a Date</h3>
-        <p>Find how many days are between any two dates—or from today.</p>
-        <span class="btn">Open</span>
-      </a>
-
-      <a class="card" href="/calculators/age-calculator">
-        <h3>Age Calculator</h3>
-        <p>Enter a birthdate to see your age in years, months, and days.</p>
-        <span class="btn">Open</span>
-      </a>
-
-      <a class="card" href="/calculators/days-until-birthday">
-        <h3>Days Until Your Birthday</h3>
-        <p>Countdown with leap-year handling for Feb 29 birthdays.</p>
-        <span class="btn">Open</span>
-      </a>
-
-      <a class="card" href="/calculators/anniversary-countdown">
-        <h3>Anniversary Countdown</h3>
-        <p>Preview the next few anniversaries for any meaningful date.</p>
-        <span class="btn">Open</span>
-      </a>
-
-      <a class="card" href="/calculators/holiday-countdown">
-        <h3>Holiday Countdown (US)</h3>
-        <p>See days remaining until major U.S. holidays.</p>
-        <span class="btn">Open</span>
-      </a>
-    </div>
-  </section>
-
-  <section>
-    <h2 class="section-title">Money &amp; Planning</h2>
-    <div class="grid">
-      <a class="card" href="/calculators/loan-calculator">
-        <h3>Loan Calculator</h3>
-        <p>Estimate payments and see principal versus interest by year.</p>
-        <span class="btn">Open</span>
-      </a>
-
-      <a class="card" href="/calculators/mortgage-calculator">
-        <h3>Mortgage Planner</h3>
-        <p>Check affordability, monthly costs, and an amortization schedule.</p>
-        <span class="btn">Open</span>
-      </a>
-
-      <a class="card" href="/calculators/compound-interest-calculator">
-        <h3>Compound Interest</h3>
-        <p>Model investment growth with recurring deposits and raises.</p>
-        <span class="btn">Open</span>
-      </a>
-
-      <a class="card" href="/calculators/currency-converter">
-        <h3>Currency Converter</h3>
-        <p>Convert between 30+ currencies with live-rate fallback support.</p>
-        <span class="btn">Open</span>
-      </a>
-
-      <a class="card" href="/calculators/inflation-calculator">
-        <h3>Inflation Adjuster</h3>
-        <p>Compare the buying power of money across different years.</p>
-        <span class="btn">Open</span>
-      </a>
-
-      <a class="card" href="/calculators/salary-to-hourly">
-        <h3>Salary ↔ Hourly</h3>
-        <p>Convert yearly pay to hourly wages (and vice versa) with your schedule.</p>
-        <span class="btn">Open</span>
-      </a>
-
-      <a class="card" href="/calculators/tip-calculator">
-        <h3>Tip Splitter</h3>
-        <p>Quickly find tip amounts and per-person totals for the table.</p>
-        <span class="btn">Open</span>
-      </a>
-
-      <a class="card" href="/calculators/savings-goal-calculator">
-        <h3>Savings Goal</h3>
-        <p>See the monthly deposit needed to reach a target with growth.</p>
-        <span class="btn">Open</span>
-      </a>
-    </div>
-  </section>
+  {calculatorCategories.map((category) => (
+    <section>
+      <h2 class="section-title">{category.label}</h2>
+      <div class="grid">
+        {category.calculators.map((calculator) => (
+          <a class="card" href={calculator.href}>
+            <h3>{calculator.name}</h3>
+            <p>{calculator.description}</p>
+            <span class="btn">Open</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  ))}
 </BaseLayout>
 
