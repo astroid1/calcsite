@@ -1,5 +1,6 @@
 ---
 import "@/styles/global.css";
+import { calculatorCategories } from "@/lib/calculatorData";
 
 const {
   title = "Calculator Hub",
@@ -29,19 +30,22 @@ const url = new URL(pathname, Astro.site ?? "http://localhost:4321");
       <div class="container header-inner">
         <a class="brand" href="/">CalcNest</a>
         <nav class="nav" aria-label="Main">
-          <a href="/calculators/days-from-date">Days From Date</a>
-          <a href="/calculators/age-calculator">Age</a>
-          <a href="/calculators/days-until-birthday">Birthday</a>
-          <a href="/calculators/anniversary-countdown">Anniversary</a>
-          <a href="/calculators/holiday-countdown">Holidays</a>
-          <a href="/calculators/loan-calculator">Loan</a>
-          <a href="/calculators/mortgage-calculator">Mortgage</a>
-          <a href="/calculators/compound-interest-calculator">Invest</a>
-          <a href="/calculators/currency-converter">Currency</a>
-          <a href="/calculators/inflation-calculator">Inflation</a>
-          <a href="/calculators/salary-to-hourly">Salary</a>
-          <a href="/calculators/tip-calculator">Tip</a>
-          <a href="/calculators/savings-goal-calculator">Savings</a>
+          <ul class="nav-list">
+            {calculatorCategories.map((category) => (
+              <li>
+                <details class="nav-category">
+                  <summary>{category.label}</summary>
+                  <div class="nav-panel">
+                    {category.calculators.map((calculator) => (
+                      <a class="nav-item" href={calculator.href}>
+                        {calculator.navLabel}
+                      </a>
+                    ))}
+                  </div>
+                </details>
+              </li>
+            ))}
+          </ul>
         </nav>
       </div>
     </header>
