@@ -3,7 +3,7 @@ import "@/styles/global.css";
 import { calculatorCategories } from "@/lib/calculatorData";
 
 const {
-  title = "Calculator Hub",
+  title = "Click Calculations",
   description = "Free date & holiday calculators",
   pathname = "/",
 } = Astro.props;
@@ -18,6 +18,9 @@ const url = new URL(pathname, Astro.site ?? "http://localhost:4321");
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="icon" href="/favicon.svg" />
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
 
     <!-- Social -->
     <meta property="og:title" content={title} />
@@ -28,8 +31,16 @@ const url = new URL(pathname, Astro.site ?? "http://localhost:4321");
   <body>
     <header class="site-header">
       <div class="container header-inner">
-        <a class="brand" href="/">CalcNest</a>
-        <nav class="nav" aria-label="Main">
+        <a class="brand" href="/">Click Calculations</a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+          <span class="menu-icon" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+          Menu
+        </button>
+        <nav id="site-nav" class="nav" aria-label="Main" data-visible="false">
           <ul class="nav-list">
             {calculatorCategories.map((category) => (
               <li>
@@ -56,9 +67,57 @@ const url = new URL(pathname, Astro.site ?? "http://localhost:4321");
 
     <footer class="site-footer">
       <div class="container footer-inner">
-        <p>© {new Date().getFullYear()} CalcNest</p>
+        <p>© {new Date().getFullYear()} Click Calculations</p>
         <p><a href="/privacy">Privacy</a> · <a href="/terms">Terms</a></p>
       </div>
     </footer>
+    <script is:inline>
+      const toggle = document.querySelector(".menu-toggle");
+      const nav = document.getElementById("site-nav");
+      const mediaQuery = window.matchMedia("(min-width: 721px)");
+
+      const setStateForViewport = () => {
+        if (!nav || !toggle) return;
+        if (mediaQuery.matches) {
+          nav.setAttribute("data-visible", "true");
+          toggle.setAttribute("aria-expanded", "false");
+        } else {
+          nav.setAttribute("data-visible", "false");
+          toggle.setAttribute("aria-expanded", "false");
+        }
+      };
+
+      toggle?.addEventListener("click", () => {
+        if (!nav || !toggle) return;
+        const isOpen = nav.getAttribute("data-visible") === "true";
+        const next = (!isOpen).toString();
+        nav.setAttribute("data-visible", next);
+        toggle.setAttribute("aria-expanded", next);
+      });
+
+      nav?.addEventListener("click", (event) => {
+        if (!nav || !toggle) return;
+        if (mediaQuery.matches) return;
+        const target = event.target;
+        if (target instanceof HTMLAnchorElement) {
+          nav.setAttribute("data-visible", "false");
+          toggle.setAttribute("aria-expanded", "false");
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (!nav || !toggle) return;
+        if (event.key !== "Escape") return;
+        if (mediaQuery.matches) return;
+        if (nav.getAttribute("data-visible") === "true") {
+          nav.setAttribute("data-visible", "false");
+          toggle.setAttribute("aria-expanded", "false");
+          toggle.focus();
+        }
+      });
+
+      setStateForViewport();
+      mediaQuery.addEventListener("change", setStateForViewport);
+    </script>
   </body>
 </html>
