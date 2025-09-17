@@ -1,6 +1,11 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { calculatorCategories } from "@/lib/calculatorData";
+
+const totalCalculators = calculatorCategories.reduce(
+  (count, category) => count + category.calculators.length,
+  0,
+);
 ---
 
 <BaseLayout
@@ -12,19 +17,105 @@ import { calculatorCategories } from "@/lib/calculatorData";
     <p>Plan timelines, budgets, and goals in one place. All tools run instantly in your browser—no sign-up required.</p>
   </section>
 
+  <section class="search-panel" aria-labelledby="calculator-search-label">
+    <div class="search-field">
+      <label id="calculator-search-label" for="calculator-search">Search calculators</label>
+      <input
+        id="calculator-search"
+        class="search-input"
+        type="search"
+        name="calculator-search"
+        placeholder='Try searching "mortgage", "MPG", or "password"'
+        autocomplete="off"
+        spellcheck="false"
+        aria-describedby="calculator-search-hint"
+      />
+    </div>
+    <p id="calculator-search-hint" class="search-hint">
+      Filter tools by title or keywords—results update as you type.
+    </p>
+    <p id="calculator-search-status" class="search-status" role="status" aria-live="polite">
+      Showing all {totalCalculators} calculators.
+    </p>
+  </section>
+
   {calculatorCategories.map((category) => (
-    <section>
+    <section class="category-section" data-category-section data-category-id={category.id}>
       <h2 class="section-title">{category.label}</h2>
       <div class="grid">
-        {category.calculators.map((calculator) => (
-          <a class="card" href={calculator.href}>
-            <h3>{calculator.name}</h3>
-            <p>{calculator.description}</p>
-            <span class="btn">Open</span>
-          </a>
-        ))}
+        {category.calculators.map((calculator) => {
+          const searchValue = [
+            calculator.name,
+            calculator.navLabel,
+            calculator.description,
+            calculator.keywords.join(" "),
+          ]
+            .join(" ")
+            .toLowerCase();
+
+          return (
+            <a class="card" href={calculator.href} data-search={searchValue}>
+              <h3>{calculator.name}</h3>
+              <p>{calculator.description}</p>
+              <span class="btn">Open</span>
+            </a>
+          );
+        })}
       </div>
     </section>
   ))}
+
+  <script is:inline>
+    const searchInput = document.getElementById("calculator-search");
+    const status = document.getElementById("calculator-search-status");
+    const sections = Array.from(document.querySelectorAll("[data-category-section]"));
+    const cards = Array.from(document.querySelectorAll("[data-search]"));
+    const totalCount = cards.length;
+
+    const formatCount = (count) => `${count} ${count === 1 ? "calculator" : "calculators"}`;
+
+    const update = (value) => {
+      const trimmedValue = value.trim();
+      const query = trimmedValue.toLowerCase();
+      let matchCount = 0;
+
+      cards.forEach((card) => {
+        const haystack = card.dataset.search ?? "";
+        const isMatch = query === "" || haystack.includes(query);
+        card.toggleAttribute("hidden", !isMatch);
+        if (isMatch) {
+          matchCount += 1;
+        }
+      });
+
+      sections.forEach((section) => {
+        const hasVisibleCard = section.querySelector('[data-search]:not([hidden])') !== null;
+        section.toggleAttribute("hidden", query !== "" && !hasVisibleCard);
+      });
+
+      if (!status) {
+        return;
+      }
+
+      if (query === "") {
+        status.textContent = `Showing all ${formatCount(totalCount)}.`;
+      } else if (matchCount === 0) {
+        status.textContent = `No calculators match “${trimmedValue}”.`;
+      } else {
+        status.textContent = `Showing ${formatCount(matchCount)} for “${trimmedValue}”.`;
+      }
+    };
+
+    searchInput?.addEventListener("input", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLInputElement)) {
+        return;
+      }
+
+      update(target.value);
+    });
+
+    update(searchInput?.value ?? "");
+  </script>
 </BaseLayout>
 
