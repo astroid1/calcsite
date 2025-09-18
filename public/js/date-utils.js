@@ -73,6 +73,13 @@
         pickerInput.value = parsed ? formatISODate(parsed) : "";
       };
 
+      const supportsNativeShow =
+        pickerInput && typeof pickerInput.showPicker === "function";
+
+      if (pickerInput && !supportsNativeShow) {
+        field.classList.add("native-picker-fallback");
+      }
+
       if (pickerInput) {
         syncPicker();
         pickerInput.addEventListener("change", () => {
@@ -84,7 +91,7 @@
       if (trigger && pickerInput) {
         trigger.addEventListener("click", () => {
           syncPicker();
-          if (typeof pickerInput.showPicker === "function") {
+          if (supportsNativeShow) {
             pickerInput.showPicker();
           } else {
             pickerInput.focus();
